@@ -66,7 +66,7 @@ export function useCrossfadeLoop(src: string | null) {
 
         inactive.currentTime = 0
         inactive.volume = 0
-        inactive.play().catch(() => {})
+        inactive.play().catch((e) => console.warn('[ambient]', e.message))
 
         let step = 0
         const fadeInterval = setInterval(() => {
@@ -94,10 +94,14 @@ export function useCrossfadeLoop(src: string | null) {
 
   const play = useCallback(() => {
     const active = getActive()
-    if (!active || !src) return
+    if (!active || !src) {
+      console.warn('[ambient] play() skipped: no active element or src', { active: !!active, src })
+      return
+    }
+    console.info('[ambient] play()', { src: src.slice(-40), readyState: active.readyState, vol: volumeRef.current })
     active.volume = volumeRef.current
     active.currentTime = 0
-    active.play().catch(() => {})
+    active.play().catch((e) => console.warn('[ambient] play failed:', e.message))
     playingRef.current = true
     startCrossfadeCheck()
   }, [src, getActive, startCrossfadeCheck])

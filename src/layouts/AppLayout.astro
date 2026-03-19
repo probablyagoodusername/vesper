@@ -35,8 +35,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
         if (dark) document.documentElement.classList.add('dark');
         else document.documentElement.classList.remove('dark');
       }
+      function applyVesperLocale() {
+        var locale = localStorage.getItem('vesper-locale') || 'en';
+        document.querySelectorAll('[data-en][data-fr]').forEach(function(el) {
+          el.textContent = el.getAttribute('data-' + locale) || el.getAttribute('data-en');
+        });
+      }
       applyVesperTheme();
-      document.addEventListener('astro:after-swap', applyVesperTheme);
+      applyVesperLocale();
+      document.addEventListener('astro:after-swap', function() {
+        applyVesperTheme();
+        applyVesperLocale();
+        // Force React islands to re-read locale after View Transition swap
+        window.dispatchEvent(new Event('vesper-locale-changed'));
+      });
+      // Re-translate nav when locale changes from Settings page
+      window.addEventListener('vesper-locale-changed', applyVesperLocale);
     </script>
     <ClientRouter />
     <style is:global>
@@ -67,13 +81,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm safe-bottom">
       <div class="mx-auto flex max-w-lg items-center justify-around">
         {[
-          { href: `${base}/home`, label: 'Home', d: 'M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
-          { href: `${base}/bible`, label: 'Bible', d: 'M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20' },
-          { href: `${base}/breathe`, label: 'Breathe', d: 'M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2' },
-          { href: `${base}/meditate`, label: 'Meditate', d: 'M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275z' },
-          { href: `${base}/sleep`, label: 'Sleep', d: 'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z' },
-          { href: `${base}/settings`, label: 'Settings', d: 'M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z' },
-        ].map(({ href, label, d }) => {
+          { href: `${base}/home`, en: 'Home', fr: 'Accueil', d: 'M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
+          { href: `${base}/bible`, en: 'Bible', fr: 'Bible', d: 'M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20' },
+          { href: `${base}/breathe`, en: 'Breathe', fr: 'Respirer', d: 'M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2' },
+          { href: `${base}/meditate`, en: 'Meditate', fr: 'Méditer', d: 'M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275z' },
+          { href: `${base}/sleep`, en: 'Sleep', fr: 'Dormir', d: 'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z' },
+          { href: `${base}/settings`, en: 'Settings', fr: 'Réglages', d: 'M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z' },
+        ].map(({ href, en, fr, d }) => {
           const isActive = currentPath.startsWith(href)
           return (
             <a
@@ -83,7 +97,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
               <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={isActive ? '2' : '1.5'} stroke-linecap="round" stroke-linejoin="round">
                 <path d={d} />
               </svg>
-              <span>{label}</span>
+              <span data-en={en} data-fr={fr}>{en}</span>
             </a>
           )
         })}

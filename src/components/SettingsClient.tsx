@@ -85,7 +85,7 @@ export function SettingsClient() {
               voice === 'default' ? 'bg-[var(--surface)]' : ''
             }`}
           >
-            <span className="text-sm text-[var(--primary)]">{VOICES.v1.name}</span>
+            <span className="text-sm text-[var(--primary)]">{locale === 'fr' ? VOICES.v1.nameFr : VOICES.v1.nameEn}</span>
             {voice === 'default' && <CheckIcon />}
           </button>
           <div className="border-t border-[var(--border)]" />
@@ -97,7 +97,7 @@ export function SettingsClient() {
               voice === 'alt' ? 'bg-[var(--surface)]' : ''
             }`}
           >
-            <span className="text-sm text-[var(--primary)]">{VOICES.v2.name}</span>
+            <span className="text-sm text-[var(--primary)]">{locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn}</span>
             {voice === 'alt' && <CheckIcon />}
           </button>
         </div>

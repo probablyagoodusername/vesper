@@ -1,4 +1,4 @@
-import { useState, useCallback, useSyncExternalStore } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 import type { Locale } from '@/lib/i18n'
 import { getTranslations } from '@/lib/i18n'
 
@@ -8,22 +8,29 @@ function getLocaleFromStorage(): Locale {
 }
 
 function subscribe(callback: () => void) {
+  // 'storage' fires from other tabs; 'vesper-locale-changed' fires from same tab
   window.addEventListener('storage', callback)
-  return () => window.removeEventListener('storage', callback)
+  window.addEventListener('vesper-locale-changed', callback)
+  return () => {
+    window.removeEventListener('storage', callback)
+    window.removeEventListener('vesper-locale-changed', callback)
+  }
 }
 
 export function useLocale() {
-  const storedLocale = useSyncExternalStore(subscribe, getLocaleFromStorage, () => 'en' as Locale)
-  const [locale, setLocaleState] = useState<Locale>(storedLocale)
+  const locale = useSyncExternalStore(subscribe, getLocaleFromStorage, () => 'en' as Locale)
 
   const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l)
     localStorage.setItem('vesper-locale', l)
+    window.dispatchEvent(new Event('vesper-locale-changed'))
   }, [])
 
   const toggleLocale = useCallback(() => {
-    setLocale(locale === 'en' ? 'fr' : 'en')
-  }, [locale, setLocale])
+    const current = getLocaleFromStorage()
+    const next = current === 'en' ? 'fr' : 'en'
+    localStorage.setItem('vesper-locale', next)
+    window.dispatchEvent(new Event('vesper-locale-changed'))
+  }, [])
 
   const translations = getTranslations(locale)
 

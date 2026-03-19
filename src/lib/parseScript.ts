@@ -22,7 +22,7 @@ export function parseScript(script: string): ParsedLine[] {
     const trimmed = raw.trim()
     if (!trimmed) continue
 
-    const pauseMatch = trimmed.match(/^\[(\d+)s\s+pause\]$/i)
+    const pauseMatch = trimmed.match(/^\[(\d+)s?\s+(?:de\s+)?(?:pause|silence)\]$/i)
     if (pauseMatch) {
       lines.push({ type: 'pause', text: '', weight: parseInt(pauseMatch[1]) * 0.4 })
       continue
@@ -36,7 +36,7 @@ export function parseScript(script: string): ParsedLine[] {
     const wordCount = trimmed.split(/\s+/).length
     const spokenTime = wordCount / WORDS_PER_SEC + LINE_PAUSE_SEC
 
-    if (/^[""\u201C]/.test(trimmed) && /[—\u2014]/.test(trimmed)) {
+    if (/^[""\u201C«]/.test(trimmed) && (/[—\u2014]/.test(trimmed) || /[»"]$/.test(trimmed))) {
       lines.push({ type: 'scripture', text: trimmed, weight: spokenTime * 1.2 })
       continue
     }

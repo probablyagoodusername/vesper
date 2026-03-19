@@ -9,8 +9,8 @@ export type BreathingPhase = 'inhale' | 'holdIn' | 'exhale' | 'holdOut'
 
 /** ElevenLabs voice names for the narrator selector */
 export const VOICES = {
-  v1: { id: 'NtS6nEHDYMQC9QczMQuq', name: 'Katherine' },
-  v2: { id: 'EkK5I93UQWFDigLMpZcX', name: 'James' },
+  v1: { id: 'NtS6nEHDYMQC9QczMQuq', nameEn: 'Katherine', nameFr: 'Koraly' },
+  v2: { id: 'EkK5I93UQWFDigLMpZcX', nameEn: 'James', nameFr: 'James' },
 } as const
 
 /** Meditation category identifiers */

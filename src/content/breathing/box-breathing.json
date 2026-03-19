@@ -1,0 +1,11 @@
+{
+  "slug": "box-breathing",
+  "nameEn": "Box Breathing",
+  "nameFr": "Respiration carrée",
+  "inhale": 4,
+  "holdIn": 4,
+  "exhale": 4,
+  "holdOut": 4,
+  "rounds": 4,
+  "sortOrder": 1
+}

@@ -1,0 +1,17 @@
+{
+  "slug": "music-river-stone",
+  "titleEn": "River Stone",
+  "titleFr": "Pierre de rivière",
+  "descEn": "Flowing ambient composition processed through therapeutic audio layers. Brown noise mimics the broadband character of flowing water for natural grounding, 55Hz sub-bass provides deep vagal nerve stimulation, 110Hz binaural beats create alpha brainwave entrainment for calm focus, and 9kHz low-pass filtering rounds every edge into warmth. Sidechain compression ensures therapeutic content stays subliminal. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Composition ambiante fluide traitée par des couches audio thérapeutiques. Le bruit brun imite le caractère large bande de l'eau courante pour un ancrage naturel, la sub-basse 55Hz assure une stimulation vagale profonde, les battements binauraux 110Hz créent un entraînement alpha pour un calme concentré, et le filtrage passe-bas 9kHz arrondit chaque arête en chaleur. La compression sidechain maintient le contenu thérapeutique subliminal. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-07-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 7,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

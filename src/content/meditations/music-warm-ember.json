@@ -1,0 +1,17 @@
+{
+  "slug": "music-warm-ember",
+  "titleEn": "Warm Ember",
+  "titleFr": "Braise chaude",
+  "descEn": "Hearth-like ambient music infused with therapeutic audio processing. A brown noise layer creates broadband warmth for mental settling, 55Hz sub-bass resonates with vagal nerve pathways to lower arousal, 110Hz binaural beats synchronize hemispheric alpha activity, and a 9kHz low-pass filter strips away any sonic sharpness. All therapeutic signals are sidechain-compressed beneath the music. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Musique ambiante évoquant l'âtre, enrichie d'un traitement audio thérapeutique. Le bruit brun crée une chaleur large bande pour apaiser l'esprit, la sub-basse 55Hz résonne avec les voies vagales pour réduire l'excitation, les battements binauraux 110Hz synchronisent l'activité alpha hémisphérique, et le filtre passe-bas 9kHz élimine toute aspérité sonore. Tous les signaux thérapeutiques sont compressés en sidechain sous la musique. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-08-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 8,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

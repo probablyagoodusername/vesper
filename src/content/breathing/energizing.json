@@ -1,0 +1,11 @@
+{
+  "slug": "energizing",
+  "nameEn": "Energizing Breath",
+  "nameFr": "Respiration énergisante",
+  "inhale": 3,
+  "holdIn": 3,
+  "exhale": 3,
+  "holdOut": 0,
+  "rounds": 8,
+  "sortOrder": 4
+}

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="320" viewBox="0 0 680 320">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Literata:wght@400;600&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="680" height="320" rx="8" fill="#0c0807"/>
+
+  <!-- Title -->
+  <text x="24" y="36" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#847d79" letter-spacing="2">COLOR TOKENS</text>
+
+  <!-- Dark palette -->
+  <text x="24" y="72" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#c6b3a8">DARK</text>
+
+  <!-- bg -->
+  <rect x="24" y="84" width="80" height="48" rx="4" fill="#0c0807" stroke="#2f2a27" stroke-width="1"/>
+  <text x="64" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">bg</text>
+  <text x="64" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#0c0807</text>
+
+  <!-- surface -->
+  <rect x="114" y="84" width="80" height="48" rx="4" fill="#1e1a17"/>
+  <text x="154" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">surface</text>
+  <text x="154" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#1e1a17</text>
+
+  <!-- primary -->
+  <rect x="204" y="84" width="80" height="48" rx="4" fill="#c6b3a8"/>
+  <text x="244" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">primary</text>
+  <text x="244" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#c6b3a8</text>
+
+  <!-- accent -->
+  <rect x="294" y="84" width="80" height="48" rx="4" fill="#81b19b"/>
+  <text x="334" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">accent</text>
+  <text x="334" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#81b19b</text>
+
+  <!-- text -->
+  <rect x="384" y="84" width="80" height="48" rx="4" fill="#e2ddda"/>
+  <text x="424" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">text</text>
+  <text x="424" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#e2ddda</text>
+
+  <!-- muted -->
+  <rect x="474" y="84" width="80" height="48" rx="4" fill="#847d79"/>
+  <text x="514" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">muted</text>
+  <text x="514" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#847d79</text>
+
+  <!-- border -->
+  <rect x="564" y="84" width="80" height="48" rx="4" fill="#2f2a27"/>
+  <text x="604" y="148" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">border</text>
+  <text x="604" y="160" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#2f2a27</text>
+
+  <!-- Light palette -->
+  <text x="24" y="196" font-family="system-ui, sans-serif" font-weight="600" font-size="12" fill="#483d37">LIGHT</text>
+
+  <!-- bg -->
+  <rect x="24" y="208" width="80" height="48" rx="4" fill="#f8f4f2"/>
+  <text x="64" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">bg</text>
+  <text x="64" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#f8f4f2</text>
+
+  <!-- surface -->
+  <rect x="114" y="208" width="80" height="48" rx="4" fill="#ece7e3"/>
+  <text x="154" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">surface</text>
+  <text x="154" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#ece7e3</text>
+
+  <!-- primary -->
+  <rect x="204" y="208" width="80" height="48" rx="4" fill="#483d37"/>
+  <text x="244" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">primary</text>
+  <text x="244" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#483d37</text>
+
+  <!-- accent -->
+  <rect x="294" y="208" width="80" height="48" rx="4" fill="#3d6f5a"/>
+  <text x="334" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">accent</text>
+  <text x="334" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#3d6f5a</text>
+
+  <!-- text -->
+  <rect x="384" y="208" width="80" height="48" rx="4" fill="#201914"/>
+  <text x="424" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">text</text>
+  <text x="424" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#201914</text>
+
+  <!-- muted -->
+  <rect x="474" y="208" width="80" height="48" rx="4" fill="#706964"/>
+  <text x="514" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">muted</text>
+  <text x="514" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#706964</text>
+
+  <!-- border -->
+  <rect x="564" y="208" width="80" height="48" rx="4" fill="#d9d3cf"/>
+  <text x="604" y="272" font-family="monospace" font-size="9" fill="#706964" text-anchor="middle">border</text>
+  <text x="604" y="284" font-family="monospace" font-size="8" fill="#847d79" text-anchor="middle">#d9d3cf</text>
+</svg>

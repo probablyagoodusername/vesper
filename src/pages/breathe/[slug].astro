@@ -1,0 +1,28 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { BreatheExerciseClient } from '../../components/BreatheExerciseClient'
+
+const breathingFiles = import.meta.glob('../../content/breathing/*.json', { eager: true })
+const allPatterns = Object.values(breathingFiles).map((p: any) => p.default ?? p)
+
+export function getStaticPaths() {
+  const breathingFiles = import.meta.glob('../../content/breathing/*.json', { eager: true })
+  const all = Object.values(breathingFiles).map((p: any) => p.default ?? p)
+  return all.map((p: any) => ({
+    params: { slug: p.slug },
+  }))
+}
+
+const { slug } = Astro.params
+const pattern = allPatterns.find((p: any) => p.slug === slug)
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+if (!pattern) {
+  return Astro.redirect(`${base}/breathe`)
+}
+---
+
+<AppLayout title={`${pattern.nameEn} — Vesper`}>
+  <BreatheExerciseClient client:load pattern={pattern} />
+</AppLayout>

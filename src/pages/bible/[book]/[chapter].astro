@@ -1,0 +1,44 @@
+---
+import AppLayout from '../../../layouts/AppLayout.astro'
+import { ChapterReaderClient } from '../../../components/ChapterReaderClient'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+const BIBLE_DIR = resolve(process.cwd(), 'src/content/bible')
+const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'utf-8'))
+
+export function getStaticPaths() {
+  const BIBLE_DIR = resolve(process.cwd(), 'src/content/bible')
+  const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'utf-8'))
+
+  const paths = []
+  for (const book of booksIndex) {
+    for (let ch = 1; ch <= book.chapterCount; ch++) {
+      paths.push({ params: { book: book.slug, chapter: String(ch) } })
+    }
+  }
+  return paths
+}
+
+const { book: bookSlug, chapter: chapterStr } = Astro.params
+const chapterNum = parseInt(chapterStr!)
+const bookMeta = booksIndex.find((b: any) => b.slug === bookSlug)
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+if (!bookMeta) {
+  return Astro.redirect(`${base}/bible`)
+}
+
+const bookData = JSON.parse(readFileSync(resolve(BIBLE_DIR, `${bookSlug}.json`), 'utf-8'))
+const verses = bookData.chapters[String(chapterNum)] ?? []
+---
+
+<AppLayout title={`${bookMeta.nameEn} ${chapterNum} — Vesper`}>
+  <ChapterReaderClient
+    client:load
+    book={bookMeta}
+    chapter={chapterNum}
+    verses={verses}
+  />
+</AppLayout>

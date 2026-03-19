@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480">
+  <rect width="900" height="480" fill="#0c0807"/>
+  <rect x="0" y="188" width="900" height="1" fill="#1e1a17"/>
+  <rect x="0" y="479" width="900" height="1" fill="#1e1a17"/>
+  <rect x="300" y="188" width="1" height="248" fill="#1e1a17"/>
+  <rect x="600" y="188" width="1" height="248" fill="#1e1a17"/>
+
+  <text font-family="Literata, Georgia, serif" font-weight="700" font-size="80" fill="#81b19b" x="282" y="138">V</text>
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="80" fill="#e2ddda" x="338" y="138">esper</text>
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="10" fill="#2f2a27" letter-spacing="3" text-anchor="middle" x="450" y="170">WORDMARK — LITERATA · 2025</text>
+
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="9" fill="#81b19b" letter-spacing="2.5" x="40" y="222">I — THE GLYPH</text>
+  <text font-family="Literata, Georgia, serif" font-weight="500" font-size="13" fill="#c6b3a8" x="40" y="244">One weight difference, one color</text>
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="11.5" fill="#706964" x="40" y="266"><tspan x="40" dy="0">The entire mark is a single decision: V in</tspan><tspan x="40" dy="18">Literata 700, the rest in 300. No added</tspan><tspan x="40" dy="18">geometry, no container, no punctuation.</tspan><tspan x="40" dy="18">Weight contrast separates the initial from</tspan><tspan x="40" dy="18">the word. Sage accent is the only chromatic</tspan><tspan x="40" dy="18">moment in the system.</tspan></text>
+
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="9" fill="#81b19b" letter-spacing="2.5" x="340" y="222">II — THE TYPEFACE</text>
+  <text font-family="Literata, Georgia, serif" font-weight="500" font-size="13" fill="#c6b3a8" x="340" y="244">Literata, and nothing else</text>
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="11.5" fill="#706964" x="340" y="266"><tspan x="340" dy="0">Designed for long reading — warm without</tspan><tspan x="340" dy="18">being decorative. At display size the 700</tspan><tspan x="340" dy="18">weight has real mass; the 300 barely touches</tspan><tspan x="340" dy="18">the page. That range within a single typeface</tspan><tspan x="340" dy="18">is the brand's tension. No other font is</tspan><tspan x="340" dy="18">permitted anywhere in the product.</tspan></text>
+
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="9" fill="#81b19b" letter-spacing="2.5" x="640" y="222">III — THE SYSTEM</text>
+  <text font-family="Literata, Georgia, serif" font-weight="500" font-size="13" fill="#c6b3a8" x="640" y="244">One element, every format</text>
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="11.5" fill="#706964" x="640" y="266"><tspan x="640" dy="0">The V alone handles every small context:</tspan><tspan x="640" dy="18">favicon, icon, avatar. Full wordmark at</tspan><tspan x="640" dy="18">larger sizes. No separate icon, no enclosing</tspan><tspan x="640" dy="18">shape. The mark scales by subtraction,</tspan><tspan x="640" dy="18">not addition. Fewer rules,</tspan><tspan x="640" dy="18">fewer failure modes.</tspan></text>
+
+  <text font-family="Literata, Georgia, serif" font-weight="300" font-size="9" fill="#2f2a27" letter-spacing="2" x="40" y="464">VESPER · BRAND IDENTITY · CONCEPT 3</text>
+</svg>

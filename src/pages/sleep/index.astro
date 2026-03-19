@@ -1,0 +1,14 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { SleepClient } from '../../components/SleepClient'
+
+const meditationFiles = import.meta.glob('../../content/meditations/*.json', { eager: true })
+const sleepMeditations = Object.values(meditationFiles)
+  .map((m: any) => m.default ?? m)
+  .filter((m: any) => m.isSleep)
+  .sort((a: any, b: any) => a.sortOrder - b.sortOrder)
+---
+
+<AppLayout title="Sleep — Vesper">
+  <SleepClient client:load meditations={sleepMeditations} />
+</AppLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="fv-src" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>.fb{fill:#1e1a17}.fm{fill:#81b19b}@media(prefers-color-scheme:light){.fb{fill:#ece7e3}.fm{fill:#3d6f5a}}</style>
+  <rect class="fb" width="64" height="64" rx="14"/>
+  <text class="fm" font-family="Literata, Georgia, serif" font-weight="700" font-size="52" x="32" y="50" text-anchor="middle">V</text>
+</svg>

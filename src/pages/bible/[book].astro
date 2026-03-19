@@ -1,0 +1,31 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { ChapterGridClient } from '../../components/ChapterGridClient'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+const BIBLE_DIR = resolve(process.cwd(), 'src/content/bible')
+const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'utf-8'))
+
+export function getStaticPaths() {
+  const BIBLE_DIR = resolve(process.cwd(), 'src/content/bible')
+  const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'utf-8'))
+
+  return booksIndex.map((book: any) => ({
+    params: { book: book.slug },
+  }))
+}
+
+const { book: bookSlug } = Astro.params
+const bookMeta = booksIndex.find((b: any) => b.slug === bookSlug)
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+if (!bookMeta) {
+  return Astro.redirect(`${base}/bible`)
+}
+---
+
+<AppLayout title={`${bookMeta.nameEn} — Vesper`}>
+  <ChapterGridClient client:load book={bookMeta} />
+</AppLayout>

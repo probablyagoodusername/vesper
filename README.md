@@ -14,9 +14,7 @@
   <a href="https://probablyagoodusername.github.io/vesper/home/"><strong>Try the live demo →</strong></a>
 </p>
 
-<p align="center">
-  <video src="assets/readme/demo.mp4" width="320" autoplay loop muted playsinline></video>
-</p>
+https://github.com/probablyagoodusername/vesper/raw/main/assets/readme/demo.mp4
 
 **Free. Open source. For everyone.**
 

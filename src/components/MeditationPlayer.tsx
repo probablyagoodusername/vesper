@@ -431,7 +431,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
                   : 'text-[var(--muted)]'
               }`}
             >
-              {VOICES.v1.name}
+              {locale === 'fr' ? VOICES.v1.nameFr : VOICES.v1.nameEn}
             </button>
             <button
               onClick={() => handleVoiceChange('v2')}
@@ -444,7 +444,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
                     : 'text-[var(--border)] opacity-50 cursor-default'
               }`}
             >
-              {VOICES.v2.name}
+              {locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn}
             </button>
           </div>
         </div>

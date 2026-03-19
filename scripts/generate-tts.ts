@@ -13,6 +13,7 @@
  */
 
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs'
+import { execFileSync } from 'child_process'
 import { join, resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { prepareScript, chunkText, getVoiceSettings } from './prepare-tts.js'
@@ -210,29 +211,61 @@ async function generateForMeditation(
       character_end_times_seconds: allAlignments.flatMap(a => a?.character_end_times_seconds ?? []),
     }
 
-    // Convert character-level timestamps to line-level timestamps
+    // Convert character-level timestamps to line-level timestamps.
+    // Strategy: find newline characters in the alignment character array to
+    // split into lines, then take min(start) and max(end) per line.
     const preparedLines = prepared.split('\n').filter(line => line.trim().length > 0)
     const lineTimestamps: Array<{ start: number; end: number }> = []
-    let charIdx = 0
 
-    for (const line of preparedLines) {
-      const lineChars = line.trim().length
-      const startIdx = charIdx
-      const endIdx = Math.min(charIdx + lineChars, mergedAlignment.characters.length - 1)
+    // Group character indices by line using newline positions
+    const charGroups: number[][] = []
+    let currentGroup: number[] = []
+    for (let ci = 0; ci < mergedAlignment.characters.length; ci++) {
+      if (mergedAlignment.characters[ci] === '\n') {
+        if (currentGroup.length > 0) charGroups.push(currentGroup)
+        currentGroup = []
+      } else {
+        currentGroup.push(ci)
+      }
+    }
+    if (currentGroup.length > 0) charGroups.push(currentGroup)
 
-      const start = mergedAlignment.character_start_times_seconds[startIdx] ?? 0
-      const end = mergedAlignment.character_end_times_seconds[endIdx] ?? start
-      lineTimestamps.push({ start, end })
+    // Filter out groups that are only whitespace/empty (blank lines between prepared lines)
+    const nonEmptyGroups = charGroups.filter(group =>
+      group.some(ci => mergedAlignment.characters[ci]?.trim() !== '')
+    )
 
-      charIdx = endIdx + 1
-      while (charIdx < mergedAlignment.characters.length && mergedAlignment.characters[charIdx]?.trim() === '') {
-        charIdx++
+    // Map each prepared line to its character group
+    for (let li = 0; li < preparedLines.length; li++) {
+      if (li < nonEmptyGroups.length) {
+        const group = nonEmptyGroups[li]
+        const starts = group
+          .map(ci => mergedAlignment.character_start_times_seconds[ci])
+          .filter((t): t is number => t !== undefined && t > 0)
+        const ends = group
+          .map(ci => mergedAlignment.character_end_times_seconds[ci])
+          .filter((t): t is number => t !== undefined && t > 0)
+
+        const start = starts.length > 0 ? Math.min(...starts) : (lineTimestamps.length > 0 ? lineTimestamps[lineTimestamps.length - 1].end : 0)
+        const end = ends.length > 0 ? Math.max(...ends) : start
+        lineTimestamps.push({ start, end })
+      } else {
+        // Fallback: extrapolate from last known timestamp
+        const prev = lineTimestamps.length > 0 ? lineTimestamps[lineTimestamps.length - 1].end : 0
+        lineTimestamps.push({ start: prev, end: prev })
       }
     }
 
-    // Write audio
+    // Write audio and fix Xing header for correct mobile duration
     const combined = Buffer.concat(buffers)
     writeFileSync(outPath, combined)
+    if (buffers.length > 1) {
+      try {
+        execFileSync('python3', [join(PROJECT_ROOT, 'scripts', 'fix-mp3-headers.py'), outDir])
+      } catch {
+        console.warn('    Warning: could not fix MP3 Xing header (mobile may show wrong duration)')
+      }
+    }
 
     // Write alignment JSON alongside the audio
     const alignPath = join(outDir, `${slug}.json`)

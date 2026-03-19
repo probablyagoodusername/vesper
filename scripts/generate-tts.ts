@@ -174,6 +174,12 @@ async function generateForMeditation(
     let chunkTimeOffset = 0
 
     for (let i = 0; i < chunks.length; i++) {
+      // Skip chunks that are empty or only whitespace/pauses after preparation
+      const trimmedChunk = chunks[i].replace(/\[.*?\]/g, '').trim()
+      if (!trimmedChunk) {
+        console.log(`    Chunk ${i + 1}/${chunks.length} — skipped (empty after preparation)`)
+        continue
+      }
       console.log(`    Chunk ${i + 1}/${chunks.length} (${chunks[i].length} chars)...`)
       const { audio, requestId, alignment } = await callTTS(chunks[i], voiceId, voiceSettings)
       buffers.push(audio)

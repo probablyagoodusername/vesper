@@ -1,0 +1,17 @@
+{
+  "slug": "music-evening-calm",
+  "titleEn": "Evening Calm",
+  "titleFr": "Calme du soir",
+  "descEn": "Twilight-tuned ambient composition with science-based audio therapy. A warm brown noise layer anchors attention, while 55Hz sub-bass activates parasympathetic pathways via vagal nerve stimulation. 110Hz binaural beats promote alpha brainwave coherence for evening wind-down. 9kHz low-pass filtering creates a soft, cocooning sonic texture. Therapeutic signals are sidechain-compressed below awareness. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Composition ambiante accordée au crépuscule avec audiothérapie scientifique. Une couche de bruit brun ancre l'attention, tandis que la sub-basse 55Hz active les voies parasympathiques via le nerf vague. Les battements binauraux 110Hz favorisent la cohérence alpha pour la détente du soir. Le filtrage passe-bas 9kHz crée une texture sonore enveloppante. Les signaux thérapeutiques sont compressés en sidechain sous le seuil de conscience. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-04-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 4,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

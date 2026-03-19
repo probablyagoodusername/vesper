@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# production build output
+build/
+dist/
+
+# env files
+.env
+.env.local
+.env.production
+
+# data (downloaded by scripts)
+data/
+# v2 voice staging dir
+audio-storage-v2/
+
+# misc
+.DS_Store
+*.tsbuildinfo
+
+# Music assets (large files)
+music/raw/
+music/processed/
+
+# Generated pipeline artifacts
+scripts/prompts/
+
+# Legacy artifacts
+MIGRATION.md
+CODE-AUDIT.md
+MIGRATION.md
+CODE-AUDIT.md
+MIGRATION.md
+scripts/rewrites/*/REVIEW.md
+audio-storage/
+exported-content/
+.astro/

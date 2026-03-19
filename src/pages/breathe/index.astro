@@ -1,0 +1,15 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { BreatheClient } from '../../components/BreatheClient'
+import { CATEGORIES } from '../../lib/constants'
+
+const meditationFiles = import.meta.glob('../../content/meditations/*.json', { eager: true })
+const protocols = Object.values(meditationFiles)
+  .map((m: any) => m.default ?? m)
+  .filter((m: any) => m.category === CATEGORIES.sos)
+  .sort((a: any, b: any) => a.sortOrder - b.sortOrder)
+---
+
+<AppLayout title="Breathe — Vesper">
+  <BreatheClient client:load protocols={protocols} />
+</AppLayout>

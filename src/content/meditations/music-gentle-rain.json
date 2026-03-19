@@ -1,0 +1,17 @@
+{
+  "slug": "music-gentle-rain",
+  "titleEn": "Gentle Rain",
+  "titleFr": "Pluie douce",
+  "descEn": "Rain-inspired ambient soundscape with therapeutic audio processing. Features a brown noise foundation mimicking rainfall, 55Hz sub-bass targeting vagal nerve pathways, 110Hz binaural beat layer for alpha-state entrainment, and a 9kHz low-pass filter for natural warmth. All therapeutic frequencies are sidechain-compressed to sit beneath conscious awareness. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Paysage sonore ambiant inspiré de la pluie avec traitement audio thérapeutique. Fondation de bruit brun imitant la pluie, sub-basse 55Hz ciblant les voies du nerf vague, couche de battements binauraux 110Hz pour l'entraînement alpha, et filtre passe-bas 9kHz pour une chaleur naturelle. Toutes les fréquences thérapeutiques sont compressées en sidechain pour rester sous le seuil de conscience. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-02-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 2,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

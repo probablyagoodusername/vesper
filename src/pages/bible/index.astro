@@ -1,0 +1,51 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { BibleReaderClient } from '../../components/BibleReaderClient'
+import { getDailyReading } from '../../lib/lectionary'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+const BIBLE_DIR = resolve(process.cwd(), 'src/content/bible')
+const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'utf-8'))
+
+// Get today's reading
+const reading = getDailyReading(new Date())
+const readingBook = booksIndex.find((b: any) => b.slug === reading.book)
+
+let initialBook = null
+let initialChapter = reading.chapter
+let initialVerses: { verse: number; textEn: string; textFr: string }[] = []
+
+if (readingBook) {
+  initialBook = {
+    slug: readingBook.slug,
+    nameEn: readingBook.nameEn,
+    nameFr: readingBook.nameFr,
+    abbreviationEn: readingBook.abbreviationEn,
+    abbreviationFr: readingBook.abbreviationFr,
+    testament: readingBook.testament,
+    bookOrder: readingBook.bookOrder,
+    chapterCount: readingBook.chapterCount,
+  }
+  try {
+    const bookData = JSON.parse(readFileSync(resolve(BIBLE_DIR, `${reading.book}.json`), 'utf-8'))
+    initialVerses = bookData.chapters[String(reading.chapter)] ?? []
+  } catch {
+    // skip
+  }
+}
+---
+
+<AppLayout title="Bible — Vesper">
+  <BibleReaderClient
+    client:load
+    books={booksIndex}
+    initialBook={initialBook}
+    initialChapter={initialChapter}
+    initialVerses={initialVerses}
+    readingLabel={reading.label}
+    readingLabelFr={reading.labelFr}
+    readingReason={reading.reason}
+    readingReasonFr={reading.reasonFr}
+  />
+</AppLayout>

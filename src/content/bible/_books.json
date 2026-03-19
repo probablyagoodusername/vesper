@@ -1,0 +1,662 @@
+[
+  {
+    "slug": "genesis",
+    "nameEn": "Genesis",
+    "nameFr": "Genèse",
+    "abbreviationEn": "Gen",
+    "abbreviationFr": "Gn",
+    "testament": "OT",
+    "bookOrder": 1,
+    "chapterCount": 50
+  },
+  {
+    "slug": "exodus",
+    "nameEn": "Exodus",
+    "nameFr": "Exode",
+    "abbreviationEn": "Exod",
+    "abbreviationFr": "Ex",
+    "testament": "OT",
+    "bookOrder": 2,
+    "chapterCount": 40
+  },
+  {
+    "slug": "leviticus",
+    "nameEn": "Leviticus",
+    "nameFr": "Lévitique",
+    "abbreviationEn": "Lev",
+    "abbreviationFr": "Lv",
+    "testament": "OT",
+    "bookOrder": 3,
+    "chapterCount": 27
+  },
+  {
+    "slug": "numbers",
+    "nameEn": "Numbers",
+    "nameFr": "Nombres",
+    "abbreviationEn": "Num",
+    "abbreviationFr": "Nb",
+    "testament": "OT",
+    "bookOrder": 4,
+    "chapterCount": 36
+  },
+  {
+    "slug": "deuteronomy",
+    "nameEn": "Deuteronomy",
+    "nameFr": "Deutéronome",
+    "abbreviationEn": "Deut",
+    "abbreviationFr": "Dt",
+    "testament": "OT",
+    "bookOrder": 5,
+    "chapterCount": 34
+  },
+  {
+    "slug": "joshua",
+    "nameEn": "Joshua",
+    "nameFr": "Josué",
+    "abbreviationEn": "Josh",
+    "abbreviationFr": "Jos",
+    "testament": "OT",
+    "bookOrder": 6,
+    "chapterCount": 24
+  },
+  {
+    "slug": "judges",
+    "nameEn": "Judges",
+    "nameFr": "Juges",
+    "abbreviationEn": "Judg",
+    "abbreviationFr": "Jg",
+    "testament": "OT",
+    "bookOrder": 7,
+    "chapterCount": 21
+  },
+  {
+    "slug": "ruth",
+    "nameEn": "Ruth",
+    "nameFr": "Ruth",
+    "abbreviationEn": "Ruth",
+    "abbreviationFr": "Rt",
+    "testament": "OT",
+    "bookOrder": 8,
+    "chapterCount": 4
+  },
+  {
+    "slug": "1-samuel",
+    "nameEn": "1 Samuel",
+    "nameFr": "1 Samuel",
+    "abbreviationEn": "1 Sam",
+    "abbreviationFr": "1 S",
+    "testament": "OT",
+    "bookOrder": 9,
+    "chapterCount": 31
+  },
+  {
+    "slug": "2-samuel",
+    "nameEn": "2 Samuel",
+    "nameFr": "2 Samuel",
+    "abbreviationEn": "2 Sam",
+    "abbreviationFr": "2 S",
+    "testament": "OT",
+    "bookOrder": 10,
+    "chapterCount": 24
+  },
+  {
+    "slug": "1-kings",
+    "nameEn": "1 Kings",
+    "nameFr": "1 Rois",
+    "abbreviationEn": "1 Kgs",
+    "abbreviationFr": "1 R",
+    "testament": "OT",
+    "bookOrder": 11,
+    "chapterCount": 22
+  },
+  {
+    "slug": "2-kings",
+    "nameEn": "2 Kings",
+    "nameFr": "2 Rois",
+    "abbreviationEn": "2 Kgs",
+    "abbreviationFr": "2 R",
+    "testament": "OT",
+    "bookOrder": 12,
+    "chapterCount": 25
+  },
+  {
+    "slug": "1-chronicles",
+    "nameEn": "1 Chronicles",
+    "nameFr": "1 Chroniques",
+    "abbreviationEn": "1 Chr",
+    "abbreviationFr": "1 Ch",
+    "testament": "OT",
+    "bookOrder": 13,
+    "chapterCount": 29
+  },
+  {
+    "slug": "2-chronicles",
+    "nameEn": "2 Chronicles",
+    "nameFr": "2 Chroniques",
+    "abbreviationEn": "2 Chr",
+    "abbreviationFr": "2 Ch",
+    "testament": "OT",
+    "bookOrder": 14,
+    "chapterCount": 36
+  },
+  {
+    "slug": "ezra",
+    "nameEn": "Ezra",
+    "nameFr": "Esdras",
+    "abbreviationEn": "Ezra",
+    "abbreviationFr": "Esd",
+    "testament": "OT",
+    "bookOrder": 15,
+    "chapterCount": 10
+  },
+  {
+    "slug": "nehemiah",
+    "nameEn": "Nehemiah",
+    "nameFr": "Néhémie",
+    "abbreviationEn": "Neh",
+    "abbreviationFr": "Né",
+    "testament": "OT",
+    "bookOrder": 16,
+    "chapterCount": 13
+  },
+  {
+    "slug": "esther",
+    "nameEn": "Esther",
+    "nameFr": "Esther",
+    "abbreviationEn": "Esth",
+    "abbreviationFr": "Est",
+    "testament": "OT",
+    "bookOrder": 17,
+    "chapterCount": 10
+  },
+  {
+    "slug": "job",
+    "nameEn": "Job",
+    "nameFr": "Job",
+    "abbreviationEn": "Job",
+    "abbreviationFr": "Jb",
+    "testament": "OT",
+    "bookOrder": 18,
+    "chapterCount": 42
+  },
+  {
+    "slug": "psalms",
+    "nameEn": "Psalms",
+    "nameFr": "Psaumes",
+    "abbreviationEn": "Ps",
+    "abbreviationFr": "Ps",
+    "testament": "OT",
+    "bookOrder": 19,
+    "chapterCount": 150
+  },
+  {
+    "slug": "proverbs",
+    "nameEn": "Proverbs",
+    "nameFr": "Proverbes",
+    "abbreviationEn": "Prov",
+    "abbreviationFr": "Pr",
+    "testament": "OT",
+    "bookOrder": 20,
+    "chapterCount": 31
+  },
+  {
+    "slug": "ecclesiastes",
+    "nameEn": "Ecclesiastes",
+    "nameFr": "Ecclésiaste",
+    "abbreviationEn": "Eccl",
+    "abbreviationFr": "Ec",
+    "testament": "OT",
+    "bookOrder": 21,
+    "chapterCount": 12
+  },
+  {
+    "slug": "song-of-solomon",
+    "nameEn": "Song of Solomon",
+    "nameFr": "Cantique des Cantiques",
+    "abbreviationEn": "Song",
+    "abbreviationFr": "Ct",
+    "testament": "OT",
+    "bookOrder": 22,
+    "chapterCount": 8
+  },
+  {
+    "slug": "isaiah",
+    "nameEn": "Isaiah",
+    "nameFr": "Ésaïe",
+    "abbreviationEn": "Isa",
+    "abbreviationFr": "Es",
+    "testament": "OT",
+    "bookOrder": 23,
+    "chapterCount": 66
+  },
+  {
+    "slug": "jeremiah",
+    "nameEn": "Jeremiah",
+    "nameFr": "Jérémie",
+    "abbreviationEn": "Jer",
+    "abbreviationFr": "Jr",
+    "testament": "OT",
+    "bookOrder": 24,
+    "chapterCount": 52
+  },
+  {
+    "slug": "lamentations",
+    "nameEn": "Lamentations",
+    "nameFr": "Lamentations",
+    "abbreviationEn": "Lam",
+    "abbreviationFr": "Lm",
+    "testament": "OT",
+    "bookOrder": 25,
+    "chapterCount": 5
+  },
+  {
+    "slug": "ezekiel",
+    "nameEn": "Ezekiel",
+    "nameFr": "Ézéchiel",
+    "abbreviationEn": "Ezek",
+    "abbreviationFr": "Ez",
+    "testament": "OT",
+    "bookOrder": 26,
+    "chapterCount": 48
+  },
+  {
+    "slug": "daniel",
+    "nameEn": "Daniel",
+    "nameFr": "Daniel",
+    "abbreviationEn": "Dan",
+    "abbreviationFr": "Dn",
+    "testament": "OT",
+    "bookOrder": 27,
+    "chapterCount": 12
+  },
+  {
+    "slug": "hosea",
+    "nameEn": "Hosea",
+    "nameFr": "Osée",
+    "abbreviationEn": "Hos",
+    "abbreviationFr": "Os",
+    "testament": "OT",
+    "bookOrder": 28,
+    "chapterCount": 14
+  },
+  {
+    "slug": "joel",
+    "nameEn": "Joel",
+    "nameFr": "Joël",
+    "abbreviationEn": "Joel",
+    "abbreviationFr": "Jl",
+    "testament": "OT",
+    "bookOrder": 29,
+    "chapterCount": 3
+  },
+  {
+    "slug": "amos",
+    "nameEn": "Amos",
+    "nameFr": "Amos",
+    "abbreviationEn": "Amos",
+    "abbreviationFr": "Am",
+    "testament": "OT",
+    "bookOrder": 30,
+    "chapterCount": 9
+  },
+  {
+    "slug": "obadiah",
+    "nameEn": "Obadiah",
+    "nameFr": "Abdias",
+    "abbreviationEn": "Obad",
+    "abbreviationFr": "Ab",
+    "testament": "OT",
+    "bookOrder": 31,
+    "chapterCount": 1
+  },
+  {
+    "slug": "jonah",
+    "nameEn": "Jonah",
+    "nameFr": "Jonas",
+    "abbreviationEn": "Jonah",
+    "abbreviationFr": "Jon",
+    "testament": "OT",
+    "bookOrder": 32,
+    "chapterCount": 4
+  },
+  {
+    "slug": "micah",
+    "nameEn": "Micah",
+    "nameFr": "Michée",
+    "abbreviationEn": "Mic",
+    "abbreviationFr": "Mi",
+    "testament": "OT",
+    "bookOrder": 33,
+    "chapterCount": 7
+  },
+  {
+    "slug": "nahum",
+    "nameEn": "Nahum",
+    "nameFr": "Nahum",
+    "abbreviationEn": "Nah",
+    "abbreviationFr": "Na",
+    "testament": "OT",
+    "bookOrder": 34,
+    "chapterCount": 3
+  },
+  {
+    "slug": "habakkuk",
+    "nameEn": "Habakkuk",
+    "nameFr": "Habacuc",
+    "abbreviationEn": "Hab",
+    "abbreviationFr": "Ha",
+    "testament": "OT",
+    "bookOrder": 35,
+    "chapterCount": 3
+  },
+  {
+    "slug": "zephaniah",
+    "nameEn": "Zephaniah",
+    "nameFr": "Sophonie",
+    "abbreviationEn": "Zeph",
+    "abbreviationFr": "So",
+    "testament": "OT",
+    "bookOrder": 36,
+    "chapterCount": 3
+  },
+  {
+    "slug": "haggai",
+    "nameEn": "Haggai",
+    "nameFr": "Aggée",
+    "abbreviationEn": "Hag",
+    "abbreviationFr": "Ag",
+    "testament": "OT",
+    "bookOrder": 37,
+    "chapterCount": 2
+  },
+  {
+    "slug": "zechariah",
+    "nameEn": "Zechariah",
+    "nameFr": "Zacharie",
+    "abbreviationEn": "Zech",
+    "abbreviationFr": "Za",
+    "testament": "OT",
+    "bookOrder": 38,
+    "chapterCount": 14
+  },
+  {
+    "slug": "malachi",
+    "nameEn": "Malachi",
+    "nameFr": "Malachie",
+    "abbreviationEn": "Mal",
+    "abbreviationFr": "Ml",
+    "testament": "OT",
+    "bookOrder": 39,
+    "chapterCount": 4
+  },
+  {
+    "slug": "matthew",
+    "nameEn": "Matthew",
+    "nameFr": "Matthieu",
+    "abbreviationEn": "Matt",
+    "abbreviationFr": "Mt",
+    "testament": "NT",
+    "bookOrder": 40,
+    "chapterCount": 28
+  },
+  {
+    "slug": "mark",
+    "nameEn": "Mark",
+    "nameFr": "Marc",
+    "abbreviationEn": "Mark",
+    "abbreviationFr": "Mc",
+    "testament": "NT",
+    "bookOrder": 41,
+    "chapterCount": 16
+  },
+  {
+    "slug": "luke",
+    "nameEn": "Luke",
+    "nameFr": "Luc",
+    "abbreviationEn": "Luke",
+    "abbreviationFr": "Lc",
+    "testament": "NT",
+    "bookOrder": 42,
+    "chapterCount": 24
+  },
+  {
+    "slug": "john",
+    "nameEn": "John",
+    "nameFr": "Jean",
+    "abbreviationEn": "John",
+    "abbreviationFr": "Jn",
+    "testament": "NT",
+    "bookOrder": 43,
+    "chapterCount": 21
+  },
+  {
+    "slug": "acts",
+    "nameEn": "Acts",
+    "nameFr": "Actes",
+    "abbreviationEn": "Acts",
+    "abbreviationFr": "Ac",
+    "testament": "NT",
+    "bookOrder": 44,
+    "chapterCount": 28
+  },
+  {
+    "slug": "romans",
+    "nameEn": "Romans",
+    "nameFr": "Romains",
+    "abbreviationEn": "Rom",
+    "abbreviationFr": "Rm",
+    "testament": "NT",
+    "bookOrder": 45,
+    "chapterCount": 16
+  },
+  {
+    "slug": "1-corinthians",
+    "nameEn": "1 Corinthians",
+    "nameFr": "1 Corinthiens",
+    "abbreviationEn": "1 Cor",
+    "abbreviationFr": "1 Co",
+    "testament": "NT",
+    "bookOrder": 46,
+    "chapterCount": 16
+  },
+  {
+    "slug": "2-corinthians",
+    "nameEn": "2 Corinthians",
+    "nameFr": "2 Corinthiens",
+    "abbreviationEn": "2 Cor",
+    "abbreviationFr": "2 Co",
+    "testament": "NT",
+    "bookOrder": 47,
+    "chapterCount": 13
+  },
+  {
+    "slug": "galatians",
+    "nameEn": "Galatians",
+    "nameFr": "Galates",
+    "abbreviationEn": "Gal",
+    "abbreviationFr": "Ga",
+    "testament": "NT",
+    "bookOrder": 48,
+    "chapterCount": 6
+  },
+  {
+    "slug": "ephesians",
+    "nameEn": "Ephesians",
+    "nameFr": "Éphésiens",
+    "abbreviationEn": "Eph",
+    "abbreviationFr": "Ep",
+    "testament": "NT",
+    "bookOrder": 49,
+    "chapterCount": 6
+  },
+  {
+    "slug": "philippians",
+    "nameEn": "Philippians",
+    "nameFr": "Philippiens",
+    "abbreviationEn": "Phil",
+    "abbreviationFr": "Ph",
+    "testament": "NT",
+    "bookOrder": 50,
+    "chapterCount": 4
+  },
+  {
+    "slug": "colossians",
+    "nameEn": "Colossians",
+    "nameFr": "Colossiens",
+    "abbreviationEn": "Col",
+    "abbreviationFr": "Col",
+    "testament": "NT",
+    "bookOrder": 51,
+    "chapterCount": 4
+  },
+  {
+    "slug": "1-thessalonians",
+    "nameEn": "1 Thessalonians",
+    "nameFr": "1 Thessaloniciens",
+    "abbreviationEn": "1 Thess",
+    "abbreviationFr": "1 Th",
+    "testament": "NT",
+    "bookOrder": 52,
+    "chapterCount": 5
+  },
+  {
+    "slug": "2-thessalonians",
+    "nameEn": "2 Thessalonians",
+    "nameFr": "2 Thessaloniciens",
+    "abbreviationEn": "2 Thess",
+    "abbreviationFr": "2 Th",
+    "testament": "NT",
+    "bookOrder": 53,
+    "chapterCount": 3
+  },
+  {
+    "slug": "1-timothy",
+    "nameEn": "1 Timothy",
+    "nameFr": "1 Timothée",
+    "abbreviationEn": "1 Tim",
+    "abbreviationFr": "1 Tm",
+    "testament": "NT",
+    "bookOrder": 54,
+    "chapterCount": 6
+  },
+  {
+    "slug": "2-timothy",
+    "nameEn": "2 Timothy",
+    "nameFr": "2 Timothée",
+    "abbreviationEn": "2 Tim",
+    "abbreviationFr": "2 Tm",
+    "testament": "NT",
+    "bookOrder": 55,
+    "chapterCount": 4
+  },
+  {
+    "slug": "titus",
+    "nameEn": "Titus",
+    "nameFr": "Tite",
+    "abbreviationEn": "Titus",
+    "abbreviationFr": "Tt",
+    "testament": "NT",
+    "bookOrder": 56,
+    "chapterCount": 3
+  },
+  {
+    "slug": "philemon",
+    "nameEn": "Philemon",
+    "nameFr": "Philémon",
+    "abbreviationEn": "Phlm",
+    "abbreviationFr": "Phm",
+    "testament": "NT",
+    "bookOrder": 57,
+    "chapterCount": 1
+  },
+  {
+    "slug": "hebrews",
+    "nameEn": "Hebrews",
+    "nameFr": "Hébreux",
+    "abbreviationEn": "Heb",
+    "abbreviationFr": "Hé",
+    "testament": "NT",
+    "bookOrder": 58,
+    "chapterCount": 13
+  },
+  {
+    "slug": "james",
+    "nameEn": "James",
+    "nameFr": "Jacques",
+    "abbreviationEn": "Jas",
+    "abbreviationFr": "Jc",
+    "testament": "NT",
+    "bookOrder": 59,
+    "chapterCount": 5
+  },
+  {
+    "slug": "1-peter",
+    "nameEn": "1 Peter",
+    "nameFr": "1 Pierre",
+    "abbreviationEn": "1 Pet",
+    "abbreviationFr": "1 P",
+    "testament": "NT",
+    "bookOrder": 60,
+    "chapterCount": 5
+  },
+  {
+    "slug": "2-peter",
+    "nameEn": "2 Peter",
+    "nameFr": "2 Pierre",
+    "abbreviationEn": "2 Pet",
+    "abbreviationFr": "2 P",
+    "testament": "NT",
+    "bookOrder": 61,
+    "chapterCount": 3
+  },
+  {
+    "slug": "1-john",
+    "nameEn": "1 John",
+    "nameFr": "1 Jean",
+    "abbreviationEn": "1 John",
+    "abbreviationFr": "1 Jn",
+    "testament": "NT",
+    "bookOrder": 62,
+    "chapterCount": 5
+  },
+  {
+    "slug": "2-john",
+    "nameEn": "2 John",
+    "nameFr": "2 Jean",
+    "abbreviationEn": "2 John",
+    "abbreviationFr": "2 Jn",
+    "testament": "NT",
+    "bookOrder": 63,
+    "chapterCount": 1
+  },
+  {
+    "slug": "3-john",
+    "nameEn": "3 John",
+    "nameFr": "3 Jean",
+    "abbreviationEn": "3 John",
+    "abbreviationFr": "3 Jn",
+    "testament": "NT",
+    "bookOrder": 64,
+    "chapterCount": 1
+  },
+  {
+    "slug": "jude",
+    "nameEn": "Jude",
+    "nameFr": "Jude",
+    "abbreviationEn": "Jude",
+    "abbreviationFr": "Jd",
+    "testament": "NT",
+    "bookOrder": 65,
+    "chapterCount": 1
+  },
+  {
+    "slug": "revelation",
+    "nameEn": "Revelation",
+    "nameFr": "Apocalypse",
+    "abbreviationEn": "Rev",
+    "abbreviationFr": "Ap",
+    "testament": "NT",
+    "bookOrder": 66,
+    "chapterCount": 22
+  }
+]

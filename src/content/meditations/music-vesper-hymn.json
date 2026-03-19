@@ -1,0 +1,17 @@
+{
+  "slug": "music-vesper-hymn",
+  "titleEn": "Vesper Hymn",
+  "titleFr": "Hymne vespéral",
+  "descEn": "Contemplative ambient hymn shaped by evidence-based audio therapy. Brown noise underpins the mix with broadband spectral grounding, 55Hz sub-bass engages vagal nerve stimulation for parasympathetic activation, 110Hz binaural beats foster alpha brainwave entrainment during prayer or reflection, and a 9kHz low-pass filter preserves only the warmest overtones. Therapeutic layers are sidechain-compressed to remain subliminal. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Hymne ambiant contemplatif façonné par l'audiothérapie fondée sur les preuves. Le bruit brun soutient le mix avec un ancrage spectral large bande, la sub-basse 55Hz engage la stimulation vagale pour l'activation parasympathique, les battements binauraux 110Hz favorisent l'entraînement alpha durant la prière ou la réflexion, et le filtre passe-bas 9kHz ne préserve que les harmoniques les plus chaleureuses. Les couches thérapeutiques sont compressées en sidechain pour rester subliminales. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-10-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 10,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "vesper-ambient-01",
+    "name": "Stillness",
+    "nameFr": "Silence",
+    "file": "/music/vesper-ambient-01-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-02",
+    "name": "Gentle Rain",
+    "nameFr": "Pluie douce",
+    "file": "/music/vesper-ambient-02-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-03",
+    "name": "Deep Rest",
+    "nameFr": "Repos profond",
+    "file": "/music/vesper-ambient-03-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-04",
+    "name": "Evening Calm",
+    "nameFr": "Calme du soir",
+    "file": "/music/vesper-ambient-04-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-05",
+    "name": "Sacred Space",
+    "nameFr": "Espace sacré",
+    "file": "/music/vesper-ambient-05-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-06",
+    "name": "Morning Light",
+    "nameFr": "Lumière du matin",
+    "file": "/music/vesper-ambient-06-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-07",
+    "name": "River Stone",
+    "nameFr": "Pierre de rivière",
+    "file": "/music/vesper-ambient-07-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-08",
+    "name": "Warm Ember",
+    "nameFr": "Braise chaude",
+    "file": "/music/vesper-ambient-08-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-09",
+    "name": "Cloud Drift",
+    "nameFr": "Dérive de nuages",
+    "file": "/music/vesper-ambient-09-therapeutic.mp3"
+  },
+  {
+    "id": "vesper-ambient-10",
+    "name": "Vesper Hymn",
+    "nameFr": "Hymne vespéral",
+    "file": "/music/vesper-ambient-10-therapeutic.mp3"
+  }
+]

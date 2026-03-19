@@ -1,0 +1,11 @@
+{
+  "slug": "deep-calm",
+  "nameEn": "Deep Calm",
+  "nameFr": "Calme profond",
+  "inhale": 5,
+  "holdIn": 0,
+  "exhale": 7,
+  "holdOut": 0,
+  "rounds": 6,
+  "sortOrder": 3
+}

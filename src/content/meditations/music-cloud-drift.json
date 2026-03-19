@@ -1,0 +1,17 @@
+{
+  "slug": "music-cloud-drift",
+  "titleEn": "Cloud Drift",
+  "titleFr": "Dérive de nuages",
+  "descEn": "Weightless ambient music designed for mental release through therapeutic audio layering. Brown noise provides a diffuse sonic bed that quiets internal chatter, 55Hz sub-bass gently stimulates vagal nerve tone, 110Hz binaural beats induce alpha brainwave drift for effortless relaxation, and a 9kHz low-pass filter wraps everything in softness. Sidechain compression keeps all therapeutic processing below perception. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Musique ambiante apesantie conçue pour le lâcher-prise mental par superposition audio thérapeutique. Le bruit brun offre un lit sonore diffus qui apaise le dialogue intérieur, la sub-basse 55Hz stimule doucement le tonus vagal, les battements binauraux 110Hz induisent une dérive alpha pour une relaxation sans effort, et le filtre passe-bas 9kHz enveloppe le tout de douceur. La compression sidechain maintient tout le traitement sous le seuil de perception. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-09-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 9,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

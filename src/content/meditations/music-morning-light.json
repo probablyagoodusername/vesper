@@ -1,0 +1,17 @@
+{
+  "slug": "music-morning-light",
+  "titleEn": "Morning Light",
+  "titleFr": "Lumière du matin",
+  "descEn": "Dawn-inspired ambient music with multi-layer therapeutic processing. Brown noise provides a gentle broadband bed for focused awareness, 55Hz sub-bass stimulates vagal nerve tone to ease morning tension, 110Hz binaural beats encourage alpha-state wakefulness, and a 9kHz low-pass filter softens the sonic palette. Therapeutic frequencies are sidechain-compressed to blend seamlessly. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Musique ambiante inspirée de l'aube avec traitement thérapeutique multicouche. Le bruit brun offre un lit sonore large bande pour la pleine attention, la sub-basse 55Hz stimule le tonus vagal pour apaiser les tensions matinales, les battements binauraux 110Hz favorisent un éveil en état alpha, et le filtre passe-bas 9kHz adoucit la palette sonore. Les fréquences thérapeutiques sont compressées en sidechain pour se fondre naturellement. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-06-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 6,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

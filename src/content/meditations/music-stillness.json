@@ -1,0 +1,17 @@
+{
+  "slug": "music-stillness",
+  "titleEn": "Stillness",
+  "titleFr": "Silence",
+  "descEn": "Therapeutically processed ambient music designed for deep stillness. Layers: brown noise bed for cognitive grounding, 55Hz sub-bass for vagal nerve stimulation, 110Hz binaural beats for alpha brainwave entrainment, 9kHz low-pass warmth filter. Sidechain-compressed so therapeutic layers remain subliminal beneath the music. Research: brown noise (Inspire the Mind, 2024), binaural beats (Ingendoh et al., 2023), vagal stimulation (Neuvana).",
+  "descFr": "Musique ambiante traitée pour induire un calme profond. Couches : lit de bruit brun pour l'ancrage cognitif, sub-basse 55Hz pour la stimulation du nerf vague, battements binauraux 110Hz pour l'entraînement des ondes alpha, filtre passe-bas 9kHz pour la chaleur sonore. Compression sidechain pour que les couches thérapeutiques restent subliminales. Recherche : bruit brun (Inspire the Mind, 2024), battements binauraux (Ingendoh et al., 2023), stimulation vagale (Neuvana).",
+  "scriptEn": "",
+  "scriptFr": "",
+  "category": "music",
+  "durationMin": 3,
+  "isSleep": false,
+  "audioPathEn": "/music/vesper-ambient-01-therapeutic.mp3",
+  "audioPathFr": null,
+  "sortOrder": 1,
+  "scienceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/",
+  "breathing": null
+}

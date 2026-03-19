@@ -1,0 +1,11 @@
+{
+  "slug": "sleep-preparation",
+  "nameEn": "Sleep Preparation",
+  "nameFr": "Préparation au sommeil",
+  "inhale": 4,
+  "holdIn": 0,
+  "exhale": 8,
+  "holdOut": 3,
+  "rounds": 5,
+  "sortOrder": 5
+}

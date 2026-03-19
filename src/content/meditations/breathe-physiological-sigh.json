@@ -1,0 +1,18 @@
+{
+  "slug": "breathe-physiological-sigh",
+  "titleEn": "Guided Physiological Sigh",
+  "titleFr": "Soupir physiologique guidé",
+  "descEn": "Double inhale + extended exhale. Stanford 2023 found this the single most effective real-time breathwork for stress reduction — more effective than box breathing or mindfulness alone.",
+  "descFr": "Double inspiration + longue expiration. Stanford 2023 : la technique de respiration en temps réel la plus efficace pour réduire le stress — plus que la respiration carrée ou la pleine conscience seule.",
+  "scriptEn": "[BREATHING: Physiological sigh — double inhale through nose, extended exhale through mouth]\n\nThe physiological sigh. A Stanford study in 2023 found this is the single most effective real-time breathing technique for reducing stress — more effective than box breathing, meditation breathing, or mindfulness alone. It works by fully inflating your lung's alveoli on the double inhale, then offloading excess CO2 on the long exhale, which directly activates your parasympathetic nervous system.\n\nTwo quick inhales through the nose. One long exhale through the mouth. Six cycles. I'll guide you.\n\n[2s pause]\n\nShort inhale through the nose... and a deeper second inhale...\nNow a long, slow exhale through the mouth... let it all out.\n\n[2s pause]\n\nShort inhale... deeper second inhale...\nLong, slow exhale... empty your lungs completely.\n\n[2s pause]\n\nShort inhale... deeper inhale on top...\nExhale slowly... all the way out.\n\n[2s pause]\n\nShort inhale... second deeper inhale...\nAnd release... long exhale through the mouth.\n\n[2s pause]\n\nShort inhale... deep inhale...\nSlow exhale... let everything go.\n\n[2s pause]\n\nLast one.\n\nShort inhale... deeper second inhale...\nLong, slow exhale... all the way out.\n\n[2s pause]\n\nSix cycles done. Breathe normally. Notice the shift.\n",
+  "scriptFr": "[BREATHING: Soupir physiologique — double inspiration par le nez, expiration prolongée par la bouche]\n\nLe soupir physiologique. Une étude de Stanford en 2023 a montré que c'est la technique de respiration en temps réel la plus efficace pour réduire le stress — plus efficace que la respiration en carré, la respiration méditative ou la pleine conscience seule. Ça fonctionne en gonflant complètement les alvéoles pulmonaires sur la double inspiration, puis en évacuant l'excès de CO2 sur la longue expiration, ce qui active directement ton système nerveux parasympathique.\n\nDeux inspirations rapides par le nez. Une longue expiration par la bouche. Six cycles. Je te guide.\n\n[2s pause]\n\nCourte inspiration par le nez... et une seconde inspiration plus profonde...\nMaintenant une longue expiration lente par la bouche... laisse tout sortir.\n\n[2s pause]\n\nCourte inspiration... seconde inspiration plus profonde...\nLongue expiration lente... vide complètement tes poumons.\n\n[2s pause]\n\nCourte inspiration... inspiration plus profonde par-dessus...\nExpire lentement... jusqu'au bout.\n\n[2s pause]\n\nCourte inspiration... seconde inspiration profonde...\nEt relâche... longue expiration par la bouche.\n\n[2s pause]\n\nCourte inspiration... inspiration profonde...\nExpiration lente... laisse tout partir.\n\n[2s pause]\n\nDernier cycle.\n\nCourte inspiration... seconde inspiration plus profonde...\nLongue expiration lente... jusqu'au bout.\n\n[2s pause]\n\nSix cycles terminés. Respire normalement. Observe le changement.\n",
+  "category": "sos",
+  "durationMin": 2,
+  "isSleep": false,
+  "verseRefs": null,
+  "audioPathEn": "/audio/en/breathe-physiological-sigh.mp3",
+  "audioPathFr": null,
+  "sortOrder": 6,
+  "scienceUrl": "https://doi.org/10.1016/j.xcrm.2022.100895",
+  "breathing": null
+}

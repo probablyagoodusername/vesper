@@ -1,0 +1,18 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro'
+import { MeditateClient } from '../../components/MeditateClient'
+import { CATEGORIES } from '../../lib/constants'
+
+const meditationFiles = import.meta.glob('../../content/meditations/*.json', { eager: true })
+const allMeditations = Object.values(meditationFiles)
+  .map((m: any) => m.default ?? m)
+  .filter((m: any) => !m.isSleep && !([CATEGORIES.sos, CATEGORIES.prayer] as string[]).includes(m.category as string))
+  .sort((a: any, b: any) => {
+    if (a.category !== b.category) return a.category.localeCompare(b.category)
+    return a.sortOrder - b.sortOrder
+  })
+---
+
+<AppLayout title="Meditate — Vesper">
+  <MeditateClient client:load meditations={allMeditations} />
+</AppLayout>

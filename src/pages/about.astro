@@ -1,0 +1,369 @@
+---
+import AppLayout from '../layouts/AppLayout.astro'
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+---
+
+<AppLayout title="About — Vesper">
+  <main class="px-6 pt-12 pb-8">
+    <a
+      href={`${base}/settings`}
+      class="mb-6 inline-flex items-center gap-1 text-sm text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5" />
+        <path d="m12 19-7-7 7-7" />
+      </svg>
+      Settings
+    </a>
+
+    <h1 class="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
+      About Vesper
+    </h1>
+    <p class="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+      Faith and science as allies, not opponents.
+    </p>
+
+    <!-- Mission -->
+    <section class="mt-10">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">Mission</h2>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        Vesper combines 2,000 years of Christian contemplative tradition &mdash; Lectio Divina, the
+        Ignatian Examen, centering prayer, breath prayer, the Desert Fathers &mdash; with
+        evidence-based mental health practices from clinical psychology, somatic therapy, and sleep science.
+      </p>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        Every breathing pattern, body scan, and guided prompt is grounded in peer-reviewed research
+        <em>and</em> rooted in centuries of contemplative Christian tradition. The goal is content that
+        a therapist would approve of and a theologian would recognize. Not self-help with a Bible verse
+        stapled on. Not religion without understanding the nervous system. Both, together, because
+        that's how people actually heal.
+      </p>
+      <blockquote class="mt-4 border-l-2 border-[var(--accent)] pl-4 font-[family-name:var(--font-serif)] text-lg italic leading-relaxed text-[var(--muted)]">
+        "Search me, O God, and know my heart; test me and know my anxious thoughts."
+        <span class="mt-1 block text-xs not-italic">&mdash; Psalm 139:23</span>
+      </blockquote>
+    </section>
+
+    <!-- The Science -->
+    <section class="mt-12">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">The Science</h2>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        Every session is grounded in peer-reviewed research. Each technique links to its source study
+        on PubMed.
+      </p>
+
+      <!-- Relaxation -->
+      <h3 class="mt-6 text-xs font-medium uppercase tracking-wider text-[var(--primary)]">Relaxation &amp; Somatic</h3>
+      <ul class="mt-3 space-y-3 text-sm leading-relaxed text-[var(--text)]">
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Progressive Muscle Relaxation</strong> &mdash;
+            clinically shown to reduce cortisol and sleep onset latency.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/38322293/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Jacobson; meta-analysis</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Yoga Nidra body rotation</strong> &mdash;
+            increases heart rate variability and delta brainwave activity.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/22866996/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">PubMed</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Autogenic Training</strong> (Schultz method) &mdash;
+            validated for chronic insomnia since 1932.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/7811786/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Review</a>
+          </span>
+        </li>
+      </ul>
+
+      <!-- Breathing -->
+      <h3 class="mt-6 text-xs font-medium uppercase tracking-wider text-[var(--primary)]">Breathing</h3>
+      <ul class="mt-3 space-y-3 text-sm leading-relaxed text-[var(--text)]">
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Physiological Sigh</strong> &mdash;
+            Stanford 2023: the single most effective real-time breathwork for stress reduction.
+            <a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Balban, Huberman et al.</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Box Breathing</strong> (4-4-4-4) &mdash;
+            used by Navy SEALs, stabilizes HRV within 90 seconds.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/35623448/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Systematic review</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Coherent Breathing</strong> (5.5 breaths/min) &mdash;
+            maximizes heart rate variability and baroreflex sensitivity.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/14508023/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Lehrer et al., 2003</a>
+          </span>
+        </li>
+      </ul>
+
+      <!-- Therapy -->
+      <h3 class="mt-6 text-xs font-medium uppercase tracking-wider text-[var(--primary)]">Therapy &amp; Psychology</h3>
+      <ul class="mt-3 space-y-3 text-sm leading-relaxed text-[var(--text)]">
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">CBT-I</strong> (Cognitive Behavioral Therapy for Insomnia) &mdash;
+            gold standard for sleep disorders.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/21787446/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Autogenic + CBT-I</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">ACT</strong> (Acceptance and Commitment Therapy) &mdash;
+            cognitive defusion reduces emotional reactivity.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/16300724/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Hayes et al., 2006</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">CFT</strong> (Compassion-Focused Therapy) &mdash;
+            Kristin Neff's three-component self-compassion model.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/23070875/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Neff &amp; Germer, 2013</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">RAIN framework</strong> (Recognize, Allow, Investigate, Nurture) &mdash;
+            reduces amygdala reactivity.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/29990584/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Mindfulness &amp; amygdala</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">NSDR</strong> (Non-Sleep Deep Rest) &mdash;
+            boosts dopamine by 65%, equivalent to 2&ndash;3 hours of recovery.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/11958969/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Kjaer et al., 2002</a>
+          </span>
+        </li>
+      </ul>
+
+      <!-- Contemplative -->
+      <h3 class="mt-6 text-xs font-medium uppercase tracking-wider text-[var(--primary)]">Contemplative &amp; Spiritual</h3>
+      <ul class="mt-3 space-y-3 text-sm leading-relaxed text-[var(--text)]">
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Loving-Kindness (Metta) meditation</strong> &mdash;
+            increases vagal tone and positive affect.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/18954193/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Fredrickson et al., 2008</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Gratitude practice</strong> &mdash;
+            reduces pre-sleep worry, improves sleep quality by 25%.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/19073292/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Wood et al., 2009</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Forgiveness meditation</strong> &mdash;
+            reduces hostility-linked insomnia and nocturnal cortisol.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/18787939/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Lawler-Row, 2010</a>
+          </span>
+        </li>
+        <li class="flex gap-2">
+          <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+          <span>
+            <strong class="text-[var(--primary)]">Repetitive prayer</strong> (rosary/mantra) &mdash;
+            synchronizes cardiovascular rhythms.
+            <a href="https://pubmed.ncbi.nlm.nih.gov/11751348/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Bernardi et al., 2001</a>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- The AI Pipeline -->
+    <section class="mt-12">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">The AI Pipeline</h2>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        No human wrote these scripts. No human recorded these voices. No human composed this music.
+        The entire pipeline &mdash; from ideation to final audio &mdash; is AI-driven and fully documented.
+      </p>
+
+      <div class="mt-4 space-y-4 text-sm leading-relaxed text-[var(--text)]">
+        <div class="rounded border border-[var(--border)] p-4">
+          <strong class="text-[var(--primary)]">Scripts</strong>
+          <p class="mt-1 text-[var(--muted)]">
+            AI-generated by Claude, then reviewed by a panel of 9 AI expert agents &mdash;
+            Christian theologian, clinical sleep psychologist, contemplative prayer specialist,
+            meditation teacher, ACT/CFT therapist, motivational psychology researcher, morning
+            routine coach, mindfulness teacher, and professional narrator/voice director.
+          </p>
+        </div>
+
+        <div class="rounded border border-[var(--border)] p-4">
+          <strong class="text-[var(--primary)]">Narration</strong>
+          <p class="mt-1 text-[var(--muted)]">
+            ElevenLabs v3 with character-level timestamp alignment for synchronized text highlighting.
+            Two narrator voices: Katherine (default) and James, plus a French narrator.
+            Voice parameters tuned per category &mdash; sleep sessions use higher stability and
+            slower speed; morning sessions are more dynamic.
+          </p>
+        </div>
+
+        <div class="rounded border border-[var(--border)] p-4">
+          <strong class="text-[var(--primary)]">Music</strong>
+          <p class="mt-1 text-[var(--muted)]">
+            Suno AI composition, then processed through a custom therapeutic audio pipeline
+            targeting specific brainwave states. Full details in the
+            <a href="#ambient-music" class="text-[var(--accent)] hover:underline">Ambient Music</a> section below.
+          </p>
+        </div>
+
+        <div class="rounded border border-[var(--border)] p-4">
+          <strong class="text-[var(--primary)]">Bible TTS</strong>
+          <p class="mt-1 text-[var(--muted)]">
+            Kokoro.js &mdash; an 82M ONNX model that runs entirely in-browser for
+            Bible text-to-speech. No data leaves your device.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Believe -->
+    <section class="mt-12">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">What We Believe</h2>
+      <ul class="mt-4 space-y-4 text-sm leading-relaxed text-[var(--text)]">
+        <li>
+          <strong class="text-[var(--primary)]">Anxiety is not a sin.</strong>
+          Even Jesus felt distress in Gethsemane. We meet anxiety with compassion, not shame.
+        </li>
+        <li>
+          <strong class="text-[var(--primary)]">The body matters.</strong>
+          Scripture speaks of embodied faith &mdash; breathing, posture, tears.
+          Our meditations include physiological grounding: slow breathing, body scans, progressive relaxation.
+        </li>
+        <li>
+          <strong class="text-[var(--primary)]">Honest prayer is better than polished prayer.</strong>
+          The Psalms are full of anger, doubt, and raw honesty before God. We don't sanitize the human experience.
+        </li>
+        <li>
+          <strong class="text-[var(--primary)]">Grief doesn't need fixing.</strong>
+          Some meditations simply sit with pain. Not every session ends with resolution &mdash; and that's faithful.
+        </li>
+        <li>
+          <strong class="text-[var(--primary)]">Scripture is an encounter, not a prescription.</strong>
+          We present Bible passages as living text to dwell in, not as quick fixes or magic formulas.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Ambient Music -->
+    <section id="ambient-music" class="mt-12">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">Ambient Music</h2>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        Background music is AI-composed (Suno), then processed through a custom therapeutic audio
+        pipeline. Each track is tuned to support specific brainwave states &mdash; alpha waves
+        (8&ndash;12 Hz) for relaxed alertness, theta waves (4&ndash;8 Hz) for deep meditation,
+        and delta waves (0.5&ndash;4 Hz) for sleep.
+      </p>
+
+      <div class="mt-4 rounded border border-[var(--border)] p-4 text-sm">
+        <p class="font-medium text-[var(--primary)]">Processing layers</p>
+        <ul class="mt-2 space-y-2 text-[var(--muted)]">
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">Brown noise bed</strong> (-22dB) &mdash; low-frequency grounding.
+              <a href="https://www.inspirethemind.org/post/can-brown-noise-blanket-your-brain-and-reduce-anxiety" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Inspire the Mind, 2024</a>
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">60Hz sub-bass sine</strong> &mdash; vagal nerve stimulation.
+              <a href="https://neuvanalife.com/blogs/blog/vagus-nerve-sound-stimulation-how-vibrations-improve-stress-relief" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Neuvana</a>
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">Binaural beats</strong> (200/210Hz &rarr; 10Hz alpha entrainment).
+              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10198548/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Ingendoh et al., 2023</a>
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">6kHz low-pass filter</strong> &mdash; removes cognitive arousal frequencies.
+              <a href="https://integratedlistening.com/products/ssp-safe-sound-protocol/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Safe and Sound Protocol (Porges)</a>
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">4-second convolution reverb</strong> &mdash; spatial safety signaling.
+              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12302812/" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Polyvagal Theory</a>
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="shrink-0 text-[var(--accent)]">&bull;</span>
+            <span>
+              <strong class="text-[var(--text)]">60-second ISO fade-in</strong> &mdash; gradual physiological deceleration.
+              <a href="https://journals.sagepub.com/doi/abs/10.1177/10298649231175029" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline">Starcke &amp; von Georgi, 2024</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <a
+        href={`${base}/tools/audio-mixer.html`}
+        class="mt-4 inline-flex items-center gap-2 rounded-lg border border-[var(--border)] px-4 py-2 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 20h.01" /><path d="M7 20v-4" /><path d="M12 20v-8" /><path d="M17 20V8" /><path d="M22 4v16" />
+        </svg>
+        Audio Mixer Tool
+      </a>
+    </section>
+
+    <!-- Open Source -->
+    <section class="mt-12">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">Open Source</h2>
+      <p class="mt-3 leading-relaxed text-[var(--text)]">
+        Vesper is open source under the MIT license. We believe tools for spiritual and mental health
+        should be transparent and accessible. No server. No database. No accounts. No tracking.
+        Just open-source code and static files.
+      </p>
+      <a
+        href="https://github.com/probablyagoodusername/vesper"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 inline-flex items-center gap-2 rounded-lg border border-[var(--border)] px-4 py-2 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View on GitHub
+      </a>
+    </section>
+
+    <div class="mt-12 border-t border-[var(--border)] pt-6">
+      <p class="text-xs leading-relaxed text-[var(--muted)]">
+        Vesper is not a replacement for professional mental health care. If you are in crisis, please
+        contact a mental health professional or call your local emergency number.
+      </p>
+    </div>
+  </main>
+</AppLayout>

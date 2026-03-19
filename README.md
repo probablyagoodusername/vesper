@@ -14,6 +14,10 @@
   <a href="https://probablyagoodusername.github.io/vesper/home/"><strong>Try the live demo →</strong></a>
 </p>
 
+<p align="center">
+  <video src="assets/readme/demo.mp4" width="320" autoplay loop muted playsinline></video>
+</p>
+
 **Free. Open source. For everyone.**
 
 Everyone goes through hard seasons — sleepless nights, anxiety that won't quiet down, grief that has no words, mornings where getting up feels impossible. Vesper exists because tools for healing shouldn't be locked behind a subscription, a paywall, or an app store. They should be free, they should work on any device, and they should be honest about what they're built on.

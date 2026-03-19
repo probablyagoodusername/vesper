@@ -58,30 +58,35 @@ const SECTION_CONFIG: Record<TimeOfDay, { primary: 'morning' | 'meditate' | 'sle
 }
 
 function CategoryIcon({ category }: { category: string }) {
-  const cls = "shrink-0"
+  const p = { 'aria-hidden': true, className: 'shrink-0', width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
   switch (category) {
     case CATEGORIES.morning:
-      return (
-        <svg aria-hidden="true" className={cls} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2" /><path d="M12 20v2" />
-          <path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" />
-          <path d="M2 12h2" /><path d="M20 12h2" />
-          <path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" />
-        </svg>
-      )
+      // Sunrise
+      return <svg {...p}><path d="M12 2v4" /><path d="m4.93 4.93 2.83 2.83" /><path d="m17.24 7.76 2.83-2.83" /><path d="M2 12h4" /><path d="M18 12h4" /><path d="M12 12a4 4 0 0 0-4 4H16a4 4 0 0 0-4-4z" /><path d="M2 20h20" /></svg>
     case CATEGORIES.sleep:
-      return (
-        <svg aria-hidden="true" className={cls} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-        </svg>
-      )
+      // Moon
+      return <svg {...p}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></svg>
+    case CATEGORIES.anxiety:
+      // Shield (protection)
+      return <svg {...p}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg>
+    case CATEGORIES.selfCompassion:
+      // Heart in hand
+      return <svg {...p}><path d="M11 14h2" /><path d="M12 14v4" /><path d="M4 10h16" /><path d="M7 4h10l2 6H5z" /><path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /></svg>
+    case CATEGORIES.contemplative:
+      // Feather (contemplation/writing)
+      return <svg {...p}><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" /><line x1="16" y1="8" x2="2" y2="22" /><line x1="17.5" y1="15" x2="9" y2="15" /></svg>
+    case CATEGORIES.sos:
+      // Zap (emergency)
+      return <svg {...p}><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+    case CATEGORIES.prayer:
+      // Candle flame
+      return <svg {...p}><path d="M12 2c-2 3-4 5-4 8a4 4 0 0 0 8 0c0-3-2-5-4-8z" /><path d="M10 18h4" /><path d="M10 22h4" /><path d="M11 18v4" /><path d="M13 18v4" /></svg>
+    case CATEGORIES.music:
+      // Music note
+      return <svg {...p}><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>
     default:
-      return (
-        <svg aria-hidden="true" className={cls} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275z" />
-        </svg>
-      )
+      // Sparkle
+      return <svg {...p}><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275z" /></svg>
   }
 }
 
@@ -96,7 +101,7 @@ function MeditationRow({ m, locale, isSleep }: { m: Meditation; locale: string; 
       className="flex items-center gap-3 rounded-xl border border-[var(--border)] p-4 transition-colors hover:bg-[var(--surface)]"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--surface)] text-[var(--accent)]">
-        <CategoryIcon category={isSleep ? CATEGORIES.sleep : CATEGORIES.morning} />
+        <CategoryIcon category={m.category} />
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-medium text-[var(--primary)]">{title}</p>

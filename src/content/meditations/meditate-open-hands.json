@@ -14,5 +14,13 @@
   "audioPathFr": null,
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/20855902/",
-  "breathing": null
+  "breathing": null,
+  "segments": {
+    "en": {
+      "available": true,
+      "durations": [
+        10
+      ]
+    }
+  }
 }

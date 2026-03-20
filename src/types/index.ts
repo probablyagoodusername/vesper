@@ -45,6 +45,7 @@ export interface MeditationData {
   sortOrder: number
   scienceUrl: string | null
   breathing?: BreathingPatternData | null
+  segments?: Record<string, { available: boolean; durations: number[] }>
 }
 
 export interface LocaleProps {

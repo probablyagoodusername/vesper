@@ -30,5 +30,13 @@
     "exhale": 8,
     "holdOut": 0,
     "rounds": 4
+  },
+  "segments": {
+    "en": {
+      "available": true,
+      "durations": [
+        10
+      ]
+    }
   }
 }

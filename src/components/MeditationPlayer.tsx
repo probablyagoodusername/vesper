@@ -120,6 +120,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     if (typeof window === 'undefined') return 'v1'
     return localStorage.getItem('vesper-voice') === 'alt' ? 'v2' : 'v1'
   })
+  const [selectedDuration, setSelectedDuration] = useState<number | null>(null)
   const [musicOn, setMusicOn] = useState(() => {
     if (typeof window === 'undefined') return true
     return localStorage.getItem('vesper-music') !== 'off'
@@ -146,12 +147,29 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
   const script = locale === 'fr' ? meditation.scriptFr : meditation.scriptEn
   const baseAudioPath = locale === 'fr' ? meditation.audioPathFr : meditation.audioPathEn
 
-  const audioPath = baseAudioPath
+  // Available duration variants from segmentation
+  const langKey = locale === 'fr' ? 'fr' : 'en'
+  const availableDurations = meditation.segments?.[langKey]?.durations ?? []
+
+  // Build audio path: if a duration variant is selected, use the assembled file
+  const resolvedAudioPath = useMemo(() => {
+    if (!baseAudioPath) return null
+
+    if (selectedDuration && availableDurations.includes(selectedDuration)) {
+      // Assembled variant: /audio/en/segments/{slug}/assembled/{duration}min.mp3
+      const langDir = locale === 'fr' ? 'fr' : 'en'
+      return `/audio/${langDir}/segments/${meditation.slug}/assembled/${selectedDuration}min.mp3`
+    }
+
+    return baseAudioPath
+  }, [baseAudioPath, selectedDuration, availableDurations, locale, meditation.slug])
+
+  const audioPath = resolvedAudioPath
     ? isMusic
-      ? `${BASE}${baseAudioPath}`
+      ? `${BASE}${resolvedAudioPath}`
       : `${BASE}${activeVoice === 'v2'
-        ? baseAudioPath.replace('/audio/en/', '/audio/en-v2/').replace('/audio/fr/', '/audio/fr-v2/')
-        : baseAudioPath}`
+        ? resolvedAudioPath.replace('/audio/en/', '/audio/en-v2/').replace('/audio/fr/', '/audio/fr-v2/')
+        : resolvedAudioPath}`
     : null
 
   const [hasV2, setHasV2] = useState(false)
@@ -193,6 +211,20 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     setActiveLineIndex(-1)
     setActiveVoice(voice)
     localStorage.setItem('vesper-voice', voice === 'v2' ? 'alt' : 'default')
+  }, [])
+
+  const handleDurationChange = useCallback((dur: number | null) => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    setActiveLineIndex(-1)
+    setAlignment(null)
+    setSelectedDuration(dur)
+    ambient.pause()
   }, [])
 
   const lines = parseScript(script)
@@ -393,7 +425,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
           {locale === 'fr' ? 'Retour' : 'Back'}
         </a>
         <span className="tabular-nums text-xs text-[var(--muted)]">
-          {meditation.durationMin} min
+          {selectedDuration ?? meditation.durationMin} min
         </span>
       </header>
 
@@ -446,6 +478,36 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
             >
               {locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn}
             </button>
+          </div>
+        </div>
+      )}
+
+      {!isMusic && availableDurations.length > 0 && (
+        <div className="mb-5 flex justify-center">
+          <div className="inline-flex items-center gap-1 rounded-lg bg-[var(--surface)] p-0.5">
+            <button
+              onClick={() => handleDurationChange(null)}
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                selectedDuration === null
+                  ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
+                  : 'text-[var(--muted)]'
+              }`}
+            >
+              {locale === 'fr' ? 'Complet' : 'Full'}
+            </button>
+            {availableDurations.map(dur => (
+              <button
+                key={dur}
+                onClick={() => handleDurationChange(dur)}
+                className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                  selectedDuration === dur
+                    ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
+                    : 'text-[var(--muted)]'
+                }`}
+              >
+                {dur} min
+              </button>
+            ))}
           </div>
         </div>
       )}

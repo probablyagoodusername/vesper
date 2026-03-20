@@ -3,11 +3,15 @@
  * generating TTS, and deploying meditation content.
  *
  * Usage:
- *   npx tsx scripts/pipeline.ts create --category sleep --count 2
- *   npx tsx scripts/pipeline.ts generate-tts --slug sleep-new-meditation --lang en
+ *   npx tsx scripts/pipeline.ts create --category=sleep --count=2
+ *   npx tsx scripts/pipeline.ts generate-tts --slug=sleep-new-meditation --lang=en
  *   npx tsx scripts/pipeline.ts generate-tts --missing
  *   npx tsx scripts/pipeline.ts deploy
  *   npx tsx scripts/pipeline.ts status
+ *   npx tsx scripts/pipeline.ts import [slug]
+ *   npx tsx scripts/pipeline.ts post-process <slug> --lang=en
+ *   npx tsx scripts/pipeline.ts segment --all --lang=en
+ *   npx tsx scripts/pipeline.ts assemble <slug> --duration=10 --lang=en
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, cpSync } from 'fs'
@@ -318,7 +322,9 @@ function handleDeploy(): void {
           try {
             cpSync(src, dest, { recursive: true })
             const audioCount = readdirSync(src).filter(f => f.endsWith('.mp3')).length
-            console.log(`   ${langDir}: ${audioCount} audio files copied`)
+            const segDir = join(src, 'segments')
+            const segCount = existsSync(segDir) ? readdirSync(segDir).length : 0
+            console.log(`   ${langDir}: ${audioCount} audio files${segCount ? `, ${segCount} segmented meditations` : ''} copied`)
           } catch (e) {
             console.error(`   Failed to copy ${langDir}: ${e}`)
           }
@@ -436,6 +442,112 @@ function handleImport(): void {
   console.log(`\nDone. ${updated} meditation(s) updated.`)
 }
 
+// ─── POST-PROCESS command ────────────────────────────────────────────────────
+
+function handlePostProcess(): void {
+  const args = process.argv.slice(3)
+  const slugFlag = args.find(a => !a.startsWith('--'))
+  const lang = args.find(a => a.startsWith('--lang='))?.split('=')[1] ?? 'en'
+  const all = args.includes('--all')
+  const dryRun = args.includes('--dry-run')
+  const noWhisper = args.includes('--no-whisper')
+
+  if (!slugFlag && !all) {
+    console.error('Provide a slug or --all')
+    process.exit(1)
+  }
+
+  const slugs = all
+    ? loadAllMeditations().filter(m => !m.slug.startsWith('breathe-')).map(m => m.slug)
+    : [slugFlag!]
+
+  console.log(`\n=== Post-Processing Pipeline ===`)
+  console.log(`Language: ${lang}`)
+  console.log(`Meditations: ${slugs.length}`)
+  if (dryRun) console.log('(DRY RUN)')
+  console.log('')
+
+  for (const slug of slugs) {
+    console.log(`\n── ${slug} ──`)
+
+    // Step 1: Fix breathing audio
+    console.log('  [1/3] Breathing fix...')
+    try {
+      const breathingArgs = ['scripts/fix-breathing-audio.py', 'fix', slug, `--lang=${lang}`]
+      if (noWhisper) breathingArgs.push('--no-whisper')
+      if (dryRun) breathingArgs.push('--dry-run')
+      run('python3', breathingArgs)
+    } catch {
+      console.log('    (no breathing issues or script not available)')
+    }
+
+    if (dryRun) continue
+
+    // Step 2: Whisper alignment
+    if (noWhisper) {
+      console.log('  [2/3] Skipping whisper alignment (--no-whisper)')
+    } else {
+      console.log('  [2/3] Whisper alignment...')
+      try {
+        run('python3', ['scripts/whisper-align.py', slug, `--lang=${lang}`])
+      } catch {
+        console.log('    (whisper-align not available or failed)')
+      }
+    }
+
+    // Step 3: Segmentation (only for meditate-family)
+    const med = loadMeditation(slug)
+    const isMediateFamily = med && (
+      med.category === 'meditate' ||
+      med.category === 'anxiety' ||
+      med.category === 'self-compassion' ||
+      med.category === 'contemplative' ||
+      med.slug.startsWith('meditate-')
+    )
+
+    if (isMediateFamily) {
+      console.log('  [3/3] Segmentation...')
+      try {
+        run('npx', ['tsx', 'scripts/segment-audio.ts', slug, `--lang=${lang}`])
+      } catch {
+        console.log('    (segmentation failed)')
+      }
+    } else {
+      console.log('  [3/3] Skipping segmentation (not meditate-family)')
+    }
+  }
+
+  console.log('\n=== Post-processing complete ===')
+}
+
+// ─── SEGMENT command ─────────────────────────────────────────────────────────
+
+function handleSegment(): void {
+  const args = process.argv.slice(3)
+
+  console.log(`\nDelegating to segment-audio.ts...\n`)
+
+  try {
+    run('npx', ['tsx', 'scripts/segment-audio.ts', ...args])
+  } catch {
+    process.exit(1)
+  }
+}
+
+// ─── ASSEMBLE command ────────────────────────────────────────────────────────
+
+function handleAssemble(): void {
+  const args = process.argv.slice(3)
+
+  console.log(`\nDelegating to assemble-duration.ts...\n`)
+
+  try {
+    run('npx', ['tsx', 'scripts/assemble-duration.ts', ...args])
+  } catch {
+    process.exit(1)
+  }
+}
+
 // ─── Main router ────────────────────────────────────────────────────────────
 
 function main(): void {
@@ -450,6 +562,9 @@ function main(): void {
     console.log('  deploy         Build, copy, and push to production')
     console.log('  status         Show content status (scripts, audio, missing)')
     console.log('  import         Import scripts from rewrites/ txt files into JSON')
+    console.log('  post-process   Run breathing fix + whisper align + segmentation')
+    console.log('  segment        Run audio segmentation (delegates to segment-audio.ts)')
+    console.log('  assemble       Assemble variable-duration versions')
     console.log('')
     console.log('Examples:')
     console.log('  npx tsx scripts/pipeline.ts create --category=sleep --count=2')
@@ -461,6 +576,10 @@ function main(): void {
     console.log('  npx tsx scripts/pipeline.ts status')
     console.log('  npx tsx scripts/pipeline.ts import')
     console.log('  npx tsx scripts/pipeline.ts import sleep-ocean-drift')
+    console.log('  npx tsx scripts/pipeline.ts post-process <slug> --lang=en')
+    console.log('  npx tsx scripts/pipeline.ts post-process --all --lang=en')
+    console.log('  npx tsx scripts/pipeline.ts segment --all --lang=en --dry-run')
+    console.log('  npx tsx scripts/pipeline.ts assemble <slug> --duration=10 --lang=en')
     process.exit(0)
   }
 
@@ -479,6 +598,15 @@ function main(): void {
       break
     case 'import':
       handleImport()
+      break
+    case 'post-process':
+      handlePostProcess()
+      break
+    case 'segment':
+      handleSegment()
+      break
+    case 'assemble':
+      handleAssemble()
       break
     default:
       console.error(`Unknown command: ${command}`)

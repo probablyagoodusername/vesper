@@ -434,12 +434,8 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
   const progress = displayDuration > 0 ? (displayTime / displayDuration) * 100 : 0
 
   return (
-    <motion.main
+    <main
       className="mx-auto flex min-h-screen max-w-2xl flex-col bg-[var(--bg)] px-6 pt-12 pb-8 text-[var(--text)]"
-      suppressHydrationWarning
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.25 }}
     >
       {audioPath && (
         <audio
@@ -604,6 +600,6 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
       )}
 
       <div className="flex-1" />
-    </motion.main>
+    </main>
   )
 }

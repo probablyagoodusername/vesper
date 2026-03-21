@@ -202,7 +202,7 @@ export function SettingsClient() {
           </a>
           <div className="border-t border-[var(--border)]" />
           <a
-            href="https://github.com/probablyagoodusername/vesper"
+            href="https://github.com/jmdlab/vesper"
             target="_blank"
             rel="noopener noreferrer"
             className="flex w-full items-center justify-between p-4 transition-colors hover:bg-[var(--surface)]"

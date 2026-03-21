@@ -12,7 +12,7 @@
  *   npx tsx scripts/generate-tts.ts --dry-run <slug>          # Preview prepared text, no API call
  */
 
-import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from 'fs'
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync, unlinkSync, cpSync } from 'fs'
 import { execFileSync } from 'child_process'
 import { join, resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -295,6 +295,12 @@ async function generateForMeditation(
     // Update the meditation JSON with the audio path
     const audioWebPath = `/audio/${l}/${slug}.mp3`
     updateAudioPath(slug, l, audioWebPath)
+
+    // Copy to public/audio/ for serving
+    const pubDir = join(PROJECT_ROOT, 'public', 'audio', l)
+    mkdirSync(pubDir, { recursive: true })
+    cpSync(outPath, join(pubDir, `${slug}.mp3`))
+    cpSync(alignPath, join(pubDir, `${slug}.json`))
 
     const sizeMB = (statSync(outPath).size / 1024 / 1024).toFixed(1)
     console.log(`    Done: ${outPath} (${sizeMB} MB)`)

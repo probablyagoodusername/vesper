@@ -67,6 +67,24 @@
   text-wrap: balance;
 }
 
+/* Instant view transitions for snappy tab switching */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.08s;
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+
 @utility tabular-nums {
   font-variant-numeric: tabular-nums;
 }

@@ -22,6 +22,8 @@ interface BibleReaderClientProps {
   readingReasonFr: string
 }
 
+type ListenMode = 'off' | 'once' | 'continuous'
+
 export function BibleReaderClient({
   books,
   initialBook,
@@ -41,27 +43,28 @@ export function BibleReaderClient({
   const [navOpen, setNavOpen] = useState(false)
   const [navStep, setNavStep] = useState<'testament' | 'book' | 'chapter'>('testament')
   const [navTestament, setNavTestament] = useState<'OT' | 'NT'>('OT')
-  const [continuous, setContinuous] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem('vesper-bible-continuous') === 'true'
-  })
+  const [listenMode, setListenMode] = useState<ListenMode>('off')
   const [autoPlay, setAutoPlay] = useState(false)
   const [activeVerseRange, setActiveVerseRange] = useState<[number, number] | null>(null)
+  const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Persist continuous preference
-  useEffect(() => {
-    localStorage.setItem('vesper-bible-continuous', String(continuous))
-    if (!continuous) setAutoPlay(false)
-  }, [continuous])
+  // Track scroll to hide/show header
+  useEffect(function trackScroll() {
+    function onScroll() {
+      setScrolled(window.scrollY > 80)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const bookName = currentBook
     ? locale === 'fr' ? currentBook.nameFr : currentBook.nameEn
     : ''
 
   // Close nav on outside click
-  useEffect(() => {
+  useEffect(function closeNavOnOutsideClick() {
     if (!navOpen) return
     function handleClick(e: MouseEvent) {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
@@ -85,7 +88,7 @@ export function BibleReaderClient({
       }
     } finally {
       setLoading(false)
-      contentRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }, [])
 
@@ -122,7 +125,6 @@ export function BibleReaderClient({
     }
   }, [currentBook, currentChapter, books, navigateTo])
 
-  // Can we go to a next chapter?
   const hasNext = (() => {
     if (!currentBook) return false
     if (currentChapter < currentBook.chapterCount) return true
@@ -130,13 +132,36 @@ export function BibleReaderClient({
     return idx < books.length - 1
   })()
 
+  const cycleListenMode = useCallback(() => {
+    setListenMode(prev => {
+      if (prev === 'off') return 'once'
+      if (prev === 'once') return 'continuous'
+      setAutoPlay(false)
+      return 'off'
+    })
+  }, [])
+
+  const listenLabel = listenMode === 'off'
+    ? (locale === 'fr' ? 'Écouter' : 'Listen')
+    : listenMode === 'once'
+    ? (locale === 'fr' ? 'Écouter ▶' : 'Listen ▶')
+    : (locale === 'fr' ? 'Continu ∞' : 'Continuous ∞')
+
   const filteredBooks = books.filter((b) => b.testament === navTestament)
 
   return (
-    <main className="flex min-h-screen flex-col px-6 pt-12 pb-8">
-      {/* Header: label + navigator */}
-      <header className="mb-6 flex items-center justify-between">
-        <div className="min-w-0 flex-1">
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 pt-12 pb-8">
+      {/* Collapsible header — hides on scroll */}
+      <div
+        className="transition-all duration-300"
+        style={{
+          maxHeight: scrolled ? 0 : '300px',
+          opacity: scrolled ? 0 : 1,
+          overflow: 'hidden',
+        }}
+      >
+        {/* Liturgical event card */}
+        <div className="mb-5 rounded-xl bg-[var(--surface)] px-4 py-3">
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">
             {locale === 'fr' ? readingLabelFr : readingLabel}
           </p>
@@ -144,44 +169,71 @@ export function BibleReaderClient({
             {locale === 'fr' ? readingReasonFr : readingReason}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <a
-            href={`${BASE}/search`}
-            className="flex h-8 w-8 items-center justify-center rounded-md text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
-            aria-label={t.bible.search}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </a>
-        </div>
-      </header>
 
-      {/* Book + Chapter selector */}
-      <div className="relative mb-6" ref={navRef}>
-        <button
-          onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}
-          className="flex items-center gap-2 text-left"
-          aria-expanded={navOpen}
-          aria-label={`${bookName} ${currentChapter} — navigate`}
+        {/* Search bar */}
+        <a
+          href={`${BASE}/bible/search`}
+          className="mb-5 flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)]"
         >
-          <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
-            {bookName} {currentChapter}
-          </h1>
-          <svg
-            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
-            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            className="shrink-0 transition-transform"
-            style={{ transform: navOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-          >
-            <path d="m6 9 6 6 6-6" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
           </svg>
-        </button>
+          {t.bible.searchPlaceholder}
+        </a>
+      </div>
+
+      {/* Sticky book/chapter selector — always visible */}
+      <div className="sticky top-0 z-30 bg-[var(--bg)] pb-3 pt-1">
+        <div className="flex items-center justify-between" ref={navRef}>
+          <button
+            onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}
+            className="flex items-center gap-2 text-left"
+            aria-expanded={navOpen}
+            aria-label={`${bookName} ${currentChapter} — navigate`}
+          >
+            <h1 className="font-[family-name:var(--font-serif)] text-xl font-semibold text-[var(--primary)]">
+              {bookName} {currentChapter}
+            </h1>
+            <svg
+              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              className="shrink-0 transition-transform"
+              style={{ transform: navOpen ? 'rotate(180deg)' : 'rotate(0)' }}
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+
+          {/* TTS controls */}
+          {!loading && verses.length > 0 && (
+            <div className="flex items-center gap-2">
+              <BibleTTS
+                verses={verses}
+                locale={locale}
+                autoPlay={autoPlay}
+                onComplete={() => {
+                  if (listenMode === 'continuous' && hasNext) {
+                    setAutoPlay(true)
+                    goToNext()
+                  } else {
+                    setAutoPlay(false)
+                    if (listenMode === 'once') setListenMode('off')
+                  }
+                }}
+                onStop={() => { setAutoPlay(false); setListenMode('off') }}
+                onChunkChange={(start, end) => {
+                  setActiveVerseRange(start >= 0 ? [start, end] : null)
+                }}
+                chapterLabel={listenMode === 'continuous' && autoPlay ? `${bookName} ${currentChapter}` : undefined}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Navigator dropdown */}
         {navOpen && (
-          <div className="absolute left-0 top-full z-40 mt-2 w-72 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
+          <div className="absolute left-4 right-4 z-40 mt-2 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
             {navStep === 'testament' && (
               <div className="p-2">
                 <button
@@ -262,48 +314,9 @@ export function BibleReaderClient({
         )}
       </div>
 
-      {/* Read aloud */}
-      {!loading && verses.length > 0 && (
-        <div className="mb-4 flex items-center gap-4">
-          <BibleTTS
-            verses={verses}
-            locale={locale}
-            autoPlay={autoPlay}
-            onComplete={() => {
-              if (continuous && hasNext) {
-                setAutoPlay(true)
-                goToNext()
-              } else {
-                setAutoPlay(false)
-              }
-            }}
-            onStop={() => setAutoPlay(false)}
-            onChunkChange={(start, end) => {
-              setActiveVerseRange(start >= 0 ? [start, end] : null)
-            }}
-            chapterLabel={continuous && autoPlay ? `${bookName} ${currentChapter}` : undefined}
-          />
-          <button
-            onClick={() => setContinuous((c) => !c)}
-            className="flex items-center gap-2 text-xs transition-colors"
-            style={{ color: continuous ? 'var(--accent)' : 'var(--muted)' }}
-            aria-label={locale === 'fr' ? 'Lecture continue' : 'Continuous reading'}
-          >
-            <span
-              className="relative inline-flex h-4 w-7 shrink-0 rounded-full border transition-colors"
-              style={{
-                backgroundColor: continuous ? 'var(--accent)' : 'var(--surface)',
-                borderColor: continuous ? 'var(--accent)' : 'var(--border)',
-              }}
-            >
-              <span
-                className="absolute top-0.5 h-2.5 w-2.5 rounded-full bg-white transition-transform"
-                style={{ transform: continuous ? 'translateX(12px)' : 'translateX(2px)' }}
-              />
-            </span>
-            {locale === 'fr' ? 'Continu' : 'Continuous'}
-          </button>
-        </div>
+      {/* TTS is rendered in the sticky header above */}
+      {false && (
+        <div></div>
       )}
 
       {/* Verse content */}

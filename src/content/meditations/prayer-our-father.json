@@ -7,7 +7,7 @@
   "scriptEn": "Let us pray together the prayer that Jesus taught his disciples.\n\n[5s pause]\n\nOur Father, who art in heaven, hallowed be thy name.\n\n[3s pause]\n\nThy kingdom come, thy will be done, on earth as it is in heaven.\n\n[3s pause]\n\nGive us this day our daily bread.\n\n[3s pause]\n\nAnd forgive us our trespasses, as we forgive those who trespass against us.\n\n[3s pause]\n\nAnd lead us not into temptation, but deliver us from evil.\n\n[5s pause]\n\nAmen.\n",
   "scriptFr": "Prions ensemble la prière que Jésus a enseignée à ses disciples.\n\n[5s pause]\n\nNotre Père, qui es aux cieux, que ton nom soit sanctifié.\n\n[3s pause]\n\nQue ton règne vienne, que ta volonté soit faite sur la terre comme au ciel.\n\n[3s pause]\n\nDonne-nous aujourd'hui notre pain de ce jour.\n\n[3s pause]\n\nPardonne-nous nos offenses, comme nous pardonnons aussi à ceux qui nous ont offensés.\n\n[3s pause]\n\nEt ne nous laisse pas entrer en tentation, mais délivre-nous du mal.\n\n[5s pause]\n\nAmen.\n",
   "category": "prayer",
-  "durationMin": 2,
+  "durationMin": 1,
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/prayer-our-father.mp3",

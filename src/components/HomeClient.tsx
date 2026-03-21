@@ -164,6 +164,15 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
                 {locale === 'fr' ? dailyVerse.referenceFr : dailyVerse.reference}
               </footer>
             </blockquote>
+            <div className="mt-3 text-right">
+              <a
+                href={`${BASE}/bible`}
+                className="inline-flex items-center gap-1 text-sm text-[var(--accent)] hover:underline"
+              >
+                {locale === 'fr' ? 'Ouvrir la Bible' : 'Open Bible'}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
           </section>
         </FadeIn>
 

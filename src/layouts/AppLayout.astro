@@ -60,20 +60,44 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     </style>
   </head>
   <body class="bg-[var(--bg)] text-[var(--text)]">
-    <div class="min-h-dvh pb-20">
-      <!-- Wordmark — top right, inline with page content -->
-      <a href={`${base}/home`} class="fixed top-3 right-4 z-40" aria-label="Vesper home">
-        <svg class="vesper-nav-wm-dark" width="68" height="16" viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg">
-          <text font-family="Literata, Georgia, serif" font-weight="700" font-size="26" fill="#81b19b" x="0" y="22">V</text>
-          <text font-family="Literata, Georgia, serif" font-weight="300" font-size="26" fill="#e2ddda" x="19" y="22">esper</text>
-        </svg>
-        <svg class="vesper-nav-wm-light" width="68" height="16" viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg">
-          <text font-family="Literata, Georgia, serif" font-weight="700" font-size="26" fill="#3d6f5a" x="0" y="22">V</text>
-          <text font-family="Literata, Georgia, serif" font-weight="300" font-size="26" fill="#201914" x="19" y="22">esper</text>
-        </svg>
-      </a>
+    <div class="min-h-dvh pb-20 pt-6">
+      <!-- Top bar — back chevron + Vesper wordmark -->
+      <header class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between border-b border-[var(--border)]/50 bg-[var(--bg)]/95 px-4 backdrop-blur-sm">
+        <button
+          onclick="if (window.history.length > 1) { window.history.back() } else { window.location.href = base + '/home' }"
+          class="flex h-8 w-8 items-center justify-center text-[var(--accent)] transition-opacity hover:opacity-70"
+          aria-label="Back"
+          id="vesper-back-btn"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <a href={`${base}/home`} aria-label="Vesper home">
+          <svg class="vesper-nav-wm-dark" width="68" height="16" viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg">
+            <text font-family="Literata, Georgia, serif" font-weight="700" font-size="26" fill="#81b19b" x="0" y="22">V</text>
+            <text font-family="Literata, Georgia, serif" font-weight="300" font-size="26" fill="#e2ddda" x="19" y="22">esper</text>
+          </svg>
+          <svg class="vesper-nav-wm-light" width="68" height="16" viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg">
+            <text font-family="Literata, Georgia, serif" font-weight="700" font-size="26" fill="#3d6f5a" x="0" y="22">V</text>
+            <text font-family="Literata, Georgia, serif" font-weight="300" font-size="26" fill="#201914" x="19" y="22">esper</text>
+          </svg>
+        </a>
+      </header>
       <slot />
     </div>
+    <script is:inline define:vars={{ base }}>
+      // Show back button only on sub-pages (bible, meditation sessions)
+      // Hide on tab-level pages (home, breathe, meditate, sleep, settings)
+      var tabPaths = ['/home', '/breathe', '/meditate', '/sleep', '/settings', '/']
+      document.addEventListener('astro:page-load', function() {
+        var btn = document.getElementById('vesper-back-btn')
+        if (!btn) return
+        var path = window.location.pathname.replace(/\/$/, '') || '/'
+        var isTab = tabPaths.some(function(t) { return path === base + t || path === t })
+        btn.style.visibility = isTab ? 'hidden' : 'visible'
+      })
+    </script>
 
     <!-- Persistent audio player — survives navigation -->
     <div id="audio-player" transition:persist="audio-player"></div>
@@ -82,7 +106,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
       <div class="mx-auto flex max-w-lg items-center justify-around">
         {[
           { href: `${base}/home`, en: 'Home', fr: 'Accueil', d: 'M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
-          { href: `${base}/bible`, en: 'Bible', fr: 'Bible', d: 'M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20' },
           { href: `${base}/breathe`, en: 'Breathe', fr: 'Respirer', d: 'M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2' },
           { href: `${base}/meditate`, en: 'Meditate', fr: 'Méditer', d: 'M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275z' },
           { href: `${base}/sleep`, en: 'Sleep', fr: 'Dormir', d: 'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z' },

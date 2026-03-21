@@ -73,6 +73,41 @@ html.dark { background-color: #0c0807; }
   }
 }
 
+/* ─── Stagger animation ──────────────────────────────────────────────────── */
+/* Items start visible (SSR-safe). After hydration, .stagger-active triggers
+   a subtle slide-up + fade per item, staggered by --i custom property. */
+
+.stagger-item {
+  will-change: transform, opacity;
+}
+
+.stagger-active > .stagger-item {
+  animation: stagger-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Fade animation ─────────────────────────────────────────────────────── */
+.fade-active {
+  animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--fade-delay, 0s);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @utility text-balance {
   text-wrap: balance;
 }

@@ -1,10 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
-
-// Without ClientRouter, every page load is a "first load" (full HTML)
-// Stagger animations always play since SSR content is visible immediately
-const isFirstLoad = false
 
 // ─── Page Transition ─────────────────────────────────────────────────────────
 export function PageTransition({ children }: { children: ReactNode }) {
@@ -12,66 +7,25 @@ export function PageTransition({ children }: { children: ReactNode }) {
 }
 
 // ─── Stagger List ────────────────────────────────────────────────────────────
-// First page load: no animation (SSR content already visible)
-// Client navigation: stagger animation plays
-
+// Plain div — SSR content is already visible, no animation needed
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  const [active, setActive] = useState(false)
-  const wasFirstLoad = useRef(isFirstLoad)
-
-  useEffect(function maybeStagger() {
-    if (wasFirstLoad.current) return // SSR content is already showing — don't re-animate
-    requestAnimationFrame(() => setActive(true))
-  }, [])
-
-  return (
-    <div className={`${className ?? ''} ${active ? 'stagger-active' : ''}`} role={role}>
-      {children}
-    </div>
-  )
+  return <div className={className} role={role}>{children}</div>
 }
 
 // ─── Stagger Item ────────────────────────────────────────────────────────────
-let itemCounter = 0
+// Plain div — content renders from SSR, no hide/show cycle
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  const [index] = useState(() => itemCounter++)
-
-  useEffect(() => {
-    return () => { itemCounter = 0 }
-  }, [])
-
-  return (
-    <div
-      className={`stagger-item ${className ?? ''}`}
-      role={role}
-      style={{ '--i': index } as CSSProperties}
-    >
-      {children}
-    </div>
-  )
+  return <div className={className} role={role}>{children}</div>
 }
 
 // ─── Fade In ─────────────────────────────────────────────────────────────────
+// Plain div — SSR content already visible
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const wasFirstLoad = useRef(isFirstLoad)
-  const [active, setActive] = useState(false)
-
-  useEffect(function maybeFade() {
-    if (wasFirstLoad.current) return
-    requestAnimationFrame(() => setActive(true))
-  }, [])
-
-  return (
-    <div
-      className={`${className ?? ''} ${active ? 'fade-active' : ''}`}
-      style={{ '--fade-delay': `${delay}s` } as CSSProperties}
-    >
-      {children}
-    </div>
-  )
+  return <div className={className}>{children}</div>
 }
 
 // ─── Tab Content ─────────────────────────────────────────────────────────────
+// Crossfade on key change only (e.g. category filter switch)
 export function TabContent({ id, children }: { id: string; children: ReactNode }) {
   return (
     <AnimatePresence mode="wait" initial={false}>

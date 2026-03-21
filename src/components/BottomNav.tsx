@@ -3,7 +3,6 @@ import { BASE } from '@/lib/constants'
 
 const navItems = [
   { href: `${BASE}/home`, icon: HomeIcon, key: 'home' as const },
-  { href: `${BASE}/bible`, icon: BookIcon, key: 'bible' as const },
   { href: `${BASE}/breathe`, icon: WindIcon, key: 'breathe' as const },
   { href: `${BASE}/meditate`, icon: SparkleIcon, key: 'meditate' as const },
   { href: `${BASE}/sleep`, icon: MoonIcon, key: 'sleep' as const },

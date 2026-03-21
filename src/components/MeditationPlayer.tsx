@@ -185,8 +185,8 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
   }, [baseAudioPath])
 
   const [alignment, setAlignment] = useState<AlignmentData | null>(null)
-  useEffect(() => {
-    if (!audioPath) {
+  useEffect(function fetchAlignment() {
+    if (!audioPath || isMusic) {
       setAlignment(null)
       return
     }
@@ -435,10 +435,11 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
 
   return (
     <motion.main
-      className="flex min-h-screen flex-col bg-[var(--bg)] px-6 pt-12 pb-8 text-[var(--text)]"
+      className="mx-auto flex min-h-screen max-w-2xl flex-col bg-[var(--bg)] px-6 pt-12 pb-8 text-[var(--text)]"
+      suppressHydrationWarning
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.12 }}
     >
       {audioPath && (
         <audio
@@ -460,42 +461,30 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
         />
       )}
 
-      <header className="mb-6 flex items-center justify-between">
-        <a
-          href={backHref}
-          className="flex items-center gap-1 text-sm text-[var(--muted)] transition-colors"
-          aria-label={locale === 'fr' ? 'Retour' : 'Back'}
-        >
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" />
-            <path d="m12 19-7-7 7-7" />
-          </svg>
-          {locale === 'fr' ? 'Retour' : 'Back'}
-        </a>
+      <header className="mb-6 flex items-center justify-end">
         <span className="tabular-nums text-xs text-[var(--muted)]">
           {selectedDuration ?? meditation.durationMin} min
         </span>
       </header>
 
-      <div className="mb-6 text-center">
+      <div className="mb-6 px-4">
         <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
           {title}
         </h1>
-        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-[var(--muted)]">
-          {desc}
-        </p>
+        {(desc || '').split('\n\n').map((paragraph, i) => (
+          <p key={i} className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+            {paragraph}
+          </p>
+        ))}
+
         {meditation.scienceUrl && (
           <a
             href={meditation.scienceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--accent)] hover:underline"
+            className="mt-2 inline-block text-sm text-[var(--accent)] hover:underline"
           >
-            <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
-            {locale === 'fr' ? 'Voir la recherche' : 'View research'}
+            {locale === 'fr' ? 'Recherche' : 'Research'}
           </a>
         )}
       </div>
@@ -614,56 +603,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
         </p>
       )}
 
-      {isMusic ? (
-        <div className="flex-1" />
-      ) : (
-        <div
-          ref={textRef}
-          className="mx-auto max-w-prose flex-1 space-y-5 overflow-y-auto"
-          style={{ maxHeight: 'calc(100dvh - 320px)' }}
-        >
-          {lines.map((line, i) => {
-            if (line.type === 'pause') return null
-
-            const isActive = i === activeLineIndex
-            const isPast = i < activeLineIndex
-            const opacity = activeLineIndex < 0 ? 1 : isActive ? 1 : isPast ? 0.3 : 0.15
-            const clickable = audioPath && (line.type === 'body' || line.type === 'scripture')
-
-            if (line.type === 'stage-direction') {
-              return (
-                <p key={i} className="text-xs italic leading-relaxed text-[var(--muted)] transition-opacity duration-500" style={{ opacity }}>
-                  {line.text}
-                </p>
-              )
-            }
-
-            if (line.type === 'scripture') {
-              return (
-                <p
-                  key={i}
-                  onClick={clickable ? () => handleLineClick(i) : undefined}
-                  className={`font-[family-name:var(--font-serif)] text-xl leading-[1.8] text-[var(--accent)] transition-opacity duration-500${clickable ? ' cursor-pointer hover:opacity-100' : ''}`}
-                  style={{ opacity }}
-                >
-                  {line.text}
-                </p>
-              )
-            }
-
-            return (
-              <p
-                key={i}
-                onClick={clickable ? () => handleLineClick(i) : undefined}
-                className={`leading-[1.8] text-[var(--text)] transition-opacity duration-500${clickable ? ' cursor-pointer hover:opacity-100' : ''}`}
-                style={{ opacity }}
-              >
-                {line.text}
-              </p>
-            )
-          })}
-        </div>
-      )}
+      <div className="flex-1" />
     </motion.main>
   )
 }

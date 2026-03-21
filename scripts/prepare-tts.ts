@@ -13,7 +13,7 @@ export const PACING = {
   meditate: { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
   morning:  { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
   sos:      { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
-  prayer:   { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 2 },
+  prayer:   { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 0 },
 } as const
 
 /** Voice settings per category for ElevenLabs */

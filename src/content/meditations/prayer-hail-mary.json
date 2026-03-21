@@ -7,7 +7,7 @@
   "scriptEn": "Let us pray together the Hail Mary.\n\n[5s pause]\n\nHail Mary, full of grace, the Lord is with thee.\n\n[3s pause]\n\nBlessed art thou among women, and blessed is the fruit of thy womb, Jesus.\n\n[3s pause]\n\nHoly Mary, Mother of God, pray for us sinners, now and at the hour of our death.\n\n[5s pause]\n\nAmen.\n",
   "scriptFr": "Prions ensemble le Je vous salue Marie.\n\n[5s pause]\n\nJe vous salue Marie, pleine de grâce, le Seigneur est avec vous.\n\n[3s pause]\n\nVous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni.\n\n[3s pause]\n\nSainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant et à l'heure de notre mort.\n\n[5s pause]\n\nAmen.\n",
   "category": "prayer",
-  "durationMin": 1,
+  "durationMin": 0,
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/prayer-hail-mary.mp3",

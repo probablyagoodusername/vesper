@@ -37,13 +37,13 @@ export function MeditateClient({ meditations }: MeditateClientProps) {
           </h1>
         </header>
 
-        <nav className="mb-6 flex gap-2 overflow-x-auto pb-1" aria-label="Filter meditations">
+        <nav className="mb-6 flex gap-2 overflow-x-auto overscroll-x-contain scroll-snap-x pb-1 scrollbar-hide" aria-label="Filter meditations">
           {MEDITATE_FILTERS.map((cat) => (
             <button
               key={cat}
               onClick={() => handleFilter(cat)}
               aria-pressed={activeCategory === cat}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-sm transition-colors ${
+              className={`shrink-0 snap-start rounded-full px-4 py-1.5 text-sm transition-colors ${
                 activeCategory === cat
                   ? 'bg-[var(--accent)] text-[var(--bg)]'
                   : 'border border-[var(--border)] text-[var(--muted)] hover:text-[var(--primary)]'

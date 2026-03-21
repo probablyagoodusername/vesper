@@ -44,6 +44,7 @@ export interface MeditationData {
   audioPathFr: string | null
   sortOrder: number
   scienceUrl: string | null
+  verseRefs?: Array<{ book: string; chapter: number; verseStart: number; verseEnd: number }> | null
   breathing?: BreathingPatternData | null
   segments?: Record<string, { available: boolean; durations: number[] }>
 }

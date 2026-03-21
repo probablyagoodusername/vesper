@@ -1,20 +1,20 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-// Page-level fade in
+// Page-level fade in — fast, no delay
 export function PageTransition({ children }: { children: ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.12 }}
     >
       {children}
     </motion.div>
   )
 }
 
-// Staggered list container
+// Staggered list container — tight stagger
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return (
     <motion.div
@@ -24,7 +24,7 @@ export function StaggerList({ children, className, role }: { children: ReactNode
       animate="visible"
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.04 } },
+        visible: { transition: { staggerChildren: 0.02 } },
       }}
     >
       {children}
@@ -32,15 +32,15 @@ export function StaggerList({ children, className, role }: { children: ReactNode
   )
 }
 
-// Individual list item
+// Individual list item — minimal motion
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return (
     <motion.div
       className={className}
       role={role}
       variants={{
-        hidden: { opacity: 0, y: 6 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } },
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.15 } },
       }}
     >
       {children}
@@ -54,10 +54,10 @@ export function TabContent({ id, children }: { id: string; children: ReactNode }
     <AnimatePresence mode="wait">
       <motion.div
         key={id}
-        initial={{ opacity: 0, x: 4 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -4 }}
-        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.12 }}
       >
         {children}
       </motion.div>
@@ -81,8 +81,8 @@ export function Pressable({ children, className, onClick, style, disabled, title
       style={style}
       disabled={disabled}
       title={title}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.1 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ duration: 0.08 }}
     >
       {children}
     </motion.button>
@@ -96,7 +96,7 @@ export function FadeIn({ children, className, delay = 0 }: { children: ReactNode
       className={className}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: 0.2, delay }}
     >
       {children}
     </motion.div>

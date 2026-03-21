@@ -1,6 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
+
+// Track if this is the first page load or a client-side navigation
+let isFirstLoad = true
+if (typeof window !== 'undefined') {
+  document.addEventListener('astro:before-swap', () => {
+    isFirstLoad = false
+  })
+}
 
 // ─── Page Transition ─────────────────────────────────────────────────────────
 export function PageTransition({ children }: { children: ReactNode }) {
@@ -8,17 +16,16 @@ export function PageTransition({ children }: { children: ReactNode }) {
 }
 
 // ─── Stagger List ────────────────────────────────────────────────────────────
-// SSR: visible. After mount: triggers CSS stagger animation via class.
-// CSS animations run on compositor (GPU) — smooth even during hydration.
+// First page load: no animation (SSR content already visible)
+// Client navigation: stagger animation plays
 
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   const [active, setActive] = useState(false)
+  const wasFirstLoad = useRef(isFirstLoad)
 
-  useEffect(function triggerStagger() {
-    // Double rAF ensures the browser has painted the SSR content first
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setActive(true))
-    })
+  useEffect(function maybeStagger() {
+    if (wasFirstLoad.current) return // SSR content is already showing — don't re-animate
+    requestAnimationFrame(() => setActive(true))
   }, [])
 
   return (
@@ -33,7 +40,6 @@ let itemCounter = 0
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   const [index] = useState(() => itemCounter++)
 
-  // Reset counter when component tree unmounts (new page)
   useEffect(() => {
     return () => { itemCounter = 0 }
   }, [])
@@ -51,12 +57,12 @@ export function StaggerItem({ children, className, role }: { children: ReactNode
 
 // ─── Fade In ─────────────────────────────────────────────────────────────────
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const wasFirstLoad = useRef(isFirstLoad)
   const [active, setActive] = useState(false)
 
-  useEffect(function triggerFade() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => setActive(true))
-    })
+  useEffect(function maybeFade() {
+    if (wasFirstLoad.current) return
+    requestAnimationFrame(() => setActive(true))
   }, [])
 
   return (

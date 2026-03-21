@@ -57,16 +57,7 @@ export function Pressable({ children, className, onClick, style, disabled, title
   )
 }
 
-// Fade in — only for specific delayed reveals, NOT page-level
-export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay }}
-    >
-      {children}
-    </motion.div>
-  )
+// Fade in — passthrough (no opacity:0 in SSR)
+export function FadeIn({ children, className }: { children: ReactNode; className?: string; delay?: number }) {
+  return <div className={className}>{children}</div>
 }

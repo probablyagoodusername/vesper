@@ -67,10 +67,10 @@
   text-wrap: balance;
 }
 
-/* Instant view transitions for snappy tab switching */
+/* Fast view transitions */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.08s;
+  animation-duration: 0.15s;
 }
 
 @utility scrollbar-hide {

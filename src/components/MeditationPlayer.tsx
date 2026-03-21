@@ -439,7 +439,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
       suppressHydrationWarning
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.12 }}
+      transition={{ duration: 0.25 }}
     >
       {audioPath && (
         <audio

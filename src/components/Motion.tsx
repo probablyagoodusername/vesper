@@ -1,20 +1,22 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-// Page-level fade in — fast, no delay
+const ease = [0.25, 0.1, 0.25, 1]
+
+// Page-level fade in
 export function PageTransition({ children }: { children: ReactNode }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.12 }}
+      transition={{ duration: 0.25, ease }}
     >
       {children}
     </motion.div>
   )
 }
 
-// Staggered list container — tight stagger
+// Staggered list container
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return (
     <motion.div
@@ -24,7 +26,7 @@ export function StaggerList({ children, className, role }: { children: ReactNode
       animate="visible"
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.02 } },
+        visible: { transition: { staggerChildren: 0.03 } },
       }}
     >
       {children}
@@ -32,15 +34,15 @@ export function StaggerList({ children, className, role }: { children: ReactNode
   )
 }
 
-// Individual list item — minimal motion
+// Individual list item
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return (
     <motion.div
       className={className}
       role={role}
       variants={{
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.15 } },
+        hidden: { opacity: 0, y: 4 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease } },
       }}
     >
       {children}
@@ -57,7 +59,7 @@ export function TabContent({ id, children }: { id: string; children: ReactNode }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.12 }}
+        transition={{ duration: 0.15, ease }}
       >
         {children}
       </motion.div>
@@ -82,7 +84,7 @@ export function Pressable({ children, className, onClick, style, disabled, title
       disabled={disabled}
       title={title}
       whileTap={{ scale: 0.96 }}
-      transition={{ duration: 0.08 }}
+      transition={{ duration: 0.1 }}
     >
       {children}
     </motion.button>
@@ -96,7 +98,7 @@ export function FadeIn({ children, className, delay = 0 }: { children: ReactNode
       className={className}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.2, delay }}
+      transition={{ duration: 0.3, delay, ease }}
     >
       {children}
     </motion.div>

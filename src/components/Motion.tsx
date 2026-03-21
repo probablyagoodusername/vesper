@@ -1,68 +1,27 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
 
-// ─── Page Transition ─────────────────────────────────────────────────────────
+// ─── All list animation handled by vanilla Motion JS in AppLayout.astro ──────
+// React components are plain divs. The Astro <script> uses motion's
+// animate() + stagger() + inView() on the DOM directly — no hydration conflict.
+
 export function PageTransition({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-// ─── Stagger List ────────────────────────────────────────────────────────────
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return <div className={className} role={role}>{children}</div>
 }
 
-// ─── Stagger Item ────────────────────────────────────────────────────────────
-// Items visible on page load: no animation (already in place).
-// Items below the fold: subtle fade+slide on scroll into view.
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [animate, setAnimate] = useState(false)
-  const wasAboveFold = useRef(true)
-
-  useEffect(function setupReveal() {
-    const el = ref.current
-    if (!el) return
-
-    const rect = el.getBoundingClientRect()
-    if (rect.top < window.innerHeight) {
-      // Already visible — no animation needed
-      wasAboveFold.current = true
-      return
-    }
-
-    // Below fold — set up scroll reveal
-    wasAboveFold.current = false
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setAnimate(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.05 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      className={`${className ?? ''} ${!wasAboveFold.current && !animate ? 'scroll-reveal-pending' : ''} ${animate ? 'scroll-reveal-active' : ''}`}
-      role={role}
-    >
-      {children}
-    </div>
-  )
+  return <div className={`stagger-item ${className ?? ''}`} role={role}>{children}</div>
 }
 
-// ─── Fade In ─────────────────────────────────────────────────────────────────
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  return <div className={className}>{children}</div>
+  return <div className={`fade-item ${className ?? ''}`}>{children}</div>
 }
 
-// ─── Tab Content ─────────────────────────────────────────────────────────────
+// ─── Tab Content — Framer Motion for within-page animation ───────────────────
 export function TabContent({ id, children }: { id: string; children: ReactNode }) {
   return (
     <AnimatePresence mode="wait" initial={false}>

@@ -12,7 +12,7 @@
  *   npx tsx scripts/generate-tts.ts --dry-run <slug>          # Preview prepared text, no API call
  */
 
-import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs'
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from 'fs'
 import { execFileSync } from 'child_process'
 import { join, resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -153,7 +153,13 @@ async function generateForMeditation(
     }
 
     const prepared = prepareScript(rawScript, meditation.category)
-    const chunks = chunkText(prepared)
+    // Replace [BREATHING_SECTION] with a short silence marker for TTS.
+    // The actual breathing audio gets inserted in post-processing.
+    const ttsReady = prepared.replaceAll(
+      '[BREATHING_SECTION]',
+      '[long pause] [long pause] [long pause]',
+    )
+    const chunks = chunkText(ttsReady)
 
     if (options.dryRun) {
       console.log(`\n--- DRY RUN: ${slug} (${l}) [${meditation.category}] ---`)
@@ -196,8 +202,19 @@ async function generateForMeditation(
         )
       }
       if (alignment) {
-        const lastEnd = alignment.character_end_times_seconds[alignment.character_end_times_seconds.length - 1] ?? 0
-        chunkTimeOffset = lastEnd
+        // Use actual audio duration (not alignment end time) for chunk offset.
+        // Alignment timestamps don't include silence from [long pause] tags,
+        // so using them causes cumulative drift in multi-chunk concatenation.
+        const tmpPath = join(outDir, `_chunk_tmp.mp3`)
+        writeFileSync(tmpPath, audio)
+        const actualDur = parseFloat(
+          execFileSync('ffprobe', [
+            '-v', 'quiet', '-show_entries', 'format=duration',
+            '-of', 'csv=p=0', tmpPath,
+          ], { encoding: 'utf-8' }).trim()
+        )
+        try { unlinkSync(tmpPath) } catch {}
+        chunkTimeOffset += actualDur
       }
       allAlignments.push(alignment)
 
@@ -276,7 +293,7 @@ async function generateForMeditation(
     }))
 
     // Update the meditation JSON with the audio path
-    const audioWebPath = `/bible/audio/${l}/${slug}.mp3`
+    const audioWebPath = `/audio/${l}/${slug}.mp3`
     updateAudioPath(slug, l, audioWebPath)
 
     const sizeMB = (statSync(outPath).size / 1024 / 1024).toFixed(1)

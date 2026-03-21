@@ -164,10 +164,13 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     return baseAudioPath
   }, [baseAudioPath, selectedDuration, availableDurations, locale, meditation.slug])
 
+  // Don't apply v2 voice replacement to assembled duration variants
+  // (they only exist in the base voice directory)
+  const isDurationVariant = selectedDuration !== null
   const audioPath = resolvedAudioPath
     ? isMusic
       ? `${BASE}${resolvedAudioPath}`
-      : `${BASE}${activeVoice === 'v2'
+      : `${BASE}${activeVoice === 'v2' && !isDurationVariant
         ? resolvedAudioPath.replace('/audio/en/', '/audio/en-v2/').replace('/audio/fr/', '/audio/fr-v2/')
         : resolvedAudioPath}`
     : null
@@ -227,7 +230,33 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     ambient.pause()
   }, [])
 
-  const lines = parseScript(script)
+  const allLines = parseScript(script)
+
+  // For duration variants, trim display lines to match the assembled alignment.
+  // The assembled alignment has fewer spoken lines than the full script.
+  const lines = useMemo(() => {
+    if (!isDurationVariant || !alignment) return allLines
+
+    // Count spoken lines in the alignment (non-pause lines)
+    const isPause = (text: string) => /^\[.*pause.*\]$/i.test(text.trim())
+    const alignSpokenCount = alignment.lines.filter(l => !isPause(l)).length
+
+    // Walk through display lines, counting spoken ones (body/scripture)
+    let spokenSeen = 0
+    let cutIndex = allLines.length
+    for (let i = 0; i < allLines.length; i++) {
+      if (allLines[i].type === 'body' || allLines[i].type === 'scripture') {
+        spokenSeen++
+        if (spokenSeen > alignSpokenCount) {
+          cutIndex = i
+          break
+        }
+      }
+    }
+
+    return allLines.slice(0, cutIndex)
+  }, [allLines, alignment, isDurationVariant])
+
   const totalWeight = lines.reduce((sum, l) => sum + l.weight, 0)
 
   const lineBoundaries = useMemo(() => {
@@ -378,6 +407,25 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     }
   }, [musicZone])
 
+  const handleLineClick = useCallback((lineIndex: number) => {
+    if (!audioRef.current || !lineBoundaries.length) return
+
+    // Seek to the start of this line's time boundary
+    // The boundary at index i is the END time of line i
+    // So the START time of line i = boundary of line i-1 (or 0 for first line)
+    const startTime = lineIndex > 0 ? lineBoundaries[lineIndex - 1] : 0
+
+    audioRef.current.currentTime = startTime
+    setCurrentTime(startTime)
+    setActiveLineIndex(lineIndex)
+
+    // Auto-play if not already playing
+    if (!isPlaying) {
+      audioRef.current.play().catch(() => {})
+      if (musicOn) ambient.play()
+    }
+  }, [lineBoundaries, isPlaying, musicOn])
+
   // For music mode, show progress within the loopable zone only
   const displayTime = musicZone
     ? Math.max(0, currentTime - musicZone.start)
@@ -452,63 +500,32 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
         )}
       </div>
 
-      {!isMusic && baseAudioPath && (hasV2 || activeVoice === 'v1') && (
-        <div className="mb-5 flex justify-center">
-          <div className="inline-flex rounded-lg bg-[var(--surface)] p-0.5">
-            <button
-              onClick={() => handleVoiceChange('v1')}
-              className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
-                activeVoice === 'v1'
-                  ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
-                  : 'text-[var(--muted)]'
-              }`}
+      {!isMusic && (
+        <div className="mb-5 flex justify-center gap-2">
+          {baseAudioPath && (hasV2 || activeVoice === 'v1') && (
+            <select
+              value={activeVoice}
+              onChange={(e) => handleVoiceChange(e.target.value as 'v1' | 'v2')}
+              className="rounded-lg bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--text)] outline-none transition-colors"
+              style={{ appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '24px' }}
             >
-              {locale === 'fr' ? VOICES.v1.nameFr : VOICES.v1.nameEn}
-            </button>
-            <button
-              onClick={() => handleVoiceChange('v2')}
-              disabled={!hasV2}
-              className={`rounded-md px-4 py-1.5 text-xs font-medium transition-colors ${
-                activeVoice === 'v2'
-                  ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
-                  : hasV2
-                    ? 'text-[var(--muted)]'
-                    : 'text-[var(--border)] opacity-50 cursor-default'
-              }`}
+              <option value="v1">{locale === 'fr' ? VOICES.v1.nameFr : VOICES.v1.nameEn}</option>
+              {hasV2 && <option value="v2">{locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn}</option>}
+            </select>
+          )}
+          {availableDurations.length > 0 && (
+            <select
+              value={selectedDuration ?? ''}
+              onChange={(e) => handleDurationChange(e.target.value === '' ? null : parseInt(e.target.value))}
+              className="rounded-lg bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--text)] outline-none transition-colors"
+              style={{ appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '24px' }}
             >
-              {locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {!isMusic && availableDurations.length > 0 && (
-        <div className="mb-5 flex justify-center">
-          <div className="inline-flex items-center gap-1 rounded-lg bg-[var(--surface)] p-0.5">
-            <button
-              onClick={() => handleDurationChange(null)}
-              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                selectedDuration === null
-                  ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
-                  : 'text-[var(--muted)]'
-              }`}
-            >
-              {locale === 'fr' ? 'Complet' : 'Full'}
-            </button>
-            {availableDurations.map(dur => (
-              <button
-                key={dur}
-                onClick={() => handleDurationChange(dur)}
-                className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                  selectedDuration === dur
-                    ? 'bg-[var(--bg)] text-[var(--primary)] shadow-sm'
-                    : 'text-[var(--muted)]'
-                }`}
-              >
-                {dur} min
-              </button>
-            ))}
-          </div>
+              <option value="">{locale === 'fr' ? 'Complet' : 'Full'}</option>
+              {availableDurations.map(dur => (
+                <option key={dur} value={dur}>{dur} min</option>
+              ))}
+            </select>
+          )}
         </div>
       )}
 
@@ -542,23 +559,17 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
             <span className="w-10 text-right tabular-nums text-xs text-[var(--muted)]">
               {formatTime(displayTime)}
             </span>
-            <div className="relative flex-1">
-              <div className="h-1 rounded-full bg-[var(--border)]" />
-              <div
-                className="absolute top-0 left-0 h-1 rounded-full bg-[var(--accent)] transition-[width] duration-200"
-                style={{ width: `${progress}%` }}
-              />
-              <input
-                type="range"
-                min={musicZone ? musicZone.start : 0}
-                max={musicZone ? musicZone.end : (duration || 0)}
-                step={0.1}
-                value={currentTime}
-                onChange={handleSeek}
-                className="absolute top-0 left-0 h-1 w-full cursor-pointer opacity-0"
-                aria-label="Seek"
-              />
-            </div>
+            <input
+              type="range"
+              min={musicZone ? musicZone.start : 0}
+              max={musicZone ? musicZone.end : (duration || 0)}
+              step={0.1}
+              value={currentTime}
+              onChange={handleSeek}
+              className="vesper-seek flex-1"
+              style={{ '--seek-progress': `${progress}%` } as React.CSSProperties}
+              aria-label="Seek"
+            />
             <span className="w-10 tabular-nums text-xs text-[var(--muted)]">
               {formatTime(displayDuration)}
             </span>
@@ -617,6 +628,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
             const isActive = i === activeLineIndex
             const isPast = i < activeLineIndex
             const opacity = activeLineIndex < 0 ? 1 : isActive ? 1 : isPast ? 0.3 : 0.15
+            const clickable = audioPath && (line.type === 'body' || line.type === 'scripture')
 
             if (line.type === 'stage-direction') {
               return (
@@ -628,14 +640,24 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
 
             if (line.type === 'scripture') {
               return (
-                <p key={i} className="font-[family-name:var(--font-serif)] text-xl leading-[1.8] text-[var(--accent)] transition-opacity duration-500" style={{ opacity }}>
+                <p
+                  key={i}
+                  onClick={clickable ? () => handleLineClick(i) : undefined}
+                  className={`font-[family-name:var(--font-serif)] text-xl leading-[1.8] text-[var(--accent)] transition-opacity duration-500${clickable ? ' cursor-pointer hover:opacity-100' : ''}`}
+                  style={{ opacity }}
+                >
                   {line.text}
                 </p>
               )
             }
 
             return (
-              <p key={i} className="leading-[1.8] text-[var(--text)] transition-opacity duration-500" style={{ opacity }}>
+              <p
+                key={i}
+                onClick={clickable ? () => handleLineClick(i) : undefined}
+                className={`leading-[1.8] text-[var(--text)] transition-opacity duration-500${clickable ? ' cursor-pointer hover:opacity-100' : ''}`}
+                style={{ opacity }}
+              >
                 {line.text}
               </p>
             )

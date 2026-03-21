@@ -776,34 +776,56 @@ def _analyze_phase_counts(phase: BreathingPhase, lang: str) -> None:
 @dataclass
 class AudioEdit:
     """A planned edit to the audio file."""
-    edit_type: str  # "cut" or "tempo"
+    edit_type: str  # "cut", "trim-pauses"
     start: float
     end: float
-    # For tempo changes
+    # For trim-pauses: list of (word_start, word_end) to keep at original speed
+    word_segments: list[tuple[float, float]] = field(default_factory=list)
     target_duration: Optional[float] = None
-    tempo_ratio: Optional[float] = None
     # For cuts (remove a word)
     cut_start: Optional[float] = None
     cut_end: Optional[float] = None
     description: str = ""
 
 
+def _merge_word_segments(
+    words: list[WordTimestamp], margin: float = 0.05,
+) -> list[tuple[float, float]]:
+    """Merge overlapping/adjacent word segments with a small margin."""
+    if not words:
+        return []
+
+    segments = [(w.start - margin, w.end + margin) for w in words]
+    segments.sort()
+
+    merged = [segments[0]]
+    for start, end in segments[1:]:
+        if start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
+
+    return merged
+
+
 def plan_fixes(result: AnalysisResult) -> list[AudioEdit]:
-    """Plan audio edits based on analysis results."""
+    """
+    Plan audio edits based on analysis results.
+
+    For timing issues: trims pauses between spoken words instead of
+    applying uniform atempo (which would make the voice sound sped up).
+    """
     edits: list[AudioEdit] = []
 
     for section in result.sections:
         for phase in section.phases:
             for issue in phase.issues:
                 if issue.startswith("count: doubled"):
-                    # Extract the doubled word's timestamp
                     match = re.search(r"at (\d+\.\d+)s", issue)
                     if match:
                         doubled_time = float(match.group(1))
-                        # Find the word to cut
                         for w in phase.words:
                             if abs(w.start - doubled_time) < 0.05:
-                                # Cut this word + surrounding silence
                                 cut_start = max(phase.audio_start, w.start - 0.1)
                                 cut_end = min(phase.audio_end, w.end + 0.1)
                                 edits.append(AudioEdit(
@@ -817,23 +839,42 @@ def plan_fixes(result: AnalysisResult) -> list[AudioEdit]:
                                 break
 
                 if issue.startswith("timing:"):
-                    if phase.target_duration > 0 and phase.actual_duration > 0:
-                        ratio = phase.actual_duration / phase.target_duration
-                        if abs(ratio - 1.0) > 0.15:
-                            edits.append(AudioEdit(
-                                edit_type="tempo",
-                                start=phase.audio_start,
-                                end=phase.audio_end,
-                                target_duration=phase.target_duration,
-                                tempo_ratio=ratio,
-                                description=(
-                                    f"Adjust {phase.phase_type} "
-                                    f"{phase.actual_duration:.1f}s → {phase.target_duration:.1f}s "
-                                    f"(atempo={ratio:.2f})"
-                                ),
-                            ))
+                    if phase.target_duration <= 0 or phase.actual_duration <= 0:
+                        continue
+                    if abs(phase.actual_duration / phase.target_duration - 1.0) <= 0.15:
+                        continue
 
-    # Sort edits by start time (reverse for safe application)
+                    # Trim pauses instead of uniform atempo
+                    word_segs = _merge_word_segments(phase.words)
+                    total_spoken = sum(e - s for s, e in word_segs)
+
+                    needed_pause = phase.target_duration - total_spoken
+                    actual_pause = phase.actual_duration - total_spoken
+
+                    if needed_pause < 0:
+                        # Voice alone exceeds target — can't fix without speeding voice
+                        print(f"    SKIP: {phase.phase_type} voice ({total_spoken:.1f}s) "
+                              f"exceeds target ({phase.target_duration:.1f}s)")
+                        continue
+
+                    if actual_pause <= 0 or needed_pause >= actual_pause:
+                        continue
+
+                    pause_ratio = needed_pause / actual_pause
+                    edits.append(AudioEdit(
+                        edit_type="trim-pauses",
+                        start=phase.audio_start,
+                        end=phase.audio_end,
+                        word_segments=word_segs,
+                        target_duration=phase.target_duration,
+                        description=(
+                            f"Trim pauses in {phase.phase_type} "
+                            f"{phase.actual_duration:.1f}s → {phase.target_duration:.1f}s "
+                            f"(voice: {total_spoken:.1f}s kept, "
+                            f"pauses: {actual_pause:.1f}s → {needed_pause:.1f}s)"
+                        ),
+                    ))
+
     edits.sort(key=lambda e: e.start)
     return edits
 
@@ -873,7 +914,7 @@ def apply_fixes(
     sorted_edits = sorted(edits, key=lambda e: e.start)
 
     # Build segment list: alternating between untouched and edited regions
-    segments: list[dict] = []  # {type: "pass"|"tempo"|"cut", start, end, ...}
+    segments: list[dict] = []  # {type: "pass"|"trim-pauses"|"cut", start, end, ...}
     cursor = 0.0
 
     for edit in sorted_edits:
@@ -881,16 +922,50 @@ def apply_fixes(
         if edit.start > cursor + 0.001:
             segments.append({"type": "pass", "start": cursor, "end": edit.start})
 
-        if edit.edit_type == "tempo" and edit.tempo_ratio:
-            segments.append({
-                "type": "tempo",
-                "start": edit.start,
-                "end": edit.end,
-                "ratio": edit.tempo_ratio,
-            })
+        if edit.edit_type == "trim-pauses" and edit.word_segments and edit.target_duration:
+            # Keep spoken words at original speed, compress pauses between them.
+            # Build sub-segments: [voice][trimmed-pause][voice][trimmed-pause]...
+            total_spoken = sum(e - s for s, e in edit.word_segments)
+            total_pause = (edit.end - edit.start) - total_spoken
+            needed_pause = edit.target_duration - total_spoken
+
+            if total_pause > 0 and needed_pause > 0:
+                pause_ratio = needed_pause / total_pause
+            else:
+                pause_ratio = 1.0
+
+            # Walk through the phase: before first word, between words, after last word
+            phase_cursor = edit.start
+            for ws, we in edit.word_segments:
+                # Pause gap before this word
+                if ws > phase_cursor + 0.001:
+                    gap_dur = ws - phase_cursor
+                    target_gap = gap_dur * pause_ratio
+                    if target_gap > 0.01:
+                        segments.append({
+                            "type": "tempo",
+                            "start": phase_cursor,
+                            "end": ws,
+                            "ratio": gap_dur / target_gap,
+                        })
+                # Keep word at original speed
+                segments.append({"type": "pass", "start": ws, "end": we})
+                phase_cursor = we
+
+            # Trailing pause after last word
+            if edit.end > phase_cursor + 0.001:
+                gap_dur = edit.end - phase_cursor
+                target_gap = gap_dur * pause_ratio
+                if target_gap > 0.01:
+                    segments.append({
+                        "type": "tempo",
+                        "start": phase_cursor,
+                        "end": edit.end,
+                        "ratio": gap_dur / target_gap,
+                    })
+
             cursor = edit.end
         elif edit.edit_type == "cut" and edit.cut_start is not None and edit.cut_end is not None:
-            # Keep audio before cut, skip cut region, keep audio after cut
             if edit.cut_start > edit.start + 0.001:
                 segments.append({"type": "pass", "start": edit.start, "end": edit.cut_start})
             if edit.cut_end < edit.end - 0.001:

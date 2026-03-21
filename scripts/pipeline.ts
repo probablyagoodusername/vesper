@@ -470,33 +470,8 @@ function handlePostProcess(): void {
   for (const slug of slugs) {
     console.log(`\n── ${slug} ──`)
 
-    // Step 1: Fix breathing audio
-    console.log('  [1/3] Breathing fix...')
-    try {
-      const breathingArgs = ['scripts/fix-breathing-audio.py', 'fix', slug, `--lang=${lang}`]
-      if (noWhisper) breathingArgs.push('--no-whisper')
-      if (dryRun) breathingArgs.push('--dry-run')
-      run('python3', breathingArgs)
-    } catch {
-      console.log('    (no breathing issues or script not available)')
-    }
-
-    if (dryRun) continue
-
-    // Step 2: Whisper alignment
-    if (noWhisper) {
-      console.log('  [2/3] Skipping whisper alignment (--no-whisper)')
-    } else {
-      console.log('  [2/3] Whisper alignment...')
-      try {
-        run('python3', ['scripts/whisper-align.py', slug, `--lang=${lang}`])
-      } catch {
-        console.log('    (whisper-align not available or failed)')
-      }
-    }
-
-    // Step 3: Segmentation (only for meditate-family)
     const med = loadMeditation(slug)
+    const hasBreathing = med?.breathing !== null && med?.breathing !== undefined
     const isMediateFamily = med && (
       med.category === 'meditate' ||
       med.category === 'anxiety' ||
@@ -505,15 +480,60 @@ function handlePostProcess(): void {
       med.slug.startsWith('meditate-')
     )
 
+    // Step 1: Fix MP3 headers
+    console.log('  [1/5] Fix MP3 headers...')
+    try {
+      run('python3', ['scripts/fix-mp3-headers.py', `audio-storage/${lang}`])
+    } catch {
+      console.log('    (skipped)')
+    }
+
+    if (dryRun) continue
+
+    // Step 2: Segmentation (creates intro/breathing/core/outro segments)
     if (isMediateFamily) {
-      console.log('  [3/3] Segmentation...')
+      console.log('  [2/5] Segmentation...')
       try {
         run('npx', ['tsx', 'scripts/segment-audio.ts', slug, `--lang=${lang}`])
       } catch {
         console.log('    (segmentation failed)')
       }
     } else {
-      console.log('  [3/3] Skipping segmentation (not meditate-family)')
+      console.log('  [2/5] Skipping segmentation (not meditate-family)')
+    }
+
+    // Step 3: Reconstruct breathing (clip-based, replaces breathing segment + full MP3)
+    if (hasBreathing && isMediateFamily) {
+      console.log('  [3/5] Breathing reconstruction...')
+      try {
+        run('python3', ['scripts/reconstruct-breathing.py', slug, `--lang=${lang}`])
+      } catch {
+        console.log('    (reconstruction failed or no clip bank)')
+      }
+    } else {
+      console.log('  [3/5] Skipping breathing reconstruction')
+    }
+
+    // Step 4: Assemble duration variants (10/15/20 min)
+    if (isMediateFamily) {
+      console.log('  [4/5] Duration assembly...')
+      try {
+        run('npx', ['tsx', 'scripts/assemble-duration.ts', slug, '--all-durations', `--lang=${lang}`])
+      } catch {
+        console.log('    (assembly failed)')
+      }
+    } else {
+      console.log('  [4/5] Skipping duration assembly')
+    }
+
+    // Step 5: Deploy to public/
+    console.log('  [5/5] Copy to public/...')
+    try {
+      const pubDir = `public/audio/${lang}`
+      run('cp', [`audio-storage/${lang}/${slug}.mp3`, `${pubDir}/${slug}.mp3`])
+      run('cp', [`audio-storage/${lang}/${slug}.json`, `${pubDir}/${slug}.json`])
+    } catch {
+      console.log('    (copy failed)')
     }
   }
 

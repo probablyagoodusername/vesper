@@ -14,7 +14,16 @@
   "audioPathFr": null,
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/20855902/",
-  "breathing": null,
+  "breathing": {
+    "slug": "deep-calm",
+    "nameEn": "Deep Calm",
+    "nameFr": "Respiration profonde",
+    "inhale": 5,
+    "holdIn": 0,
+    "exhale": 7,
+    "holdOut": 0,
+    "rounds": 3
+  },
   "segments": {
     "en": {
       "available": true,

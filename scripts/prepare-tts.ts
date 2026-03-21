@@ -9,11 +9,11 @@
 
 /** Pacing config per category — controls pause density */
 export const PACING = {
-  sleep:    { sentencePause: 'long', questionPause: 'long long', ellipsisPause: 'long long', paragraphPauses: 3 },
-  meditate: { sentencePause: 'long', questionPause: 'long', ellipsisPause: 'long', paragraphPauses: 2 },
-  morning:  { sentencePause: 'short', questionPause: 'short', ellipsisPause: 'short', paragraphPauses: 1 },
-  sos:      { sentencePause: 'short', questionPause: 'short', ellipsisPause: 'short', paragraphPauses: 1 },
-  prayer:   { sentencePause: 'long', questionPause: 'long', ellipsisPause: 'long', paragraphPauses: 2 },
+  sleep:    { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 2 },
+  meditate: { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
+  morning:  { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
+  sos:      { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 1 },
+  prayer:   { sentencePause: '', questionPause: '', ellipsisPause: '', paragraphPauses: 2 },
 } as const
 
 /** Voice settings per category for ElevenLabs */
@@ -84,19 +84,89 @@ export function getVoiceSettings(category: string): Record<string, unknown> {
 }
 
 /**
+ * Detect and strip breathing counting lines from the raw script.
+ *
+ * Counting lines look like: "Breathe in... one... two... three... four."
+ * or abbreviated: "In... two... three... four.", "Hold... two... three..."
+ *
+ * Returns the script with breathing lines replaced by [BREATHING_SECTION]
+ * marker, which insert-breathing.ts later replaces with clip-based audio.
+ */
+export function stripBreathingLines(raw: string): string {
+  const lines = raw.split('\n')
+  // Counting pattern: lines like "In... two... three... four" — must have ellipsis-separated numbers
+  // First number must be one/two (ascending start) to exclude PMR countdowns (five... four... three...)
+  const countingPattern = /\.\.\.\s*(?:one|two|un|deux)\b.*\.\.\.\s*(?:two|three|four|five|six|seven|eight|deux|trois|quatre|cinq|six|sept|huit)\b/i
+  // Breathing instruction: short directive lines (< 60 chars) that are phase cues
+  const breathingInstrPattern = /^(?:Breathe\s+in\s+(?:through|slowly|for)|In\s+for\s\w+\.$|Out\s+for\s\w+\.$|Hold\s+(?:for\s\w+\.|gently\s+for)|Again\.\s*In\s+for|One\s+more\.\s*In\s|Exhale\s+slowly\s+through|And\s+hold\s+for|Inspir\w*\s+(?:par|sur|lentement)|Expir\w*\s+(?:par|sur|lentement)|Retene\w*\s+(?:sur|doucement))/i
+  const pausePattern = /^\[\d+s?\s+(?:pause|silence)/i
+
+  // Find ALL breathing sections
+  const sections: Array<{ start: number; end: number }> = []
+  let inBreathingSection = false
+  let sectionStart = -1
+  let sectionEnd = -1
+
+  for (let i = 0; i < lines.length; i++) {
+    const trimmed = lines[i].trim()
+
+    const isCounting = trimmed ? countingPattern.test(trimmed) : false
+    const isBreathingInstr = trimmed ? breathingInstrPattern.test(trimmed) : false
+    const isPause = trimmed ? pausePattern.test(trimmed) : false
+
+    if ((isCounting || isBreathingInstr) && !inBreathingSection) {
+      inBreathingSection = true
+      sectionStart = i
+      sectionEnd = i
+    }
+
+    if (inBreathingSection) {
+      if (isCounting || isBreathingInstr || isPause || !trimmed) {
+        sectionEnd = i
+      } else {
+        // Non-breathing line — save this section and reset
+        sections.push({ start: sectionStart, end: sectionEnd })
+        inBreathingSection = false
+        sectionStart = -1
+        sectionEnd = -1
+      }
+    }
+  }
+
+  // Don't forget the last section if script ends with breathing
+  if (inBreathingSection && sectionStart >= 0) {
+    sections.push({ start: sectionStart, end: sectionEnd })
+  }
+
+  if (sections.length === 0) return raw
+
+  // Replace sections from end to start to preserve indices
+  const result = [...lines]
+  for (let s = sections.length - 1; s >= 0; s--) {
+    const { start, end } = sections[s]
+    result.splice(start, end - start + 1, '', '[BREATHING_SECTION]', '')
+  }
+
+  return result.join('\n')
+}
+
+/**
  * Transform raw meditation script into TTS-ready text with v3 audio tag pauses.
  *
  * This function:
  * 1. Strips breathing instructions [BREATHING: ...]
- * 2. Converts timed pauses [15s pause] to chained [long pause] tags
- * 3. Strips pure stage directions [...]
- * 4. Strips inline stage directions within spoken text
- * 5. Adds sentence-level pauses after periods, questions, and ellipses
- * 6. Converts paragraph breaks to chained pause tags
+ * 2. Strips breathing counting lines (replaced by [BREATHING_SECTION] marker)
+ * 3. Converts timed pauses [15s pause] to chained [long pause] tags
+ * 4. Strips pure stage directions [...]
+ * 5. Strips inline stage directions within spoken text
+ * 6. Adds sentence-level pauses after periods, questions, and ellipses
+ * 7. Converts paragraph breaks to chained pause tags
  */
 export function prepareScript(raw: string, category: string): string {
+  // Strip breathing counting lines first
+  const stripped = stripBreathingLines(raw)
   const pauseMult = getPauseMultiplier(category)
-  const lines = raw.split('\n')
+  const lines = stripped.split('\n')
   const output: string[] = []
 
   // Resolve pacing — use category-specific or fall back to meditate
@@ -114,6 +184,12 @@ export function prepareScript(raw: string, category: string): string {
 
     // Skip breathing instructions
     if (/^\[BREATHING:/.test(trimmed) || /^\[RESPIRATION\s*:/.test(trimmed)) continue
+
+    // Breathing section marker → short silence (clip-based breathing inserted in post-processing)
+    if (trimmed === '[BREATHING_SECTION]') {
+      output.push('[BREATHING_SECTION]')
+      continue
+    }
 
     // Timed pause: [15s pause], [20s silence], etc.
     const timedPause = trimmed.match(/^\[(\d+)s?\s+(?:pause|silence|de pause|de silence).*\]$/i)
@@ -137,11 +213,16 @@ export function prepareScript(raw: string, category: string): string {
     // Strip inline stage directions
     let cleaned = trimmed.replace(/\[[^\]]+\]/g, '').trim()
 
-    // Add sentence-level pauses using v3 audio tags
-    cleaned = cleaned
-      .replace(/\.\.\.\s*/g, `... ${v3PauseFromDesc(pacing.ellipsisPause)} `)
-      .replace(/\.\s+/g, `. ${v3PauseFromDesc(pacing.sentencePause)} `)
-      .replace(/\?\s+/g, `? ${v3PauseFromDesc(pacing.questionPause)} `)
+    // Add sentence-level pauses using v3 audio tags (only if configured)
+    if (pacing.ellipsisPause) {
+      cleaned = cleaned.replace(/\.\.\.\s*/g, `... ${v3PauseFromDesc(pacing.ellipsisPause)} `)
+    }
+    if (pacing.sentencePause) {
+      cleaned = cleaned.replace(/\.\s+/g, `. ${v3PauseFromDesc(pacing.sentencePause)} `)
+    }
+    if (pacing.questionPause) {
+      cleaned = cleaned.replace(/\?\s+/g, `? ${v3PauseFromDesc(pacing.questionPause)} `)
+    }
 
     // Clean up multiple spaces
     cleaned = cleaned.replace(/\s{2,}/g, ' ').trim()

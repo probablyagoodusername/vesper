@@ -1,25 +1,25 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-// Page-level wrapper — no animation (Astro View Transition handles page crossfade)
+// Page-level wrapper — passthrough (View Transition handles page swap)
 export function PageTransition({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-// List container — no stagger animation
+// List container — plain div
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return <div className={className} role={role}>{children}</div>
 }
 
-// List item — no animation
+// List item — plain div
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return <div className={className} role={role}>{children}</div>
 }
 
-// Tab content crossfade (within a page, not a page transition)
+// Tab content — animate only on key CHANGE, not on initial render
 export function TabContent({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={id}
         initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ export function Pressable({ children, className, onClick, style, disabled, title
   )
 }
 
-// Fade in section (for specific elements that need delayed reveal)
+// Fade in — only for specific delayed reveals, NOT page-level
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   return (
     <motion.div

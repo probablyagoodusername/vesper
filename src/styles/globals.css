@@ -15,6 +15,16 @@
   --color-success: #4A7C5B;
 }
 
+/* Prevent white flash — background on html persists during navigation */
+html { background-color: #f8f4f2; }
+html.dark { background-color: #0c0807; }
+
+/* View transition — no animation, instant swap */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
 @layer base {
   /* OKLCH palette — base #3A302A (hue 52.8°) + sage/teal accent (hue 165°) */
   :root {

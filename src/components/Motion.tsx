@@ -2,13 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
 
-// Track if this is the first page load or a client-side navigation
-let isFirstLoad = true
-if (typeof window !== 'undefined') {
-  document.addEventListener('astro:before-swap', () => {
-    isFirstLoad = false
-  })
-}
+// Without ClientRouter, every page load is a "first load" (full HTML)
+// Stagger animations always play since SSR content is visible immediately
+const isFirstLoad = false
 
 // ─── Page Transition ─────────────────────────────────────────────────────────
 export function PageTransition({ children }: { children: ReactNode }) {

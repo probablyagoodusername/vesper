@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions'
 import '../styles/globals.css'
 
 interface Props {
@@ -52,7 +51,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
       // Re-translate nav when locale changes from Settings page
       window.addEventListener('vesper-locale-changed', applyVesperLocale);
     </script>
-    <ClientRouter />
     <style is:global>
       :root {
         --font-serif: 'Literata', Georgia, 'Times New Roman', serif;
@@ -90,17 +88,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
       // Show back button only on sub-pages (bible, meditation sessions)
       // Hide on tab-level pages (home, breathe, meditate, sleep, settings)
       var tabPaths = ['/home', '/breathe', '/meditate', '/sleep', '/settings', '/']
-      document.addEventListener('astro:page-load', function() {
-        var btn = document.getElementById('vesper-back-btn')
-        if (!btn) return
+      var btn = document.getElementById('vesper-back-btn')
+      if (btn) {
         var path = window.location.pathname.replace(/\/$/, '') || '/'
         var isTab = tabPaths.some(function(t) { return path === base + t || path === t })
         btn.style.visibility = isTab ? 'hidden' : 'visible'
-      })
+      }
     </script>
 
     <!-- Persistent audio player — survives navigation -->
-    <div id="audio-player" transition:persist="audio-player"></div>
+    <div id="audio-player"></div>
 
     <nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm safe-bottom">
       <div class="mx-auto flex max-w-lg items-center justify-around">

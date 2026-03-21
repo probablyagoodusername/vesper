@@ -67,10 +67,14 @@
   text-wrap: balance;
 }
 
-/* View transition — single smooth crossfade between pages */
+/* View transition — instant swap, no crossfade */
+/* React client:load islands cause a blank flash during crossfade */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.2s;
+  animation-duration: 0s;
+}
+::view-transition-old(root) {
+  display: none;
 }
 
 @utility scrollbar-hide {

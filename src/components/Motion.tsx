@@ -1,8 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import type { ReactNode } from 'react'
-
-const ease = [0.22, 1, 0.36, 1] // Apple-style ease-out
+import type { ReactNode, CSSProperties } from 'react'
 
 // ─── Page Transition ─────────────────────────────────────────────────────────
 export function PageTransition({ children }: { children: ReactNode }) {
@@ -10,75 +8,64 @@ export function PageTransition({ children }: { children: ReactNode }) {
 }
 
 // ─── Stagger List ────────────────────────────────────────────────────────────
-// SSR: renders children visible. After mount: replays stagger via Framer Motion.
-// initial={false} on mount → no opacity:0 in SSR HTML.
-// After hydration, we flip a key to trigger the enter animation.
+// SSR: visible. After mount: triggers CSS stagger animation via class.
+// CSS animations run on compositor (GPU) — smooth even during hydration.
 
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  const [animationKey, setAnimationKey] = useState(0)
+  const [active, setActive] = useState(false)
 
   useEffect(function triggerStagger() {
-    requestAnimationFrame(() => setAnimationKey(1))
+    // Double rAF ensures the browser has painted the SSR content first
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setActive(true))
+    })
   }, [])
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={animationKey}
-        className={className}
-        role={role}
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: { staggerChildren: 0.06, delayChildren: 0.05 },
-          },
-        }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className={`${className ?? ''} ${active ? 'stagger-active' : ''}`} role={role}>
+      {children}
+    </div>
   )
 }
 
 // ─── Stagger Item ────────────────────────────────────────────────────────────
+let itemCounter = 0
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
+  const [index] = useState(() => itemCounter++)
+
+  // Reset counter when component tree unmounts (new page)
+  useEffect(() => {
+    return () => { itemCounter = 0 }
+  }, [])
+
   return (
-    <motion.div
-      className={className}
+    <div
+      className={`stagger-item ${className ?? ''}`}
       role={role}
-      variants={{
-        hidden: { opacity: 0, y: 12 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, ease },
-        },
-      }}
+      style={{ '--i': index } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
 // ─── Fade In ─────────────────────────────────────────────────────────────────
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const [mounted, setMounted] = useState(false)
+  const [active, setActive] = useState(false)
 
   useEffect(function triggerFade() {
-    requestAnimationFrame(() => setMounted(true))
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setActive(true))
+    })
   }, [])
 
   return (
-    <motion.div
-      className={className}
-      initial={false}
-      animate={mounted ? { opacity: 1 } : undefined}
-      transition={{ duration: 0.5, delay, ease }}
+    <div
+      className={`${className ?? ''} ${active ? 'fade-active' : ''}`}
+      style={{ '--fade-delay': `${delay}s` } as CSSProperties}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
@@ -91,7 +78,7 @@ export function TabContent({ id, children }: { id: string; children: ReactNode }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, ease }}
+        transition={{ duration: 0.2 }}
       >
         {children}
       </motion.div>
@@ -104,7 +91,7 @@ export function Pressable({ children, className, onClick, style, disabled, title
   children: ReactNode
   className?: string
   onClick?: () => void
-  style?: React.CSSProperties
+  style?: CSSProperties
   disabled?: boolean
   title?: string
 }) {

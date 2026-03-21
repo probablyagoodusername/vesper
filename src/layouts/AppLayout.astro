@@ -105,14 +105,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
         const items = document.querySelectorAll(".stagger-item");
         if (items.length === 0) return;
 
-        // Don't touch opacity — items are already visible from SSR.
-        // Only do a subtle upward slide for polish.
         animate(
           items,
-          { y: [8, 0] },
+          { opacity: [0, 1], y: [16, 0] },
           {
-            duration: 0.4,
-            delay: stagger(0.04, { startDelay: 0.05 }),
+            duration: 0.5,
+            delay: stagger(0.05, { startDelay: 0.1 }),
             easing: [0.16, 1, 0.3, 1],
           }
         );

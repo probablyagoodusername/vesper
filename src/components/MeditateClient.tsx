@@ -12,10 +12,7 @@ interface MeditateClientProps {
 
 export function MeditateClient({ meditations }: MeditateClientProps) {
   const { locale, t } = useLocale()
-  const [activeCategory, setActiveCategory] = useState<MeditateFilter>(() => {
-    if (typeof window === 'undefined') return 'all'
-    return (sessionStorage.getItem('vesper-meditate-filter') as MeditateFilter) ?? 'all'
-  })
+  const [activeCategory, setActiveCategory] = useState<MeditateFilter>('all')
 
   const handleFilter = (cat: MeditateFilter) => {
     setActiveCategory(cat)

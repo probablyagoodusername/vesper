@@ -1,20 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocale } from '@/hooks/useLocale'
 import { useTheme } from '@/hooks/useTheme'
 import { BASE, VOICES } from '@/lib/constants'
 
 type VoiceOption = 'default' | 'alt'
 
-function getStored(key: string, fallback: string): string {
-  if (typeof window === 'undefined') return fallback
-  return localStorage.getItem(key) ?? fallback
-}
-
 export function SettingsClient() {
   const { locale, setLocale, t } = useLocale()
   const { setting, setSetting } = useTheme()
-  const [voice, setVoice] = useState<VoiceOption>(() => getStored('vesper-voice', 'default') as VoiceOption)
-  const [musicOn, setMusicOn] = useState(() => getStored('vesper-music', 'on') !== 'off')
+  const [voice, setVoice] = useState<VoiceOption>('default')
+  const [musicOn, setMusicOn] = useState(true)
+
+  useEffect(function syncFromStorage() {
+    const storedVoice = localStorage.getItem('vesper-voice')
+    if (storedVoice) setVoice(storedVoice as VoiceOption)
+    const storedMusic = localStorage.getItem('vesper-music')
+    if (storedMusic) setMusicOn(storedMusic !== 'off')
+  }, [])
 
   const s = t.settings
 

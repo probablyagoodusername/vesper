@@ -1,20 +1,19 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useLocale } from '@/hooks/useLocale'
 import { PageTransition, FadeIn, StaggerList, StaggerItem } from '@/components/Motion'
 import musicTracks from '@/content/music.json'
 import { BASE } from '@/lib/constants'
 
-function getStoredTrackId(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('vesper-music-track')
-}
-
 export function MusicBrowser() {
   const { locale } = useLocale()
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playingId, setPlayingId] = useState<string | null>(null)
-  const [selectedId, setSelectedId] = useState<string | null>(getStoredTrackId)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+
+  useEffect(function syncStoredTrack() {
+    setSelectedId(localStorage.getItem('vesper-music-track'))
+  }, [])
 
   const handlePlay = useCallback((trackId: string, file: string) => {
     const audio = audioRef.current

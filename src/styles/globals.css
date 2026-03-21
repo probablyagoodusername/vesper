@@ -67,10 +67,10 @@
   text-wrap: balance;
 }
 
-/* Fast view transitions */
+/* View transition — single smooth crossfade between pages */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.15s;
+  animation-duration: 0.2s;
 }
 
 @utility scrollbar-hide {

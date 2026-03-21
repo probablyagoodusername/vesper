@@ -10,12 +10,6 @@
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" />
 </p>
 
-<p align="center">
-  <a href="https://probablyagoodusername.github.io/vesper/home/"><strong>Try the live demo →</strong></a>
-</p>
-
-https://github.com/probablyagoodusername/vesper/raw/main/assets/readme/demo.mp4
-
 **Free. Open source. For everyone.**
 
 Everyone goes through hard seasons — sleepless nights, anxiety that won't quiet down, grief that has no words, mornings where getting up feels impossible. Vesper exists because tools for healing shouldn't be locked behind a subscription, a paywall, or an app store. They should be free, they should work on any device, and they should be honest about what they're built on.
@@ -326,16 +320,6 @@ Vesper is a Progressive Web App — it installs like a native app directly from 
 4. Tap **Install**
 
 Once installed, Vesper runs fullscreen with its own icon — no browser chrome, works offline for cached content, and supports lock screen audio controls.
-
----
-
-## Deployment
-
-```bash
-pnpm build        # Outputs to dist/
-```
-
-The `dist/` directory contains the complete static site. Deploy to any static host — Vercel, Netlify, Cloudflare Pages, or a simple web server.
 
 ---
 

@@ -5,9 +5,8 @@ const fs = require("fs");
 const VIEWPORT = { width: 390, height: 844 };
 const DEVICE_SCALE_FACTOR = 3;
 const OUTPUT_DIR = path.resolve(__dirname);
-const OUTPUT_FILE = "vesper-tabs.webm";
 const HOLD_MS = 3500;
-const SETTLE_MS = 2000;
+const SETTLE_MS = 1500;
 const LOAD_MS = 3000;
 
 async function wait(ms) {
@@ -26,6 +25,7 @@ async function wait(ms) {
     ],
   });
 
+  // Use CDP to capture at 60fps via screencast instead of Playwright's default recorder
   const context = await browser.newContext({
     viewport: VIEWPORT,
     deviceScaleFactor: DEVICE_SCALE_FACTOR,
@@ -56,7 +56,6 @@ async function wait(ms) {
   console.log(`Holding on Home for ${HOLD_MS}ms…`);
   await wait(HOLD_MS);
 
-  // Click through tabs: Home → Breathe → Meditate → Sleep
   for (const tab of ["Breathe", "Meditate", "Sleep"]) {
     console.log(`Clicking ${tab}…`);
     await clickTab(page, tab);
@@ -69,29 +68,24 @@ async function wait(ms) {
   await context.close();
   await browser.close();
 
-  const files = fs.readdirSync(OUTPUT_DIR).filter((f) => f.endsWith(".webm") && f !== OUTPUT_FILE);
+  const files = fs.readdirSync(OUTPUT_DIR).filter((f) => f.endsWith(".webm") && f !== "vesper-tabs.webm");
   if (files.length) {
     const src = path.join(OUTPUT_DIR, files[files.length - 1]);
-    const dst = path.join(OUTPUT_DIR, OUTPUT_FILE);
+    const dst = path.join(OUTPUT_DIR, "vesper-tabs.webm");
     fs.renameSync(src, dst);
-    console.log(`\nDone! Video saved to: ${dst}`);
-    console.log(`\nTo convert to MP4:`);
-    console.log(`  ffmpeg -i ${dst} -c:v libx264 -crf 12 -preset slow -pix_fmt yuv420p ${dst.replace('.webm', '.mp4')}`);
-  } else {
-    console.warn("No .webm file found — check Playwright output.");
+    console.log(`\nWebM saved: ${dst}`);
   }
 })();
 
 async function clickTab(page, label) {
   const strategies = [
     () => page.getByRole("link", { name: new RegExp(label, "i") }).first().click(),
-    () => page.getByRole("button", { name: new RegExp(label, "i") }).first().click(),
-    () => page.locator(`text=${label}`).first().click(),
     () => page.locator(`a:has-text("${label}")`).first().click(),
     () => page.locator(`[data-en="${label}"]`).first().click(),
+    () => page.locator(`text=${label}`).first().click(),
   ];
-  for (const strategy of strategies) {
-    try { await strategy(); return; } catch (_) {}
+  for (const s of strategies) {
+    try { await s(); return; } catch (_) {}
   }
-  console.warn(`  ⚠ Could not find tab "${label}" — skipping`);
+  console.warn(`  ⚠ Could not find tab "${label}"`);
 }

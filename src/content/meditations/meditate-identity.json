@@ -27,16 +27,7 @@
   "audioPathFr": null,
   "sortOrder": 7,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/19716550/",
-  "breathing": {
-    "slug": "box-breathing",
-    "nameEn": "Box Breathing",
-    "nameFr": "Respiration carrée",
-    "inhale": 4,
-    "holdIn": 4,
-    "exhale": 4,
-    "holdOut": 4,
-    "rounds": 4
-  },
+  "breathing": null,
   "segments": {
     "en": {
       "available": true,

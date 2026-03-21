@@ -75,6 +75,55 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* Seek scrubber — taller hit area, visible thumb */
+.vesper-seek {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--seek-progress, 0%),
+    var(--border) var(--seek-progress, 0%)
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.vesper-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: grab;
+  border: 2px solid var(--bg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+
+.vesper-seek::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.3);
+}
+
+.vesper-seek::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: grab;
+  border: 2px solid var(--bg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.vesper-seek::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+}
+
 /* Range slider — music volume */
 .vesper-range {
   -webkit-appearance: none;

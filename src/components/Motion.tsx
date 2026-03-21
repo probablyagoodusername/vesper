@@ -1,56 +1,22 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-const ease = [0.25, 0.1, 0.25, 1]
-
-// Page-level fade in
+// Page-level wrapper — no animation (Astro View Transition handles page crossfade)
 export function PageTransition({ children }: { children: ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.25, ease }}
-    >
-      {children}
-    </motion.div>
-  )
+  return <>{children}</>
 }
 
-// Staggered list container
+// List container — no stagger animation
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  return (
-    <motion.div
-      className={className}
-      role={role}
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: 0.03 } },
-      }}
-    >
-      {children}
-    </motion.div>
-  )
+  return <div className={className} role={role}>{children}</div>
 }
 
-// Individual list item
+// List item — no animation
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  return (
-    <motion.div
-      className={className}
-      role={role}
-      variants={{
-        hidden: { opacity: 0, y: 4 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease } },
-      }}
-    >
-      {children}
-    </motion.div>
-  )
+  return <div className={className} role={role}>{children}</div>
 }
 
-// Tab content crossfade
+// Tab content crossfade (within a page, not a page transition)
 export function TabContent({ id, children }: { id: string; children: ReactNode }) {
   return (
     <AnimatePresence mode="wait">
@@ -59,7 +25,7 @@ export function TabContent({ id, children }: { id: string; children: ReactNode }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.15, ease }}
+        transition={{ duration: 0.15 }}
       >
         {children}
       </motion.div>
@@ -91,14 +57,14 @@ export function Pressable({ children, className, onClick, style, disabled, title
   )
 }
 
-// Fade in section
+// Fade in section (for specific elements that need delayed reveal)
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay, ease }}
+      transition={{ duration: 0.3, delay }}
     >
       {children}
     </motion.div>

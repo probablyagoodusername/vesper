@@ -8,50 +8,39 @@ export function PageTransition({ children }: { children: ReactNode }) {
 }
 
 // ─── Stagger List ────────────────────────────────────────────────────────────
-// Plain wrapper — individual items handle their own reveal via IntersectionObserver
 export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   return <div className={className} role={role}>{children}</div>
 }
 
 // ─── Stagger Item ────────────────────────────────────────────────────────────
-// Reveals with a slide-up when scrolled into view.
-// Items already in viewport on load get a staggered delay based on DOM order.
-// SSR: fully visible (no opacity:0). Animation is additive — enhances, never hides.
-
+// Items visible on page load: no animation (already in place).
+// Items below the fold: subtle fade+slide on scroll into view.
 export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [revealed, setRevealed] = useState(false)
+  const [animate, setAnimate] = useState(false)
+  const wasAboveFold = useRef(true)
 
-  useEffect(function observeEntry() {
+  useEffect(function setupReveal() {
     const el = ref.current
     if (!el) return
 
-    // Items already above the fold: stagger by DOM index
     const rect = el.getBoundingClientRect()
-    const inViewport = rect.top < window.innerHeight
-
-    if (inViewport) {
-      // Count preceding siblings to compute stagger delay
-      let index = 0
-      let sibling = el.previousElementSibling
-      while (sibling) {
-        index++
-        sibling = sibling.previousElementSibling
-      }
-      const delay = index * 50 // 50ms stagger
-      setTimeout(() => setRevealed(true), delay)
+    if (rect.top < window.innerHeight) {
+      // Already visible — no animation needed
+      wasAboveFold.current = true
       return
     }
 
-    // Items below fold: reveal on scroll
+    // Below fold — set up scroll reveal
+    wasAboveFold.current = false
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setRevealed(true)
+          setAnimate(true)
           observer.disconnect()
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px 40px 0px' }
+      { threshold: 0.05 }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -60,7 +49,7 @@ export function StaggerItem({ children, className, role }: { children: ReactNode
   return (
     <div
       ref={ref}
-      className={`${className ?? ''} stagger-reveal ${revealed ? 'revealed' : ''}`}
+      className={`${className ?? ''} ${!wasAboveFold.current && !animate ? 'scroll-reveal-pending' : ''} ${animate ? 'scroll-reveal-active' : ''}`}
       role={role}
     >
       {children}
@@ -69,20 +58,8 @@ export function StaggerItem({ children, className, role }: { children: ReactNode
 }
 
 // ─── Fade In ─────────────────────────────────────────────────────────────────
-// Same pattern — visible in SSR, animates after mount with optional delay
 export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const [active, setActive] = useState(false)
-
-  useEffect(function triggerFade() {
-    const timeout = setTimeout(() => setActive(true), delay * 1000)
-    return () => clearTimeout(timeout)
-  }, [delay])
-
-  return (
-    <div className={`${className ?? ''} fade-reveal ${active ? 'revealed' : ''}`}>
-      {children}
-    </div>
-  )
+  return <div className={className}>{children}</div>
 }
 
 // ─── Tab Content ─────────────────────────────────────────────────────────────

@@ -67,21 +67,6 @@
   text-wrap: balance;
 }
 
-/* View transition — crossfade with old page staying visible underneath */
-::view-transition-old(root) {
-  animation-duration: 0.15s;
-  animation-timing-function: ease-out;
-  z-index: 1;
-}
-::view-transition-new(root) {
-  animation-duration: 0.15s;
-  animation-timing-function: ease-in;
-  z-index: 2;
-}
-/* Prevent blank flash: mix-blend keeps old visible under new */
-::view-transition-group(root) {
-  isolation: auto;
-}
 
 @utility scrollbar-hide {
   scrollbar-width: none;

@@ -1,77 +1,88 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, Children, cloneElement, isValidElement } from 'react'
-import type { ReactNode, ReactElement } from 'react'
+import { useState, useEffect } from 'react'
+import type { ReactNode } from 'react'
 
-// ─── Stagger List ────────────────────────────────────────────────────────────
-// SSR: renders all children visible. After hydration: replays a stagger animation.
-// Uses CSS custom property --i for per-item delay — no opacity:0 in SSR HTML.
-
-export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(function triggerStagger() {
-    // Small delay so the browser paints the SSR content first
-    const raf = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  return (
-    <div className={`${className ?? ''} ${mounted ? 'stagger-active' : ''}`} role={role}>
-      {Children.map(children, (child, i) => {
-        if (isValidElement(child)) {
-          return cloneElement(child as ReactElement<Record<string, unknown>>, {
-            style: { ...((child.props as Record<string, unknown>).style as object ?? {}), '--i': i } as React.CSSProperties,
-          })
-        }
-        return child
-      })}
-    </div>
-  )
-}
-
-// Stagger item — the actual animated element
-export function StaggerItem({ children, className, role, style }: {
-  children: ReactNode
-  className?: string
-  role?: string
-  style?: React.CSSProperties
-}) {
-  return (
-    <div className={`stagger-item ${className ?? ''}`} role={role} style={style}>
-      {children}
-    </div>
-  )
-}
-
-// ─── Fade In ─────────────────────────────────────────────────────────────────
-// SSR: visible. After mount: plays a fade animation.
-
-export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(function triggerFade() {
-    const raf = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  return (
-    <div
-      className={`${className ?? ''} ${mounted ? 'fade-active' : ''}`}
-      style={{ '--fade-delay': `${delay}s` } as React.CSSProperties}
-    >
-      {children}
-    </div>
-  )
-}
+const ease = [0.22, 1, 0.36, 1] // Apple-style ease-out
 
 // ─── Page Transition ─────────────────────────────────────────────────────────
-// Passthrough — View Transition API handles page swap
 export function PageTransition({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
+// ─── Stagger List ────────────────────────────────────────────────────────────
+// SSR: renders children visible. After mount: replays stagger via Framer Motion.
+// initial={false} on mount → no opacity:0 in SSR HTML.
+// After hydration, we flip a key to trigger the enter animation.
+
+export function StaggerList({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
+  const [animationKey, setAnimationKey] = useState(0)
+
+  useEffect(function triggerStagger() {
+    requestAnimationFrame(() => setAnimationKey(1))
+  }, [])
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={animationKey}
+        className={className}
+        role={role}
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: { staggerChildren: 0.06, delayChildren: 0.05 },
+          },
+        }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+// ─── Stagger Item ────────────────────────────────────────────────────────────
+export function StaggerItem({ children, className, role }: { children: ReactNode; className?: string; role?: string }) {
+  return (
+    <motion.div
+      className={className}
+      role={role}
+      variants={{
+        hidden: { opacity: 0, y: 12 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.5, ease },
+        },
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+// ─── Fade In ─────────────────────────────────────────────────────────────────
+export function FadeIn({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(function triggerFade() {
+    requestAnimationFrame(() => setMounted(true))
+  }, [])
+
+  return (
+    <motion.div
+      className={className}
+      initial={false}
+      animate={mounted ? { opacity: 1 } : undefined}
+      transition={{ duration: 0.5, delay, ease }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 // ─── Tab Content ─────────────────────────────────────────────────────────────
-// Crossfade on key change only (initial={false} skips first render animation)
 export function TabContent({ id, children }: { id: string; children: ReactNode }) {
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -80,7 +91,7 @@ export function TabContent({ id, children }: { id: string; children: ReactNode }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.2, ease }}
       >
         {children}
       </motion.div>

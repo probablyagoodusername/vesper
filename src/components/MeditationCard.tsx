@@ -35,7 +35,7 @@ export function MeditationCard({
   return (
     <a
       href={resolvedHref}
-      className="block rounded-xl border border-[var(--border)] p-5 transition-colors hover:bg-[var(--surface)]"
+      className="block rounded-xl glass-card p-5"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">

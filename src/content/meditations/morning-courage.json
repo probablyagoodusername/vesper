@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-courage.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-courage.mp3",
   "sortOrder": 7,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/20116915/",
   "breathing": {

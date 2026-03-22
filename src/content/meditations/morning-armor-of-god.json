@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-armor-of-god.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-armor-of-god.mp3",
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/22506748/",
   "breathing": {

@@ -75,6 +75,60 @@ html.dark { background-color: #0c0807; }
 
 
 
+/* ─── Liquid Glass — iOS 26 inspired surfaces ────────────────────────────── */
+/* Light mode: warm white glass with subtle inner glow */
+/* Dark mode: dark glass with soft edge highlights */
+
+.glass-surface {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  box-shadow:
+    0 1px 3px color-mix(in srgb, var(--text) 4%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+.dark .glass-surface {
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  border-color: color-mix(in srgb, var(--border) 40%, transparent);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Elevated glass — for cards and interactive elements */
+.glass-card {
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid color-mix(in srgb, var(--border) 40%, transparent);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--text) 5%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.glass-card:hover {
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--text) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 12%, transparent);
+}
+
+.dark .glass-card {
+  background: color-mix(in srgb, var(--surface) 40%, transparent);
+  border-color: color-mix(in srgb, var(--border) 30%, transparent);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.dark .glass-card:hover {
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 /* Stagger items — vanilla Motion JS handles animation */
 .stagger-item {
   will-change: transform, opacity;

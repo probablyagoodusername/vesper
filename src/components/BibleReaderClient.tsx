@@ -154,7 +154,7 @@ export function BibleReaderClient({
         }}
       >
         {/* Liturgical event card */}
-        <div className="mb-5 rounded-xl bg-[var(--surface)] px-4 py-3">
+        <div className="mb-5 rounded-xl glass-surface px-4 py-3">
           <p className="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">
             {locale === 'fr' ? readingLabelFr : readingLabel}
           </p>
@@ -166,7 +166,7 @@ export function BibleReaderClient({
         {/* Search bar */}
         <a
           href={`${BASE}/bible/search`}
-          className="mb-5 flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)]"
+          className="mb-5 flex items-center gap-2 rounded-lg glass-surface px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)]"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" />
@@ -228,7 +228,7 @@ export function BibleReaderClient({
         {navOpen && (
           <>
           <div className="fixed inset-0 z-40" onClick={() => setNavOpen(false)} />
-          <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
+          <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl glass-surface shadow-lg">
             {navStep === 'testament' && (
               <div className="p-2">
                 <button

@@ -156,7 +156,7 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
             <h2 className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
               {t.bible.verseOfTheDay}
             </h2>
-            <blockquote className="rounded-xl bg-[var(--surface)] p-5">
+            <blockquote className="rounded-xl glass-surface p-5">
               <p className="font-[family-name:var(--font-serif)] text-xl leading-relaxed text-[var(--primary)]">
                 &ldquo;{locale === 'fr' ? dailyVerse.textFr : dailyVerse.textEn}&rdquo;
               </p>

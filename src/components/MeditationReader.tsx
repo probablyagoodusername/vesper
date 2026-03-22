@@ -15,23 +15,8 @@ export function MeditationReader({ meditation }: MeditationReaderProps) {
   const script = locale === 'fr' ? meditation.scriptFr : meditation.scriptEn
   const catLabel = (CATEGORY_LABELS[locale] ?? CATEGORY_LABELS.en)[meditation.category] ?? meditation.category
   const lines = parseScript(script)
-  const backHref = meditation.isSleep ? `${BASE}/sleep` : `${BASE}/meditate`
-
   return (
     <main className="px-6 pt-12 pb-16">
-      <header className="mb-8 flex items-center justify-between">
-        <a
-          href={backHref}
-          className="flex items-center gap-1 text-sm text-[var(--muted)] transition-colors hover:text-[var(--primary)]"
-          aria-label={t.meditate.backToList}
-        >
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" />
-            <path d="m12 19-7-7 7-7" />
-          </svg>
-          {t.meditate.backToList}
-        </a>
-      </header>
 
       <div className="mb-8">
         <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold leading-tight text-[var(--primary)]">

@@ -53,21 +53,10 @@ export function SearchClient() {
 
   return (
     <main className="px-6 pt-12 pb-8">
-      <header className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <a
-            href={`${BASE}/bible`}
-            className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
-            aria-label={locale === 'fr' ? 'Retour' : 'Back'}
-          >
-            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </a>
-          <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
-            {t.bible.search}
-          </h1>
-        </div>
+      <header className="mb-6">
+        <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
+          {t.bible.search}
+        </h1>
       </header>
 
       {/* Search input */}

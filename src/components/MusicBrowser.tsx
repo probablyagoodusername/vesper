@@ -52,16 +52,6 @@ export function MusicBrowser() {
         <audio ref={audioRef} onEnded={handleEnded} />
 
         <header className="mb-2">
-          <a
-            href={`${BASE}/settings`}
-            className="mb-4 inline-flex items-center gap-1 text-sm text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
-          >
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5" />
-              <path d="m12 19-7-7 7-7" />
-            </svg>
-            {locale === 'fr' ? 'Retour' : 'Back'}
-          </a>
           <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
             {locale === 'fr' ? 'Musique ambiante' : 'Ambient Music'}
           </h1>

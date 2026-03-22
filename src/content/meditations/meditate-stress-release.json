@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-stress-release.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-stress-release.mp3",
   "sortOrder": 6,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/26130387/",
   "breathing": {

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme/header.svg" alt="Vesper — Therapeutic Audio" width="100%" />
+  <img src="assets/brand/banner.png" alt="Vesper" width="100%" />
 </p>
 
 <p align="center">

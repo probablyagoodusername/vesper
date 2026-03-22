@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/sleep-body-scan-peace.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/sleep-body-scan-peace.mp3",
   "sortOrder": 2,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/22866996/",
   "breathing": {

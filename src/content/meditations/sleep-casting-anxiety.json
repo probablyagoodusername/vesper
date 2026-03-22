@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/sleep-casting-anxiety.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/sleep-casting-anxiety.mp3",
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/21787446/",
   "breathing": {

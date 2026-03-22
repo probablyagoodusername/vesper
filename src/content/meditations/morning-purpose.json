@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-purpose.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-purpose.mp3",
   "sortOrder": 8,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/31125099/",
   "breathing": {

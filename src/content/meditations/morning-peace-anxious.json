@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-peace-anxious.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-peace-anxious.mp3",
   "sortOrder": 10,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/34588511/",
   "breathing": {

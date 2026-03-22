@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-proverbs-wisdom.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-proverbs-wisdom.mp3",
   "sortOrder": 6,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/14508023/",
   "breathing": {

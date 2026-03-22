@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-philippians-mind.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-philippians-mind.mp3",
   "sortOrder": 4,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/17596341/",
   "breathing": {

@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-isaiah-renew.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-isaiah-renew.mp3",
   "sortOrder": 5,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/33076360/",
   "breathing": {

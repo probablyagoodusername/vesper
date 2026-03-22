@@ -16,7 +16,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
-    <meta name="theme-color" content="#1e1a17" />
+    <meta name="theme-color" content="#f8f4f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0807" media="(prefers-color-scheme: dark)" />
     <meta name="description" content="Bible meditation, guided prayer, breathing exercises, and sleep." />
     <link rel="manifest" href={`${base}/manifest.json`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,6 +34,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
         var dark = s === 'dark' || (s === 'auto' && (new Date().getHours() >= 20 || new Date().getHours() < 7));
         if (dark) document.documentElement.classList.add('dark');
         else document.documentElement.classList.remove('dark');
+        // Update theme-color meta to match
+        var metas = document.querySelectorAll('meta[name="theme-color"]');
+        metas.forEach(function(m) { m.setAttribute('content', dark ? '#0c0807' : '#f8f4f2'); });
       }
       function applyVesperLocale() {
         var locale = localStorage.getItem('vesper-locale') || 'en';
@@ -58,9 +62,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     </style>
   </head>
   <body class="bg-[var(--bg)] text-[var(--text)]">
-    <div class="min-h-dvh pb-20 pt-6">
+    <div class="min-h-dvh pb-20" style="padding-top: calc(24px + env(safe-area-inset-top, 0px))">
       <!-- Top bar — back chevron + Vesper wordmark -->
-      <header class="fixed top-0 left-0 right-0 z-50 flex h-12 items-center justify-between glass-surface px-4">
+      <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between glass-surface px-4" style="padding-top: env(safe-area-inset-top, 0px); height: calc(48px + env(safe-area-inset-top, 0px))">
         <button
           onclick="if (window.history.length > 1) { window.history.back() } else { window.location.href = base + '/home' }"
           class="flex h-11 w-11 items-center justify-center text-[var(--accent)] transition-opacity hover:opacity-70"

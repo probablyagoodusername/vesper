@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/sleep-be-still.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/sleep-be-still.mp3",
   "sortOrder": 4,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/22114193/",
   "breathing": {

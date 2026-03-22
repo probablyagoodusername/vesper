@@ -11,7 +11,7 @@
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/prayer-hail-mary.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/prayer-hail-mary.mp3",
   "sortOrder": 2,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/11751348/",
   "breathing": null

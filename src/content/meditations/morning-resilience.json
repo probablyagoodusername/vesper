@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-resilience.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-resilience.mp3",
   "sortOrder": 9,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/20010606/",
   "breathing": {

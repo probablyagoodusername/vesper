@@ -177,7 +177,7 @@ export function BibleReaderClient({
       </div>
 
       {/* Sticky book/chapter selector — always visible */}
-      <div className="sticky top-12 z-30 bg-[var(--bg)] pb-3 pt-1" ref={navRef}>
+      <div className="sticky z-30 bg-[var(--bg)] pb-3 pt-1" style={{ top: 'calc(48px + env(safe-area-inset-top, 0px))' }} ref={navRef}>
         <div className="flex items-center justify-between">
           <button
             onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}

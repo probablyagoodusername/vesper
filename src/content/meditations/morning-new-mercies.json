@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/morning-new-mercies.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/morning-new-mercies.mp3",
   "sortOrder": 1,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/26203459/",
   "breathing": {

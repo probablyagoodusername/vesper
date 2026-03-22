@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-lectio-divina.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-lectio-divina.mp3",
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/27880088/",
   "breathing": null,

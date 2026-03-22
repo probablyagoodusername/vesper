@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-gratitude-midday.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-gratitude-midday.mp3",
   "sortOrder": 5,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/12585811/",
   "breathing": {

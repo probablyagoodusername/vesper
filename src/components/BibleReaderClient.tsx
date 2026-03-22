@@ -63,17 +63,10 @@ export function BibleReaderClient({
     ? locale === 'fr' ? currentBook.nameFr : currentBook.nameEn
     : ''
 
-  // Close nav on outside click
-  useEffect(function closeNavOnOutsideClick() {
-    if (!navOpen) return
-    function handleClick(e: MouseEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setNavOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [navOpen])
+  // No outside-click handler — dropdown closes via:
+  // 1. Tapping the title button again (toggles navOpen)
+  // 2. Selecting a chapter (navigateTo closes it)
+  // 3. Tapping the backdrop overlay
 
   const fetchChapter = useCallback(async (bookSlug: string, chapter: number) => {
     setLoading(true)
@@ -184,11 +177,11 @@ export function BibleReaderClient({
       </div>
 
       {/* Sticky book/chapter selector — always visible */}
-      <div className="sticky top-12 z-30 bg-[var(--bg)] pb-3 pt-1">
-        <div className="flex items-center justify-between" ref={navRef}>
+      <div className="sticky top-12 z-30 bg-[var(--bg)] pb-3 pt-1" ref={navRef}>
+        <div className="flex items-center justify-between">
           <button
             onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}
-            className="flex items-center gap-2 text-left"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-left transition-colors active:bg-[var(--surface)]"
             aria-expanded={navOpen}
             aria-label={`${bookName} ${currentChapter} — navigate`}
           >
@@ -231,8 +224,10 @@ export function BibleReaderClient({
           )}
         </div>
 
-        {/* Navigator dropdown */}
+        {/* Navigator dropdown + backdrop */}
         {navOpen && (
+          <>
+          <div className="fixed inset-0 z-40" onClick={() => setNavOpen(false)} />
           <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
             {navStep === 'testament' && (
               <div className="p-2">
@@ -311,6 +306,7 @@ export function BibleReaderClient({
               </div>
             )}
           </div>
+          </>
         )}
       </div>
 

@@ -11,7 +11,7 @@
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/meditate-centering-prayer.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-centering-prayer.mp3",
   "sortOrder": 4,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/24672504/",
   "breathing": null,

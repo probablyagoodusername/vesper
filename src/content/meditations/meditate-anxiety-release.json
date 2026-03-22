@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-anxiety-release.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-anxiety-release.mp3",
   "sortOrder": 1,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/12495527/",
   "breathing": {

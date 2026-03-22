@@ -11,7 +11,7 @@
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/meditate-grief.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-grief.mp3",
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/25699005/",
   "breathing": null,

@@ -24,7 +24,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-identity.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-identity.mp3",
   "sortOrder": 7,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/19716550/",
   "breathing": null,

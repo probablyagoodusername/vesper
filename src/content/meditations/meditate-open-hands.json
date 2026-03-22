@@ -11,7 +11,7 @@
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/meditate-open-hands.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-open-hands.mp3",
   "sortOrder": 3,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/20855902/",
   "breathing": {

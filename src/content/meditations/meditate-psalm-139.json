@@ -18,7 +18,7 @@
     }
   ],
   "audioPathEn": "/audio/en/meditate-psalm-139.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/meditate-psalm-139.mp3",
   "sortOrder": 2,
   "scienceUrl": "https://pubmed.ncbi.nlm.nih.gov/23070875/",
   "breathing": null,

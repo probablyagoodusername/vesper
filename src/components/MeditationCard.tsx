@@ -52,9 +52,14 @@ export function MeditationCard({
           </div>
           <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-[var(--muted)]">{desc}</p>
         </div>
-        <span className="shrink-0 tabular-nums text-xs text-[var(--muted)]">
-          {durationMin} {durationLabel}
-        </span>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="tabular-nums text-xs text-[var(--muted)]">
+            {durationMin} {durationLabel}
+          </span>
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 opacity-40">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </div>
       </div>
     </a>
   )

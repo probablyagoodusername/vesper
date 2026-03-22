@@ -167,7 +167,7 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
             <div className="mt-3 text-right">
               <a
                 href={`${BASE}/bible`}
-                className="inline-flex items-center gap-1 text-sm text-[var(--accent)] hover:underline"
+                className="inline-flex min-h-[44px] items-center gap-1 text-sm text-[var(--accent)] hover:underline"
               >
                 {locale === 'fr' ? 'Ouvrir la Bible' : 'Open Bible'}
                 <span aria-hidden="true">&rarr;</span>
@@ -186,7 +186,7 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
                 </h2>
                 <a
                   href={config.href}
-                  className="text-xs text-[var(--accent)] hover:underline"
+                  className="min-h-[44px] flex items-center text-xs text-[var(--accent)] hover:underline"
                 >
                   {locale === 'fr' ? 'Voir tout' : 'See all'}
                 </a>

@@ -551,7 +551,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
               step={0.1}
               value={currentTime}
               onChange={handleSeek}
-              className="vesper-seek flex-1"
+              className="vesper-seek h-11 flex-1"
               style={{ '--seek-progress': `${progress}%` } as React.CSSProperties}
               aria-label="Seek"
             />
@@ -564,7 +564,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
           {!isMusic && <div className="flex items-center justify-center gap-2.5">
             <button
               onClick={toggleMusic}
-              className="flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-full px-2.5 py-1 transition-colors"
               style={{
                 backgroundColor: musicOn ? `color-mix(in srgb, var(--accent) 12%, transparent)` : 'transparent',
                 color: musicOn ? 'var(--accent)' : 'var(--muted)',
@@ -586,7 +586,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
               value={musicOn ? musicVolume : 0}
               onChange={handleVolumeChange}
               disabled={!musicOn}
-              className="vesper-range w-20 transition-opacity"
+              className="vesper-range h-11 w-20 transition-opacity"
               style={{ opacity: musicOn ? 1 : 0.25 }}
               aria-label="Music volume"
             />

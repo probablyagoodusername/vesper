@@ -40,7 +40,7 @@ export function MeditateClient({ meditations }: MeditateClientProps) {
               key={cat}
               onClick={() => handleFilter(cat)}
               aria-pressed={activeCategory === cat}
-              className={`shrink-0 snap-start rounded-full px-4 py-1.5 text-sm transition-colors ${
+              className={`shrink-0 snap-start rounded-full px-4 py-3 text-sm transition-colors ${
                 activeCategory === cat
                   ? 'bg-[var(--accent)] text-[var(--bg)]'
                   : 'border border-[var(--border)] text-[var(--muted)] hover:text-[var(--primary)]'

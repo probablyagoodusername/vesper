@@ -184,7 +184,7 @@ export function BibleReaderClient({
       </div>
 
       {/* Sticky book/chapter selector — always visible */}
-      <div className="sticky top-0 z-30 bg-[var(--bg)] pb-3 pt-1">
+      <div className="sticky top-12 z-30 bg-[var(--bg)] pb-3 pt-1">
         <div className="flex items-center justify-between" ref={navRef}>
           <button
             onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}
@@ -233,7 +233,7 @@ export function BibleReaderClient({
 
         {/* Navigator dropdown */}
         {navOpen && (
-          <div className="absolute left-4 right-4 z-40 mt-2 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
+          <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-lg">
             {navStep === 'testament' && (
               <div className="p-2">
                 <button

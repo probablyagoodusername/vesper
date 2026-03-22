@@ -11,7 +11,7 @@
   "isSleep": false,
   "verseRefs": null,
   "audioPathEn": "/audio/en/breathe-physiological-sigh.mp3",
-  "audioPathFr": null,
+  "audioPathFr": "/audio/fr/breathe-physiological-sigh.mp3",
   "sortOrder": 6,
   "scienceUrl": "https://doi.org/10.1016/j.xcrm.2022.100895",
   "breathing": null

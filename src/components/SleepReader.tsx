@@ -47,9 +47,8 @@ export function SleepReader({ meditation }: SleepReaderProps) {
             borderColor: 'var(--sleep-border)',
           }}
         >
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sleep-scripture)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="4" />
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="var(--sleep-scripture)">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
           </svg>
           <span className="text-sm" style={{ color: 'var(--sleep-scripture)' }}>
             {locale === 'fr' ? 'Commencer par la respiration' : 'Begin with breathing'}

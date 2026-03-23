@@ -38,9 +38,8 @@ export function MeditationReader({ meditation }: MeditationReaderProps) {
           href={`${BASE}/breathe/${meditation.breathing.slug}`}
           className="mb-10 flex items-center gap-3 rounded-xl border border-[var(--border)] p-4 transition-colors hover:bg-[var(--surface)]"
         >
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="4" />
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="var(--accent)">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
           </svg>
           <span className="text-sm text-[var(--accent)]">{t.meditate.beginBreathing}</span>
         </a>

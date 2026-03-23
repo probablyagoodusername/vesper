@@ -142,8 +142,8 @@ export function SettingsClient() {
                 {locale === 'fr' ? 'Parcourir les 5 pistes ambiantes' : 'Browse all 5 ambient tracks'}
               </p>
             </div>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="var(--muted)">
+              <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
             </svg>
           </a>
         </div>
@@ -198,8 +198,8 @@ export function SettingsClient() {
               <span className="text-sm text-[var(--primary)]">{s.ourApproach}</span>
               <p className="mt-0.5 text-xs text-[var(--muted)]">{s.ourApproachDesc}</p>
             </div>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="var(--muted)">
+              <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
             </svg>
           </a>
           <div className="border-t border-[var(--border)]" />
@@ -213,10 +213,9 @@ export function SettingsClient() {
               <span className="text-sm text-[var(--primary)]">{s.openSource}</span>
               <p className="mt-0.5 text-xs text-[var(--muted)]">{s.openSourceDesc}</p>
             </div>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="var(--muted)">
+              <path fillRule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+              <path fillRule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
             </svg>
           </a>
         </div>
@@ -227,8 +226,8 @@ export function SettingsClient() {
 
 function CheckIcon() {
   return (
-    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 6 9 17l-5-5" />
+    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="var(--accent)">
+      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
     </svg>
   )
 }

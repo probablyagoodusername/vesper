@@ -522,13 +522,12 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
             {isPlaying ? (
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="var(--bg)" stroke="none">
-                <rect x="6" y="4" width="4" height="16" rx="1" />
-                <rect x="14" y="4" width="4" height="16" rx="1" />
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 16 16" fill="var(--bg)">
+                <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5"/>
               </svg>
             ) : (
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="var(--bg)" stroke="none">
-                <path d="M8 5v14l11-7z" />
+              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 16 16" fill="var(--bg)">
+                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
               </svg>
             )}
           </motion.button>
@@ -565,10 +564,10 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
               }}
               aria-label={musicOn ? 'Disable background music' : 'Enable background music'}
             >
-              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 18V5l12-2v13" />
-                <circle cx="6" cy="18" r="3" />
-                <circle cx="18" cy="16" r="3" />
+              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
+                <path fillRule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>
+                <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/>
               </svg>
             </button>
 

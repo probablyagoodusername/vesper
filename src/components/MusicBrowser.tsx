@@ -48,7 +48,7 @@ export function MusicBrowser() {
 
   return (
     <PageTransition>
-      <main className="px-6 pt-12 pb-8">
+      <main className="px-6 pb-8">
         <audio ref={audioRef} onEnded={handleEnded} />
 
         <header className="mb-2">

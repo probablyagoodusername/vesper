@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useLocale } from '@/hooks/useLocale'
 import { useCrossfadeLoop } from '@/hooks/useCrossfadeLoop'
+import { NavBar } from '@/components/NavBar'
 import { BASE, VOICES } from '@/lib/constants'
 import { parseScript } from '@/lib/parseScript'
 import { RelaxAnimation } from '@/components/RelaxAnimation'
@@ -435,7 +436,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
 
   return (
     <main
-      className="mx-auto flex min-h-screen max-w-2xl flex-col bg-[var(--bg)] px-6 pt-12 pb-8 text-[var(--text)]"
+      className="mx-auto flex min-h-screen max-w-2xl flex-col bg-[var(--bg)] px-6 pb-8 text-[var(--text)]"
     >
       {audioPath && (
         <audio
@@ -457,16 +458,9 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
         />
       )}
 
-      <header className="mb-6 flex items-center justify-end">
-        <span className="tabular-nums text-xs text-[var(--muted)]">
-          {selectedDuration ?? meditation.durationMin} min
-        </span>
-      </header>
+      <NavBar title={title} />
 
       <div className="mb-6 px-4">
-        <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
-          {title}
-        </h1>
         {(desc || '').split('\n\n').map((paragraph, i) => (
           <p key={i} className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
             {paragraph}
@@ -603,3 +597,4 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
     </main>
   )
 }
+

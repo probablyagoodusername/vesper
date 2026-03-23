@@ -1,5 +1,6 @@
 import { useLocale } from '@/hooks/useLocale'
 import { PageTransition, StaggerList, StaggerItem, FadeIn } from '@/components/Motion'
+import { NavBar } from '@/components/NavBar'
 import { MeditationCard } from '@/components/MeditationCard'
 import type { MeditationData } from '@/types'
 
@@ -16,15 +17,8 @@ export function BreatheClient({ protocols }: BreatheClientProps) {
 
   return (
     <PageTransition>
-      <main className="px-6 pt-12 pb-8">
-        <header className="mb-8">
-          <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
-            {t.breathe.title}
-          </h1>
-          <p className="mt-1 text-sm text-[var(--muted)]">
-            {locale === 'fr' ? 'Outils de secours et respiration' : 'Quick relief & breathing tools'}
-          </p>
-        </header>
+      <main className="px-6 pb-8">
+        <NavBar title={t.breathe.title} showBack={false} titleSize="large" />
 
         {sos.length > 0 && (
           <div>

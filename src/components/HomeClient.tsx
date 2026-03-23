@@ -18,6 +18,10 @@ interface Meditation {
 
 interface HomeClientProps {
   allMeditations: Meditation[]
+  readingLabel?: string
+  readingLabelFr?: string
+  readingReason?: string
+  readingReasonFr?: string
 }
 
 type TimeOfDay = 'morning' | 'afternoon' | 'evening'
@@ -114,7 +118,7 @@ function MeditationRow({ m, locale, isSleep }: { m: Meditation; locale: string; 
   )
 }
 
-export function HomeClient({ allMeditations }: HomeClientProps) {
+export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readingReason, readingReasonFr }: HomeClientProps) {
   const { locale, t } = useLocale()
   const [timeOfDay] = useState<TimeOfDay>(getTimeOfDay)
 
@@ -143,7 +147,7 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
 
   return (
     <PageTransition>
-      <main className="px-6 pt-12 pb-8">
+      <main className="px-6 pb-8" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <header className="mb-10">
           <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
             {greetings[timeOfDay]}
@@ -173,6 +177,18 @@ export function HomeClient({ allMeditations }: HomeClientProps) {
                 <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
+
+            {/* Liturgical event */}
+            {readingLabel && (
+              <div className="mt-4 rounded-xl glass-surface px-4 py-3">
+                <p className="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">
+                  {locale === 'fr' ? readingLabelFr : readingLabel}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                  {locale === 'fr' ? readingReasonFr : readingReason}
+                </p>
+              </div>
+            )}
           </section>
         </FadeIn>
 

@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useLocale } from '@/hooks/useLocale'
 import { VerseDisplay } from '@/components/VerseDisplay'
 import { BibleTTS } from '@/components/BibleTTS'
+import { NavBar, SearchIcon } from '@/components/NavBar'
 import type { BookWithCount } from '@/types'
 import { BASE } from '@/lib/constants'
 
@@ -143,92 +144,47 @@ export function BibleReaderClient({
   const filteredBooks = books.filter((b) => b.testament === navTestament)
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 pt-12 pb-8">
-      {/* Collapsible header — hides on scroll */}
-      <div
-        className="transition-all duration-300"
-        style={{
-          maxHeight: scrolled ? 0 : '300px',
-          opacity: scrolled ? 0 : 1,
-          overflow: 'hidden',
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-6 pb-8">
+      <NavBar
+        title={`${bookName} ${currentChapter}`}
+        trailingAction={{
+          href: `${BASE}/bible/search`,
+          icon: <SearchIcon />,
+          label: 'Search',
         }}
-      >
-        {/* Liturgical event card */}
-        <div className="mb-5 rounded-xl glass-surface px-4 py-3">
-          <p className="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">
-            {locale === 'fr' ? readingLabelFr : readingLabel}
-          </p>
-          <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
-            {locale === 'fr' ? readingReasonFr : readingReason}
-          </p>
+      />
+
+      {/* TTS controls */}
+      {!loading && verses.length > 0 && (
+        <div className="mb-4 flex items-center justify-center gap-2">
+          <BibleTTS
+            verses={verses}
+            locale={locale}
+            autoPlay={autoPlay}
+            onComplete={() => {
+              if (listenMode === 'continuous' && hasNext) {
+                setAutoPlay(true)
+                goToNext()
+              } else {
+                setAutoPlay(false)
+                if (listenMode === 'once') setListenMode('off')
+              }
+            }}
+            onStop={() => { setAutoPlay(false); setListenMode('off') }}
+            onChunkChange={(start, end) => {
+              setActiveVerseRange(start >= 0 ? [start, end] : null)
+            }}
+            chapterLabel={listenMode === 'continuous' && autoPlay ? `${bookName} ${currentChapter}` : undefined}
+          />
         </div>
+      )}
 
-        {/* Search bar */}
-        <a
-          href={`${BASE}/bible/search`}
-          className="mb-5 flex items-center gap-2 rounded-lg glass-surface px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--accent)]"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-          {t.bible.searchPlaceholder}
-        </a>
-      </div>
-
-      {/* Sticky book/chapter selector — always visible */}
-      <div className="sticky z-30 bg-[var(--bg)] pb-3 pt-1" style={{ top: 'calc(48px + env(safe-area-inset-top, 0px))' }} ref={navRef}>
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => { setNavOpen(!navOpen); setNavStep('testament') }}
-            className="flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-left transition-colors active:bg-[var(--surface)]"
-            aria-expanded={navOpen}
-            aria-label={`${bookName} ${currentChapter} — navigate`}
-          >
-            <h1 className="font-[family-name:var(--font-serif)] text-xl font-semibold text-[var(--primary)]">
-              {bookName} {currentChapter}
-            </h1>
-            <svg
-              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)"
-              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              className="shrink-0 transition-transform"
-              style={{ transform: navOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
-          </button>
-
-          {/* TTS controls */}
-          {!loading && verses.length > 0 && (
-            <div className="flex items-center gap-2">
-              <BibleTTS
-                verses={verses}
-                locale={locale}
-                autoPlay={autoPlay}
-                onComplete={() => {
-                  if (listenMode === 'continuous' && hasNext) {
-                    setAutoPlay(true)
-                    goToNext()
-                  } else {
-                    setAutoPlay(false)
-                    if (listenMode === 'once') setListenMode('off')
-                  }
-                }}
-                onStop={() => { setAutoPlay(false); setListenMode('off') }}
-                onChunkChange={(start, end) => {
-                  setActiveVerseRange(start >= 0 ? [start, end] : null)
-                }}
-                chapterLabel={listenMode === 'continuous' && autoPlay ? `${bookName} ${currentChapter}` : undefined}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Navigator dropdown + backdrop */}
-        {navOpen && (
+      {/* Navigator dropdown — kept for programmatic navigation */}
+      <div className="relative" ref={navRef}>
+        {false && navOpen && (
           <>
-          <div className="fixed inset-0 z-40" onClick={() => setNavOpen(false)} />
-          <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl glass-surface shadow-lg">
+          <div className="fixed inset-0 z-40 bg-black/20" onClick={() => setNavOpen(false)} />
+          <div className="absolute left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-2xl border border-[var(--border)] shadow-xl" style={{ backdropFilter: 'blur(40px) saturate(200%)', WebkitBackdropFilter: 'blur(40px) saturate(200%)', background: 'color-mix(in srgb, var(--surface) 85%, transparent)' }}>
             {navStep === 'testament' && (
               <div className="p-2">
                 <button
@@ -309,11 +265,6 @@ export function BibleReaderClient({
           </>
         )}
       </div>
-
-      {/* TTS is rendered in the sticky header above */}
-      {false && (
-        <div></div>
-      )}
 
       {/* Verse content */}
       <div ref={contentRef} className="flex-1">

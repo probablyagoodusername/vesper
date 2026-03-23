@@ -1,5 +1,6 @@
 import { useLocale } from '@/hooks/useLocale'
 import { PageTransition, StaggerList, StaggerItem } from '@/components/Motion'
+import { NavBar } from '@/components/NavBar'
 import { MeditationCard } from '@/components/MeditationCard'
 import type { MeditationData } from '@/types'
 
@@ -12,15 +13,8 @@ export function SleepClient({ meditations }: SleepClientProps) {
 
   return (
     <PageTransition>
-      <main className="min-h-screen px-6 pt-12 pb-8">
-        <header className="mb-8">
-          <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
-            {t.sleep.title}
-          </h1>
-          <p className="mt-1 text-sm text-[var(--muted)]">
-            {t.sleep.subtitle}
-          </p>
-        </header>
+      <main className="min-h-screen px-6 pb-8">
+        <NavBar title={t.sleep.title} showBack={false} titleSize="large" />
 
         {meditations.length === 0 && (
           <p className="py-16 text-center text-[var(--muted)]">

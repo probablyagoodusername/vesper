@@ -38,7 +38,7 @@ export function SettingsClient() {
   } as const
 
   return (
-    <main className="px-6 pt-12 pb-8">
+    <main className="px-6 pb-8" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
       <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
         {s.title}
       </h1>

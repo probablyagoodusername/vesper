@@ -1,4 +1,5 @@
 import { useLocale } from '@/hooks/useLocale'
+import { NavBar } from '@/components/NavBar'
 import { BASE, CATEGORY_LABELS } from '@/lib/constants'
 import { parseScript } from '@/lib/parseScript'
 import type { MeditationData } from '@/types'
@@ -15,13 +16,12 @@ export function MeditationReader({ meditation }: MeditationReaderProps) {
   const script = locale === 'fr' ? meditation.scriptFr : meditation.scriptEn
   const catLabel = (CATEGORY_LABELS[locale] ?? CATEGORY_LABELS.en)[meditation.category] ?? meditation.category
   const lines = parseScript(script)
+
   return (
-    <main className="px-6 pt-12 pb-16">
+    <main className="px-6 pb-16">
+      <NavBar title={title} />
 
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold leading-tight text-[var(--primary)]">
-          {title}
-        </h1>
         <p className="mt-3 leading-relaxed text-[var(--muted)]">{desc}</p>
         <div className="mt-4 flex items-center gap-3">
           <span className="tabular-nums text-xs text-[var(--muted)]">

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocale } from '@/hooks/useLocale'
 import { PageTransition, StaggerList, StaggerItem, TabContent } from '@/components/Motion'
+import { NavBar } from '@/components/NavBar'
 import { MeditationCard } from '@/components/MeditationCard'
 import { MEDITATE_FILTERS, CATEGORY_LABELS } from '@/lib/constants'
 import type { MeditateFilter } from '@/lib/constants'
@@ -27,12 +28,8 @@ export function MeditateClient({ meditations }: MeditateClientProps) {
 
   return (
     <PageTransition>
-      <main className="px-6 pt-12 pb-8">
-        <header className="mb-8">
-          <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
-            {t.meditate.title}
-          </h1>
-        </header>
+      <main className="px-6 pb-8">
+        <NavBar title={t.meditate.title} showBack={false} titleSize="large" />
 
         <nav className="mb-6 flex gap-2 overflow-x-auto overscroll-x-contain scroll-snap-x pb-1 scrollbar-hide" aria-label="Filter meditations">
           {MEDITATE_FILTERS.map((cat) => (

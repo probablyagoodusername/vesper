@@ -1,5 +1,6 @@
 import { useLocale } from '@/hooks/useLocale'
 import { VerseDisplay } from '@/components/VerseDisplay'
+import { NavBar } from '@/components/NavBar'
 import type { BookWithCount, VerseData } from '@/types'
 import { BASE } from '@/lib/constants'
 
@@ -17,12 +18,8 @@ export function ChapterReaderClient({ book, chapter, verses }: ChapterReaderClie
   const hasNext = chapter < book.chapterCount
 
   return (
-    <main className="px-6 pt-12 pb-8">
-      <header className="mb-8">
-        <h1 className="font-[family-name:var(--font-serif)] text-2xl font-semibold text-[var(--primary)]">
-          {bookName} {chapter}
-        </h1>
-      </header>
+    <main className="px-6 pb-8">
+      <NavBar title={`${bookName} ${chapter}`} />
 
       <article className="mx-auto max-w-lg">
         <VerseDisplay verses={verses} locale={locale} />

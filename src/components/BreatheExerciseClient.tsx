@@ -2,7 +2,6 @@ import { useLocale } from '@/hooks/useLocale'
 import { BreathingCircle } from '@/components/BreathingCircle'
 import type { BreathingPatternData } from '@/types'
 
-
 interface BreatheExerciseClientProps {
   pattern: BreathingPatternData
 }

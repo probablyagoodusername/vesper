@@ -331,7 +331,7 @@ export function BibleReaderClient({
                 onClick={() => { setSearchOpen(false); setSearchQuery(''); setSearchResults([]); setSearchDone(false) }}
                 className="shrink-0 text-xs font-medium text-[var(--accent)]"
               >
-                {locale === 'fr' ? 'Fermer' : 'Cancel'}
+                {t.ui.cancel}
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-2">

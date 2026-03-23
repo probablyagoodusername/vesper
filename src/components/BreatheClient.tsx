@@ -22,7 +22,7 @@ export function BreatheClient({ protocols }: BreatheClientProps) {
 
         {sos.length > 0 && (
           <div>
-            <Section title="SOS">
+            <Section title={t.breathe.sos}>
               <StaggerList className="space-y-3" role="list">
                 {sos.map((p) => (
                   <StaggerItem key={p.slug} role="listitem">
@@ -45,7 +45,7 @@ export function BreatheClient({ protocols }: BreatheClientProps) {
 
         {nsdr && (
           <div className="stagger-item">
-            <Section title={locale === 'fr' ? 'Repos profond' : 'Deep Rest'}>
+            <Section title={t.ui.deepRest}>
               <MeditationCard
                 slug={nsdr.slug}
                 titleEn={nsdr.titleEn}
@@ -62,7 +62,7 @@ export function BreatheClient({ protocols }: BreatheClientProps) {
 
         {breathing.length > 0 && (
           <div>
-            <Section title={locale === 'fr' ? 'Respiration guidée' : 'Guided Breathing'}>
+            <Section title={t.ui.guidedBreathing}>
               <StaggerList className="space-y-3" role="list">
                 {breathing.map((p) => (
                   <StaggerItem key={p.slug} role="listitem">

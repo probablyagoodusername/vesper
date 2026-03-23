@@ -87,7 +87,7 @@ export function SearchClient({ books = [] }: SearchClientProps) {
               : 'text-[var(--muted)]'
           }`}
         >
-          {locale === 'fr' ? 'Parcourir' : 'Browse'}
+          {t.ui.browse}
         </button>
       </div>
 

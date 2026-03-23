@@ -6,7 +6,7 @@ import musicTracks from '@/content/music.json'
 import { BASE } from '@/lib/constants'
 
 export function MusicBrowser() {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -53,7 +53,7 @@ export function MusicBrowser() {
 
         <header className="mb-2">
           <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
-            {locale === 'fr' ? 'Musique ambiante' : 'Ambient Music'}
+            {t.ui.ambientMusic}
           </h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             {locale === 'fr'
@@ -97,12 +97,10 @@ export function MusicBrowser() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-[var(--primary)]">
-                    {locale === 'fr' ? 'Aléatoire' : 'Random'}
+                    {t.ui.random}
                   </p>
                   <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-                    {locale === 'fr'
-                      ? 'Une piste différente à chaque session'
-                      : 'A different track each session'}
+                    {t.ui.differentTrackEachSession}
                   </p>
                 </div>
                 {selectedId === null && (
@@ -155,7 +153,7 @@ export function MusicBrowser() {
                       <p className="text-sm font-medium text-[var(--primary)]">{name}</p>
                       {isSelected && (
                         <p className="mt-0.5 text-[11px] text-[var(--accent)]">
-                          {locale === 'fr' ? 'Piste active' : 'Active track'}
+                          {t.ui.activeTrack}
                         </p>
                       )}
                     </div>
@@ -165,7 +163,7 @@ export function MusicBrowser() {
                       <button
                         onClick={() => handleSelect(track.id)}
                         className="shrink-0 p-1 transition-opacity hover:opacity-70"
-                        aria-label={locale === 'fr' ? 'Désélectionner' : 'Deselect'}
+                        aria-label={t.ui.deselect}
                       >
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="var(--accent)">
                           <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
@@ -176,7 +174,7 @@ export function MusicBrowser() {
                         onClick={() => handleSelect(track.id)}
                         className="shrink-0 rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                       >
-                        {locale === 'fr' ? 'Utiliser' : 'Use'}
+                        {t.ui.use}
                       </button>
                     )}
                   </div>

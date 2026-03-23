@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocale } from '@/hooks/useLocale'
 import { useTheme } from '@/hooks/useTheme'
+import { NavBar } from '@/components/NavBar'
 import { BASE, VOICES } from '@/lib/constants'
 
 type VoiceOption = 'default' | 'alt'
@@ -38,10 +39,8 @@ export function SettingsClient() {
   } as const
 
   return (
-    <main className="px-6 pb-8" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
-      <h1 className="font-[family-name:var(--font-serif)] text-3xl font-semibold text-[var(--primary)]">
-        {s.title}
-      </h1>
+    <main className="px-6 pb-8">
+      <NavBar title={s.title} showBack={false} titleSize="large" />
 
       {/* Appearance */}
       <section className="mt-8">
@@ -136,10 +135,10 @@ export function SettingsClient() {
           >
             <div>
               <span className="text-sm text-[var(--primary)]">
-                {locale === 'fr' ? 'Choisir la piste' : 'Choose Track'}
+                {t.ui.chooseTrack}
               </span>
               <p className="mt-0.5 text-xs text-[var(--muted)]">
-                {locale === 'fr' ? 'Parcourir les 5 pistes ambiantes' : 'Browse all 5 ambient tracks'}
+                {t.ui.browseAmbient}
               </p>
             </div>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="var(--muted)">

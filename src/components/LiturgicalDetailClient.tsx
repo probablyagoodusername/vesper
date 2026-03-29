@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { useLocale } from '@/hooks/useLocale'
+import { BASE } from '@/lib/constants'
 import { getLiturgicalContext } from '@/lib/liturgical-context'
 import { getLore } from '@/lib/liturgical-lore'
 import type { LoreSection, ScriptureRef } from '@/lib/liturgical-lore'
@@ -143,7 +144,7 @@ function NoLoreView({ locale, eventNameFr, eventName, description, descriptionFr
 
   return (
     <main className="px-6 pb-8">
-      <NavBar title={name} largeTitle titleSize="large" />
+      <NavBar title={name} titleAlign="left" />
       <section className="rounded-2xl glass-surface p-5">
         <p className="font-[family-name:var(--font-serif)] text-lg leading-relaxed text-[var(--primary)]">
           {desc}
@@ -183,7 +184,7 @@ export function LiturgicalDetailClient() {
   return (
     <PageTransition>
       <main className="px-6 pb-8">
-        <NavBar title={eventName} largeTitle titleSize="large" />
+        <NavBar title={eventName} titleAlign="left" />
 
         {/* Season counter */}
         {liturgy.seasonDay != null && liturgy.seasonTotal != null && (
@@ -223,11 +224,13 @@ export function LiturgicalDetailClient() {
             label={t.liturgy.theology}
             content={localized(lore.theology)}
           />
-          <SectionBlock
-            icon={<FranceIcon />}
-            label={t.liturgy.france}
-            content={localized(lore.france)}
-          />
+          {locale === 'fr' && (
+            <SectionBlock
+              icon={<FranceIcon />}
+              label={t.liturgy.france}
+              content={localized(lore.france)}
+            />
+          )}
           <SectionBlock
             icon={<PracticeIcon />}
             label={t.liturgy.practice}
@@ -238,6 +241,24 @@ export function LiturgicalDetailClient() {
             locale={locale}
             label={t.liturgy.scripture}
           />
+          <StaggerItem>
+            <a
+              href={`${BASE}/bible`}
+              className="block rounded-2xl glass-surface px-5 py-4 transition-colors hover:bg-[var(--surface)]"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
+                    <BookIcon />
+                  </span>
+                  <span className="text-sm font-medium text-[var(--primary)]">
+                    {t.bible.openBible}
+                  </span>
+                </div>
+                <span className="text-sm text-[var(--accent)]" aria-hidden="true">&rarr;</span>
+              </div>
+            </a>
+          </StaggerItem>
         </div>
 
         {/* Upcoming event teaser */}

@@ -162,23 +162,22 @@ export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readi
             <h2 className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
               {t.bible.verseOfTheDay}
             </h2>
-            <blockquote className="rounded-xl glass-surface p-5">
+            <a
+              href={`${BASE}/bible`}
+              className="block rounded-xl glass-surface p-5 transition-colors hover:bg-[var(--surface)]"
+            >
               <p className="font-[family-name:var(--font-serif)] text-xl leading-relaxed text-[var(--primary)]">
                 &ldquo;{locale === 'fr' ? dailyVerse.textFr : dailyVerse.textEn}&rdquo;
               </p>
               <footer className="mt-3 text-sm text-[var(--muted)]">
                 {locale === 'fr' ? dailyVerse.referenceFr : dailyVerse.reference}
               </footer>
-            </blockquote>
-            <div className="mt-3 text-right">
-              <a
-                href={`${BASE}/bible`}
-                className="inline-flex min-h-[44px] items-center gap-1 text-sm text-[var(--accent)] hover:underline"
-              >
-                {t.bible.openBible}
-                <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
+              <div className="mt-2 flex justify-end">
+                <span className="text-xs font-medium text-[var(--accent)]">
+                  {t.bible.openBible} →
+                </span>
+              </div>
+            </a>
 
             {/* Liturgical context */}
             <a

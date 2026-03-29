@@ -59,16 +59,18 @@ No server. No database. No accounts. No tracking. Just open-source code and stat
 ## Features
 
 - **Bible reader** — KJV + Louis Segond 1910 (FR) with liturgical daily readings (Revised Common Lectionary)
-- **38 guided meditations** — sleep, morning, anxiety, contemplative prayer, self-compassion, SOS, prayers
+- **48 guided meditations** — sleep, morning, anxiety, contemplative prayer, self-compassion, SOS, prayers
 - **Audio player with synchronized text highlighting** — ElevenLabs narration with character-level alignment
-- **Two narrator voices** — Katherine (default) and James, plus French narrator
+- **Two narrator voices** — Katherine (default) and James, with full French narration (100% TTS coverage)
+- **Liturgical Today page** — rich daily context with origin, theology, French traditions, Scripture references, and practical guidance for every feast, season, and holy day
 - **5 breathing exercises** — Box Breathing, 4-7-8, Deep Calm, Energizing, Sleep Preparation
 - **SOS emergency protocols** — panic attack, anxiety reset, anger cooldown, NSDR (Non-Sleep Deep Rest)
-- **Bible text-to-speech** — Kokoro.js (82M ONNX, desktop) or native Speech Synthesis (mobile), verse-by-verse verse highlighting
-- **10 ambient music tracks** — therapeutic processing (brown noise, binaural beats, sub-bass)
+- **Bible text-to-speech** — Kokoro.js (82M ONNX, desktop) or native Speech Synthesis (mobile), verse-by-verse highlighting
+- **5 ambient music tracks** — therapeutic processing (brown noise, binaural beats, sub-bass)
 - **Full-text Bible search** — FlexSearch index across 31,102 verses
-- **Light / Dark / Auto theme** — auto switches by time of day, forced dark for sleep routes
-- **Bilingual** — English and French throughout
+- **iOS 26 liquid glass UI** — progressive blur navbar, floating frosted tab bar, safe area compliance (Dynamic Island, notch, home indicator)
+- **Light / Dark / Auto theme** — auto switches at 8 PM, forced dark for sleep routes
+- **Fully bilingual** — English and French across all content, UI, and audio — locale persists and syncs across tabs
 - **PWA installable** — offline-capable, Media Session API for lock screen controls
 - **Fully static** — no server, no database, no authentication required
 
@@ -82,6 +84,7 @@ No server. No database. No accounts. No tracking. Just open-source code and stat
 | UI | [React 19](https://react.dev/) — interactive islands via `@astrojs/react` |
 | Styling | [Tailwind CSS v4](https://tailwindcss.com/) + CSS custom properties (OKLCH palette) |
 | Animation | [Framer Motion](https://motion.dev/) |
+| Icons | [Bootstrap Icons](https://icons.getbootstrap.com/) — fill/outline variants for active/inactive states |
 | Bible TTS | [Kokoro.js](https://github.com/hexgrad/kokoro) — 82M ONNX client-side text-to-speech |
 | Meditation TTS | [ElevenLabs v3](https://elevenlabs.io/) — pre-generated audio with alignment data |
 | Search | [FlexSearch](https://github.com/nextapps-de/flexsearch) — client-side full-text index |
@@ -107,6 +110,10 @@ border   #d9d3cf               border   #2f2a27
 ```
 
 **Typography**: [Literata](https://fonts.google.com/specimen/Literata) (serif) for scripture and headings — designed for long-form reading by Google Fonts. System font stack for UI chrome.
+
+**iOS 26 Liquid Glass**: Frosted glass surfaces (`backdrop-filter: blur()` + `color-mix()`) with specular shine effects. Applied to navbar, tab bar, cards, and dropdowns. Light/dark variants with different opacity and blur. Safari-compatible.
+
+**Navigation**: Progressive 6-layer blur navbar with large/inline title modes. Floating rounded tab bar with fill/outline icon states. Full safe-area inset compliance (Dynamic Island, notch, home indicator).
 
 **Spacing**: Standard Tailwind scale — no arbitrary pixel values.
 
@@ -167,8 +174,9 @@ vesper/
 │   │   └── config.ts           # Content collection schemas
 │   ├── lib/                    # Shared utilities
 │   │   ├── constants.ts        # App-wide constants
-│   │   ├── i18n.ts             # Translation strings
+│   │   ├── i18n.ts             # Translation strings (EN/FR)
 │   │   ├── lectionary.ts       # Liturgical calendar logic
+│   │   ├── liturgical-context.ts # Feast/season lore database (bilingual)
 │   │   └── parseScript.ts      # Meditation script parser
 │   └── hooks/                  # React hooks
 │       ├── useLocale.ts        # Language detection
@@ -177,6 +185,7 @@ vesper/
 │   ├── pipeline.ts             # CLI orchestrator
 │   ├── generate-tts.ts         # ElevenLabs TTS generation
 │   ├── prepare-tts.ts          # Script text preparation
+│   ├── segment-audio.ts        # Audio segmentation (intro/breathing/core/outro)
 │   ├── build-search-index.ts   # FlexSearch index builder
 │   ├── import-bible.ts         # Bible data import
 │   └── rewrites/               # Raw meditation scripts (.txt)
@@ -199,9 +208,10 @@ vesper/
 All data lives in `src/content/` as static JSON — no database, no CMS.
 
 - **Bible** — 67 JSON files (one per book), each containing chapters with verses in both KJV and LSG
-- **Meditations** — 38 JSON files with bilingual scripts, breathing patterns, verse references, audio paths, and category metadata
+- **Meditations** — 48 JSON files with bilingual scripts, breathing patterns, verse references, audio paths, and category metadata
 - **Breathing** — 5 pattern definitions (inhale/hold/exhale timing, round counts)
-- **Music** — Track metadata for 10 ambient files
+- **Music** — Track metadata for 5 ambient files
+- **Liturgical lore** — 600+ lines of Church calendar data covering fixed feasts, movable feasts (computed from Easter), seasons, and bilingual descriptions with French cultural traditions
 
 Meditation categories: `sleep`, `morning`, `anxiety`, `self-compassion`, `contemplative`, `sos`, `prayer`
 
@@ -244,8 +254,9 @@ Meditation audio is pre-generated via the ElevenLabs v3 API with character-level
 |-------|-----|----------|------|
 | Katherine | `NtS6nEHDYMQC9QczMQuq` | EN | Default narrator |
 | James | `EkK5I93UQWFDigLMpZcX` | EN | Alternative narrator |
+| Koraly | — | FR | French narrator (100% coverage) |
 
-Voice parameters are tuned per category — sleep sessions use higher stability and slower speed; morning sessions are more dynamic.
+Voice parameters are tuned per category — sleep sessions use higher stability and slower speed; morning sessions are more dynamic. All 48 meditations have full French audio narration.
 
 Bible text-to-speech uses [Kokoro.js](https://github.com/hexgrad/kokoro) on desktop (82M ONNX model, cached after first load) and the browser's native Speech Synthesis on mobile (instant, no download). Both support verse-by-verse verse highlighting at 0.85x reading speed.
 

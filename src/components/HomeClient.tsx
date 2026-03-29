@@ -3,6 +3,7 @@ import { useLocale } from '@/hooks/useLocale'
 import { BASE, CATEGORIES } from '@/lib/constants'
 import { PageTransition, StaggerList, StaggerItem, FadeIn } from '@/components/Motion'
 import { getDailyVerse } from '@/lib/daily-verses'
+import { getLiturgicalContext } from '@/lib/liturgical-context'
 
 interface Meditation {
   slug: string
@@ -124,6 +125,7 @@ export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readi
 
   const dayOfYear = getDayOfYear()
   const dailyVerse = useMemo(() => getDailyVerse(), [])
+  const liturgy = useMemo(() => getLiturgicalContext(), [])
 
   const featured = useMemo(() => {
     const morning = allMeditations.filter((m) => m.category === CATEGORIES.morning)
@@ -173,22 +175,44 @@ export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readi
                 href={`${BASE}/bible`}
                 className="inline-flex min-h-[44px] items-center gap-1 text-sm text-[var(--accent)] hover:underline"
               >
-                {locale === 'fr' ? 'Ouvrir la Bible' : 'Open Bible'}
+                {t.bible.openBible}
                 <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
 
-            {/* Liturgical event */}
-            {readingLabel && (
-              <div className="mt-4 rounded-xl glass-surface px-4 py-3">
+            {/* Liturgical context */}
+            <a
+              href={`${BASE}/today`}
+              className="mt-4 block rounded-xl glass-surface px-4 py-3 transition-colors hover:bg-[var(--surface)]"
+            >
+              <div className="flex items-baseline justify-between gap-2">
                 <p className="text-xs font-medium uppercase tracking-wider text-[var(--accent)]">
-                  {locale === 'fr' ? readingLabelFr : readingLabel}
+                  {locale === 'fr' ? liturgy.current.nameFr : liturgy.current.name}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
-                  {locale === 'fr' ? readingReasonFr : readingReason}
-                </p>
+                {liturgy.seasonDay != null && liturgy.seasonTotal != null && (
+                  <p className="shrink-0 tabular-nums text-xs text-[var(--muted)]">
+                    {locale === 'fr'
+                      ? `Jour ${liturgy.seasonDay} / ${liturgy.seasonTotal}`
+                      : `Day ${liturgy.seasonDay} / ${liturgy.seasonTotal}`}
+                  </p>
+                )}
               </div>
-            )}
+              <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">
+                {locale === 'fr' ? liturgy.current.descriptionFr : liturgy.current.description}
+              </p>
+              <div className="mt-2 flex items-center justify-between">
+                {liturgy.upcoming ? (
+                  <p className="text-xs text-[var(--accent)]">
+                    {locale === 'fr'
+                      ? `${liturgy.upcoming.nameFr} dans ${liturgy.upcoming.daysUntil === 1 ? 'un jour' : `${liturgy.upcoming.daysUntil} jours`}`
+                      : `${liturgy.upcoming.name} in ${liturgy.upcoming.daysUntil === 1 ? '1 day' : `${liturgy.upcoming.daysUntil} days`}`}
+                  </p>
+                ) : <span />}
+                <span className="text-xs font-medium text-[var(--accent)]">
+                  {t.home.learnMore} →
+                </span>
+              </div>
+            </a>
           </section>
         </FadeIn>
 
@@ -204,7 +228,7 @@ export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readi
                   href={config.href}
                   className="min-h-[44px] flex items-center text-xs text-[var(--accent)] hover:underline"
                 >
-                  {locale === 'fr' ? 'Voir tout' : 'See all'}
+                  {t.home.seeAll}
                 </a>
               </div>
               <StaggerList className="space-y-2" role="list">
@@ -223,7 +247,7 @@ export function HomeClient({ allMeditations, readingLabel, readingLabelFr, readi
           <FadeIn delay={0.2}>
             <section className="mb-10">
               <h2 className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
-                {locale === 'fr' ? 'Prières' : 'Prayers'}
+                {t.home.prayers}
               </h2>
               <StaggerList className="space-y-2" role="list">
                 {featured.prayers.map((m) => (

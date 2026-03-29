@@ -1,0 +1,8 @@
+---
+import AppLayout from '../layouts/AppLayout.astro'
+import { LiturgicalDetailClient } from '../components/LiturgicalDetailClient'
+---
+
+<AppLayout title="Vesper — Today">
+  <LiturgicalDetailClient client:idle />
+</AppLayout>

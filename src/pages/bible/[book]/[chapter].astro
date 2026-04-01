@@ -36,7 +36,7 @@ const verses = bookData.chapters[String(chapterNum)] ?? []
 
 <AppLayout title={`${bookMeta.nameEn} ${chapterNum} — Vesper`}>
   <ChapterReaderClient
-    client:load
+    client:only="react"
     book={bookMeta}
     chapter={chapterNum}
     verses={verses}

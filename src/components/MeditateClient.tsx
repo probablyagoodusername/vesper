@@ -50,7 +50,7 @@ export function MeditateClient({ meditations }: MeditateClientProps) {
 
         {filtered.length === 0 && (
           <p className="py-16 text-center text-[var(--muted)]">
-            {locale === 'fr' ? 'Aucune méditation disponible' : 'No meditations available yet'}
+            {t.meditate.noMeditations}
           </p>
         )}
 

@@ -18,7 +18,7 @@ export function SleepClient({ meditations }: SleepClientProps) {
 
         {meditations.length === 0 && (
           <p className="py-16 text-center text-[var(--muted)]">
-            {locale === 'fr' ? 'Aucune méditation disponible' : 'No sleep meditations available yet'}
+            {t.sleep.noMeditations}
           </p>
         )}
 

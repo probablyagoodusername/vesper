@@ -260,7 +260,8 @@ function detectSegments(
     return null
   }
 
-  const breathingPatterns = lang === 'fr' ? BREATHING_START_FR : BREATHING_START_EN
+  // FR meditations may contain EN breathing clips, so check both
+  const breathingPatterns = lang === 'fr' ? [...BREATHING_START_FR, ...BREATHING_START_EN] : BREATHING_START_EN
   const corePatterns = lang === 'fr' ? CORE_START_FR : CORE_START_EN
   const outroPatterns = lang === 'fr' ? OUTRO_START_FR : OUTRO_START_EN
 

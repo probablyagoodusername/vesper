@@ -9,5 +9,5 @@ const booksIndex = JSON.parse(readFileSync(resolve(BIBLE_DIR, '_books.json'), 'u
 ---
 
 <AppLayout title="Search — Vesper">
-  <SearchClient client:load books={booksIndex} />
+  <SearchClient client:only="react" books={booksIndex} />
 </AppLayout>

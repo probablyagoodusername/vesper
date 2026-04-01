@@ -19,10 +19,23 @@
 html { background-color: #f8f4f2; min-height: calc(100% + env(safe-area-inset-top, 0px)); }
 html.dark { background-color: #0c0807; }
 
-/* View transition — no animation, instant swap */
-::view-transition-old(root),
+/* View transition — hold old page visible while React hydrates, then quick crossfade */
+::view-transition-old(root) {
+  animation: vt-hold-then-fade-out 250ms ease-in forwards;
+  z-index: 1; /* old page on top during hold phase */
+}
 ::view-transition-new(root) {
-  animation: none;
+  animation: vt-delayed-fade-in 250ms ease-out forwards;
+}
+@keyframes vt-hold-then-fade-out {
+  0%   { opacity: 1; }
+  50%  { opacity: 1; } /* hold for 125ms */
+  100% { opacity: 0; }
+}
+@keyframes vt-delayed-fade-in {
+  0%   { opacity: 0; }
+  50%  { opacity: 0; } /* stay hidden for 125ms */
+  100% { opacity: 1; }
 }
 
 @layer base {
@@ -134,6 +147,15 @@ html.dark { background-color: #0c0807; }
 .liquid-glass > * {
   position: relative;
   z-index: 1;
+}
+
+/* Nav bar needs higher opacity to prevent text bleeding through */
+.nav-glass {
+  background: color-mix(in srgb, var(--bg) 75%, transparent);
+}
+
+.dark .nav-glass {
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
 }
 
 .dark .liquid-glass {
@@ -412,6 +434,32 @@ html.dark { background-color: #0c0807; }
     opacity: 0;
     transform: scale(1);
   }
+}
+
+/* ─── iOS 26 Sheet & Search Animations ─────────────────────────────────── */
+
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes search-down {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.dark [style*="rgba(0,0,0,0.15)"] {
+  background-color: rgba(255,255,255,0.2) !important;
 }
 
 /* Breathing circle animation */

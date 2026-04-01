@@ -67,7 +67,7 @@ export function BibleBooksClient({ books, todaysReading }: BibleBooksClientProps
             </p>
           )}
           <p className="mt-3 text-xs text-[var(--accent)]">
-            {locale === 'fr' ? 'Lire le chapitre' : 'Read chapter'} &rarr;
+            {t.bible.readChapter} &rarr;
           </p>
         </a>
       )}

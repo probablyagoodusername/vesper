@@ -9,7 +9,7 @@ const allMeditations = Object.values(meditationFiles).map((m: any) => m.default 
 
 <AppLayout title="Vesper — Rest in the Word">
   <HomeClient
-    client:load
+    client:only="react"
     allMeditations={allMeditations}
   />
 </AppLayout>

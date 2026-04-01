@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 
-const site = process.env.ASTRO_SITE || 'https://apps.denis.me'
-const base = process.env.ASTRO_BASE || '/bible'
+const site = process.env.ASTRO_SITE || 'https://vesper.pm'
+const base = process.env.ASTRO_BASE || '/'
 
 export default defineConfig({
   site,
@@ -16,6 +16,12 @@ export default defineConfig({
     plugins: [tailwindcss()],
     optimizeDeps: {
       exclude: ['onnxruntime-node'],
+    },
+    server: {
+      allowedHosts: ['apps.denis.me'],
+    },
+    preview: {
+      allowedHosts: ['apps.denis.me'],
     },
   },
   prefetch: {

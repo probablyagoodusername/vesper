@@ -1,7 +1,7 @@
 # Vesper — Bible Meditation App (Astro Static)
 
 ## Stack
-- **Framework**: Astro 5 (static output, `basePath: '/bible'`)
+- **Framework**: Astro 5 (static output, `base: '/'` via ASTRO_BASE env)
 - **Language**: TypeScript (strict)
 - **UI**: React 19 + Framer Motion (client islands)
 - **Styling**: Tailwind CSS v4 + CSS custom properties

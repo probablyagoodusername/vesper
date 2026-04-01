@@ -108,7 +108,7 @@ function buildAlignmentBoundaries(
 }
 
 export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps) {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
   const audioRef = useRef<HTMLAudioElement>(null)
   
   const textRef = useRef<HTMLDivElement>(null)
@@ -474,7 +474,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
             rel="noopener noreferrer"
             className="mt-2 inline-block text-sm text-[var(--accent)] hover:underline"
           >
-            {locale === 'fr' ? 'Recherche' : 'Research'}
+            {t.meditate.research}
           </a>
         )}
       </div>
@@ -499,7 +499,7 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
               className="rounded-lg bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--text)] outline-none transition-colors"
               style={{ appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center', paddingRight: '24px' }}
             >
-              <option value="">{locale === 'fr' ? 'Complet' : 'Full'}</option>
+              <option value="">{t.meditate.full}</option>
               {availableDurations.map(dur => (
                 <option key={dur} value={dur}>{dur} min</option>
               ))}
@@ -588,8 +588,30 @@ export function MeditationPlayer({ meditation, backHref }: MeditationPlayerProps
         </div>
       ) : (
         <p className="mb-8 text-center text-sm text-[var(--muted)]">
-          {locale === 'fr' ? 'Audio bientôt disponible' : 'Audio coming soon'}
+          {t.meditate.audioComingSoon}
         </p>
+      )}
+
+      {/* Static prayer text for short prayers (no karaoke needed) */}
+      {meditation.category === 'prayer' && script && (
+        <div className="mx-auto mb-8 max-w-md px-4">
+          <div className="rounded-xl bg-[var(--surface)] px-6 py-5">
+            {script
+              .split('\n')
+              .filter(line => !/^\[\d+s\s*pause\]$/i.test(line.trim()))
+              .filter(line => line.trim() !== '')
+              .map((line, i) => (
+                <p
+                  key={i}
+                  className={`text-center text-sm leading-relaxed text-[var(--text)] ${
+                    line.trim().toLowerCase() === 'amen.' ? 'mt-4 font-semibold' : 'mt-2 first:mt-0'
+                  }`}
+                >
+                  {line.trim()}
+                </p>
+              ))}
+          </div>
+        </div>
       )}
 
       <div className="flex-1" />

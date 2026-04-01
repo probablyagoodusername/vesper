@@ -8,7 +8,7 @@ interface SleepReaderProps {
 }
 
 export function SleepReader({ meditation }: SleepReaderProps) {
-  const { locale } = useLocale()
+  const { locale, t } = useLocale()
 
   const title = locale === 'fr' ? meditation.titleFr : meditation.titleEn
   const desc = locale === 'fr' ? meditation.descFr : meditation.descEn
@@ -51,7 +51,7 @@ export function SleepReader({ meditation }: SleepReaderProps) {
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
           </svg>
           <span className="text-sm" style={{ color: 'var(--sleep-scripture)' }}>
-            {locale === 'fr' ? 'Commencer par la respiration' : 'Begin with breathing'}
+            {t.meditate.beginBreathing}
           </span>
         </a>
       )}

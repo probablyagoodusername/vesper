@@ -11,5 +11,5 @@ const protocols = Object.values(meditationFiles)
 ---
 
 <AppLayout title="Breathe — Vesper">
-  <BreatheClient client:idle protocols={protocols} />
+  <BreatheClient client:only="react" protocols={protocols} />
 </AppLayout>

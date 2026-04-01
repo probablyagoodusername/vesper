@@ -7,6 +7,11 @@ function getLocaleFromStorage(): Locale {
   return (localStorage.getItem('vesper-locale') as Locale) ?? 'en'
 }
 
+function getLocaleFromDOM(): Locale {
+  if (typeof document === 'undefined') return 'en'
+  return (document.documentElement.dataset.locale as Locale) ?? 'en'
+}
+
 function subscribe(callback: () => void) {
   // 'storage' fires from other tabs; 'vesper-locale-changed' fires from same tab
   window.addEventListener('storage', callback)
@@ -18,7 +23,7 @@ function subscribe(callback: () => void) {
 }
 
 export function useLocale() {
-  const locale = useSyncExternalStore(subscribe, getLocaleFromStorage, () => 'en' as Locale)
+  const locale = useSyncExternalStore(subscribe, getLocaleFromStorage, getLocaleFromDOM)
 
   const setLocale = useCallback((l: Locale) => {
     localStorage.setItem('vesper-locale', l)

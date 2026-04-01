@@ -27,5 +27,5 @@ if (!bookMeta) {
 ---
 
 <AppLayout title={`${bookMeta.nameEn} — Vesper`}>
-  <ChapterGridClient client:load book={bookMeta} />
+  <ChapterGridClient client:only="react" book={bookMeta} />
 </AppLayout>

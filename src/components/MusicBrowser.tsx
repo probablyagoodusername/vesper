@@ -56,9 +56,7 @@ export function MusicBrowser() {
             {t.ui.ambientMusic}
           </h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            {locale === 'fr'
-              ? 'Choisissez la musique de fond pour vos sessions'
-              : 'Choose the background music for your sessions'}
+            {t.music.chooseBackground}
           </p>
         </header>
 
@@ -186,9 +184,7 @@ export function MusicBrowser() {
 
         <FadeIn delay={0.2}>
           <p className="mt-6 text-xs leading-relaxed text-[var(--muted)]">
-            {locale === 'fr'
-              ? 'La piste choisie sera jouée en boucle pendant vos sessions de méditation et de sommeil.'
-              : 'The selected track will loop in the background during your meditation and sleep sessions.'}
+            {t.music.loopDescription}
           </p>
         </FadeIn>
       </main>

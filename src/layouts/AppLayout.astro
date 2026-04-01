@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css'
+import { ViewTransitions } from 'astro:transitions'
 
 interface Props {
   title?: string
@@ -29,6 +30,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
       rel="stylesheet"
     />
     <title>{title}</title>
+    <ViewTransitions />
     <script is:inline>
       // Restore theme — runs on initial load AND after every View Transition swap
       function applyVesperTheme() {
@@ -42,6 +44,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
       }
       function applyVesperLocale() {
         var locale = localStorage.getItem('vesper-locale') || 'en';
+        document.documentElement.dataset.locale = locale;
         document.querySelectorAll('[data-en][data-fr]').forEach(function(el) {
           el.textContent = el.getAttribute('data-' + locale) || el.getAttribute('data-en');
         });
@@ -72,7 +75,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     <script>
       import { animate, stagger } from "motion";
 
-      // Wait for DOM + React hydration, then animate
       function runStagger() {
         const items = document.querySelectorAll(".stagger-item");
         if (items.length === 0) return;
@@ -88,19 +90,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
         );
       }
 
-      // Run after a small delay to let React hydrate
+      // Run on initial load after React hydrates
       if (document.readyState === "complete") {
         setTimeout(runStagger, 50);
       } else {
         window.addEventListener("load", () => setTimeout(runStagger, 50));
       }
+
+      // Re-run after View Transition swaps (SPA-style navigation)
+      document.addEventListener("astro:page-load", () => {
+        setTimeout(runStagger, 80);
+      });
     </script>
 
     <!-- Persistent audio player -->
     <div id="audio-player"></div>
 
     <nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-center safe-bottom" style="padding-bottom: env(safe-area-inset-bottom, 8px)">
-      <div class="mx-4 mb-2 flex w-full max-w-sm items-center justify-around rounded-full liquid-glass py-1.5">
+      <div class="mx-4 mb-2 flex w-full max-w-sm items-center justify-around rounded-full liquid-glass nav-glass py-1.5">
         {[
           { href: `${base}/home`, en: 'Home', fr: 'Accueil',
             d: 'M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z',
@@ -126,11 +133,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
                 <path d={isActive && dActive ? dActive : d} />
               </svg>
-              <span data-en={en} data-fr={fr}>{en}</span>
+              <span data-en={en} data-fr={fr} class="nav-label"></span>
             </a>
           )
         })}
       </div>
     </nav>
+    <script is:inline>applyVesperLocale();</script>
   </body>
 </html>

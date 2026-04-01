@@ -38,6 +38,13 @@
         10,
         15
       ]
+    },
+    "fr": {
+      "available": true,
+      "durations": [
+        10,
+        15
+      ]
     }
   }
 }

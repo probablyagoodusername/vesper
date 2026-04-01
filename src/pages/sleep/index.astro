@@ -13,5 +13,5 @@ const sleepMeditations = Object.values(meditationFiles)
 ---
 
 <AppLayout title="Sleep — Vesper">
-  <SleepClient client:idle meditations={sleepMeditations} />
+  <SleepClient client:only="react" meditations={sleepMeditations} />
 </AppLayout>

@@ -276,7 +276,17 @@ function handleDeploy(): void {
   const skipAudio = args.includes('--skip-audio')
   const skipGit = args.includes('--skip-git')
 
+  const DEPLOY_DIR = '/var/www/vesper-static'
+
   console.log('\n=== Vesper Deploy ===\n')
+
+  // 0. Validate env — base must be '/' for vesper.pm
+  const astroBase = process.env.ASTRO_BASE || ''
+  if (astroBase && astroBase !== '/') {
+    console.error(`ASTRO_BASE is "${astroBase}" — must be "/" for vesper.pm.`)
+    console.error('Check .env or unset ASTRO_BASE.')
+    process.exit(1)
+  }
 
   // 1. Build
   if (!skipBuild) {
@@ -287,53 +297,57 @@ function handleDeploy(): void {
       console.error('Build failed!')
       process.exit(1)
     }
+    // Sanity check: verify built HTML doesn't reference /bible/_astro/
+    const builtIndex = join(DIST_DIR, 'index.html')
+    if (existsSync(builtIndex)) {
+      const html = readFileSync(builtIndex, 'utf-8')
+      if (html.includes('/bible/_astro/')) {
+        console.error('Build produced /bible/_astro/ paths — ASTRO_BASE is wrong!')
+        console.error('Set ASTRO_BASE=/ in .env and rebuild.')
+        process.exit(1)
+      }
+    }
     console.log('   Build complete.\n')
   }
 
-  // 2. Copy dist to deploy target
-  const deployTarget = process.env.DEPLOY_TARGET || './dist'
-  if (existsSync(deployTarget)) {
-    console.log(`2. Copying dist/ to ${deployTarget}/...`)
-    const distBible = join(DIST_DIR, 'bible')
-    if (existsSync(distBible)) {
-      try {
-        run('cp', ['-r', `${distBible}/.`, `${deployTarget}/bible/`])
-        console.log('   Dist copied.\n')
-      } catch (e) {
-        console.error(`   Copy failed: ${e}`)
-      }
-    } else {
-      console.log('   No dist/bible/ found — skipping copy.\n')
+  // 2. Rsync dist to deploy target
+  if (existsSync(DEPLOY_DIR)) {
+    console.log(`2. Deploying dist/ to ${DEPLOY_DIR}/...`)
+    try {
+      run('sudo', ['rsync', '-a', '--delete',
+        '--exclude=audio/', // preserve audio separately
+        `${DIST_DIR}/`, `${DEPLOY_DIR}/`])
+      console.log('   Deploy complete.\n')
+    } catch (e) {
+      console.error(`   Deploy failed: ${e}`)
+      process.exit(1)
     }
   } else {
-    console.log(`2. Deploy target ${deployTarget} not found — skipping.\n`)
+    console.error(`Deploy target ${DEPLOY_DIR} not found!`)
+    process.exit(1)
   }
 
   // 3. Copy audio files
   if (!skipAudio) {
     console.log('3. Copying audio files...')
-    const audioTarget = join(deployTarget, 'bible', 'audio')
-    if (existsSync(deployTarget)) {
-      for (const langDir of ['en', 'en-v2', 'fr']) {
-        const src = join(AUDIO_DIR, langDir)
-        const dest = join(audioTarget, langDir)
-        if (existsSync(src)) {
-          if (!existsSync(dest)) mkdirSync(dest, { recursive: true })
-          try {
-            cpSync(src, dest, { recursive: true })
-            const audioCount = readdirSync(src).filter(f => f.endsWith('.mp3')).length
-            const segDir = join(src, 'segments')
-            const segCount = existsSync(segDir) ? readdirSync(segDir).length : 0
-            console.log(`   ${langDir}: ${audioCount} audio files${segCount ? `, ${segCount} segmented meditations` : ''} copied`)
-          } catch (e) {
-            console.error(`   Failed to copy ${langDir}: ${e}`)
-          }
+    const audioTarget = join(DEPLOY_DIR, 'audio')
+    for (const langDir of ['en', 'en-v2', 'fr']) {
+      const src = join(AUDIO_DIR, langDir)
+      const dest = join(audioTarget, langDir)
+      if (existsSync(src)) {
+        if (!existsSync(dest)) mkdirSync(dest, { recursive: true })
+        try {
+          cpSync(src, dest, { recursive: true })
+          const audioCount = readdirSync(src).filter(f => f.endsWith('.mp3')).length
+          const segDir = join(src, 'segments')
+          const segCount = existsSync(segDir) ? readdirSync(segDir).length : 0
+          console.log(`   ${langDir}: ${audioCount} audio files${segCount ? `, ${segCount} segmented meditations` : ''} copied`)
+        } catch (e) {
+          console.error(`   Failed to copy ${langDir}: ${e}`)
         }
       }
-      console.log('')
-    } else {
-      console.log(`   Audio target not found — skipping.\n`)
     }
+    console.log('')
   }
 
   // 4. Git push

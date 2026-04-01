@@ -270,7 +270,7 @@ const ORDINARY_READINGS: DailyReading[] = [
 /**
  * Compute Easter date for a given year (Anonymous Gregorian algorithm).
  */
-function computeEaster(year: number): Date {
+export function computeEaster(year: number): Date {
   const a = year % 19
   const b = Math.floor(year / 100)
   const c = year % 100

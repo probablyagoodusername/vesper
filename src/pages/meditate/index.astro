@@ -17,5 +17,5 @@ const allMeditations = Object.values(meditationFiles)
 ---
 
 <AppLayout title="Meditate — Vesper">
-  <MeditateClient client:idle meditations={allMeditations} />
+  <MeditateClient client:only="react" meditations={allMeditations} />
 </AppLayout>

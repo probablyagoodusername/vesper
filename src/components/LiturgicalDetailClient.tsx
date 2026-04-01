@@ -143,7 +143,7 @@ function NoLoreView({ locale, eventNameFr, eventName, description, descriptionFr
   const desc = locale === 'fr' ? descriptionFr : description
 
   return (
-    <main className="px-6 pb-8">
+    <main className="px-6 pb-24">
       <NavBar title={name} titleAlign="left" />
       <section className="rounded-2xl glass-surface p-5">
         <p className="font-[family-name:var(--font-serif)] text-lg leading-relaxed text-[var(--primary)]">
@@ -183,7 +183,7 @@ export function LiturgicalDetailClient() {
 
   return (
     <PageTransition>
-      <main className="px-6 pb-8">
+      <main className="px-6 pb-24">
         <NavBar title={eventName} titleAlign="left" />
 
         {/* Season counter */}

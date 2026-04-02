@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { useLocale } from '@/hooks/useLocale'
 import { useTheme } from '@/hooks/useTheme'
 import { NavBar } from '@/components/NavBar'
@@ -11,6 +11,8 @@ export function SettingsClient() {
   const { setting, setSetting } = useTheme()
   const [voice, setVoice] = useState<VoiceOption>('default')
   const [musicOn, setMusicOn] = useState(true)
+  const langRef = useRef<HTMLElement>(null)
+  const scrollAnchor = useRef<number | null>(null)
 
   useEffect(function syncFromStorage() {
     const storedVoice = localStorage.getItem('vesper-voice')
@@ -23,8 +25,19 @@ export function SettingsClient() {
 
   const handleLocaleSwitch = (newLocale: 'en' | 'fr') => {
     if (newLocale === locale) return
+    scrollAnchor.current = langRef.current?.getBoundingClientRect().top ?? null
     setLocale(newLocale)
   }
+
+  useLayoutEffect(function anchorLanguageSection() {
+    if (scrollAnchor.current === null) return
+    const el = langRef.current
+    if (!el) return
+    const after = el.getBoundingClientRect().top
+    const drift = after - scrollAnchor.current
+    if (Math.abs(drift) > 1) window.scrollBy(0, drift)
+    scrollAnchor.current = null
+  }, [locale])
 
   const handleVoiceChange = (v: VoiceOption) => {
     setVoice(v)
@@ -84,45 +97,34 @@ export function SettingsClient() {
           {s.narratorVoice}
         </h2>
         <div className="overflow-hidden rounded-xl border border-[var(--border)]" role="radiogroup" aria-label={s.narratorVoice}>
-          {locale === 'fr' ? (
-            <>
-              <div className="flex w-full items-center justify-between p-4 bg-[var(--surface)]">
-                <span className="text-sm text-[var(--primary)]">{VOICES.v1.nameFr}</span>
-                <CheckIcon />
-              </div>
-              <div className="border-t border-[var(--border)]" />
-              <div className="flex w-full items-center justify-between p-4">
-                <span className="text-sm text-[var(--muted)]">{VOICES.v2.nameFr}</span>
-                <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--muted)]">{t.ui.comingSoon}</span>
-              </div>
-            </>
-          ) : (
-            <>
+          {[
+            { key: 'default' as VoiceOption, name: locale === 'fr' ? VOICES.v1.nameFr : VOICES.v1.nameEn },
+            { key: 'alt' as VoiceOption, name: locale === 'fr' ? VOICES.v2.nameFr : VOICES.v2.nameEn, disabled: locale === 'fr' },
+          ].map((v, i) => (
+            <div key={v.key}>
+              {i > 0 && <div className="border-t border-[var(--border)]" />}
               <button
-                onClick={() => handleVoiceChange('default')}
+                onClick={() => !v.disabled && handleVoiceChange(v.key)}
                 role="radio"
-                aria-checked={voice === 'default'}
-                className={`flex w-full items-center justify-between p-4 transition-colors hover:bg-[var(--surface)] ${
-                  voice === 'default' ? 'bg-[var(--surface)]' : ''
+                aria-checked={v.disabled ? false : voice === v.key}
+                aria-disabled={v.disabled}
+                className={`flex w-full items-center justify-between p-4 transition-colors ${
+                  v.disabled ? 'cursor-default' : 'hover:bg-[var(--surface)]'
+                } ${
+                  !v.disabled && voice === v.key ? 'bg-[var(--surface)]' : ''
                 }`}
               >
-                <span className="text-sm text-[var(--primary)]">{VOICES.v1.nameEn}</span>
-                {voice === 'default' && <CheckIcon />}
+                <span className={`text-sm ${v.disabled ? 'text-[var(--muted)]' : 'text-[var(--primary)]'}`}>
+                  {v.name}
+                </span>
+                {v.disabled ? (
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-[var(--muted)]">{t.ui.comingSoon}</span>
+                ) : voice === v.key ? (
+                  <CheckIcon />
+                ) : null}
               </button>
-              <div className="border-t border-[var(--border)]" />
-              <button
-                onClick={() => handleVoiceChange('alt')}
-                role="radio"
-                aria-checked={voice === 'alt'}
-                className={`flex w-full items-center justify-between p-4 transition-colors hover:bg-[var(--surface)] ${
-                  voice === 'alt' ? 'bg-[var(--surface)]' : ''
-                }`}
-              >
-                <span className="text-sm text-[var(--primary)]">{VOICES.v2.nameEn}</span>
-                {voice === 'alt' && <CheckIcon />}
-              </button>
-            </>
-          )}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -171,7 +173,7 @@ export function SettingsClient() {
       </section>
 
       {/* Language */}
-      <section className="mt-8">
+      <section ref={langRef} className="mt-8">
         <h2 className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
           {s.language}
         </h2>

@@ -22,6 +22,38 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="description" content="Bible meditation, guided prayer, breathing exercises, and sleep." />
+    <link rel="canonical" href={`https://vesper.pm${currentPath}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Bible meditation, guided prayer, breathing exercises, and sleep." />
+    <meta property="og:image" content="https://vesper.pm/icon-512.png" />
+    <meta property="og:url" content={`https://vesper.pm${currentPath}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vesper" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content="Bible meditation, guided prayer, breathing exercises, and sleep." />
+    <meta name="twitter:image" content="https://vesper.pm/icon-512.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Vesper",
+      "description": "Bible meditation, guided prayer, breathing exercises, and sleep.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "url": "https://vesper.pm",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    })} />
+
     <link rel="manifest" href={`${base}/manifest.json`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
